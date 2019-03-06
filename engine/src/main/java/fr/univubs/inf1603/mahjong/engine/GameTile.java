@@ -5,8 +5,8 @@ package fr.univubs.inf1603.mahjong.engine;
  * @author Malléjac Clément
  */
 public class GameTile{
-    protected AbstractTile tile;
-    protected int gameID;
+    private AbstractTile tile;
+    private int gameID;
     
     public GameTile(int gameID, AbstractTile tile){
         this.gameID = gameID;

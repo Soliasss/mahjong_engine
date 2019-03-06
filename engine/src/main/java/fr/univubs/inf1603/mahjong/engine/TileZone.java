@@ -8,9 +8,7 @@ import java.util.Collection;
  * @author Malléjac Clément
  */
 public class TileZone implements Zone{
-    
-    
-    protected ArrayList<GameTile> tiles;
+    private ArrayList<GameTile> tiles;
     
     public TileZone(){
         tiles = new ArrayList<>();

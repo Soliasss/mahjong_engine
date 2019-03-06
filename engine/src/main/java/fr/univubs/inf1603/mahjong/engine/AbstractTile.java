@@ -7,6 +7,6 @@ package fr.univubs.inf1603.mahjong.engine;
 public interface AbstractTile {
     
     @Override
-    public String toString();
+    String toString();
     
 }
