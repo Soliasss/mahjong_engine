@@ -7,5 +7,5 @@ import java.util.Collection;
  * @author Malléjac Clément
  */
 public interface Zone {
-    public Collection getCollection();
+    Collection getCollection();
 }
