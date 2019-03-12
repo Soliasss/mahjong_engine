@@ -1,11 +1,20 @@
 package fr.univubs.inf1603.mahjong.engine;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 /**
- * Zone
- * @author Malléjac Clément
+ *
  */
-public interface Zone {
-    public Collection getCollection();
+public interface Zone{
+  /**
+   *
+   * @return
+   */
+  public ArrayList<Tile> getCollection();
+
+  /**
+   *
+   * @return
+   */
+  public int getMoney();
 }

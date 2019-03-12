@@ -1,24 +1,21 @@
-package fr.univubs.inf1603.mahjong.engine;
-
 import java.util.ArrayList;
-import java.util.Collection;
-
+import java.util.UUID;
 /**
- * TileZone
- * @author Malléjac Clément
+ *
  */
 public class TileZone implements Zone{
-    
-    
-    protected ArrayList<GameTile> tiles;
-    
-    public TileZone(){
-        tiles = new ArrayList<>();
-    }
-    
-    @Override
-    public Collection getCollection() {
-        return tiles;
-    }
-    
+	private UUID id;
+	private String name;
+	private ArrayList<Tile> tiles;
+
+	/**
+	 *
+	 * @param id
+	 * @param name
+	 * @param tiles
+	 */
+	public TileZone(String name, ArrayList<Tile> tiles){
+
+	}
+
 }
