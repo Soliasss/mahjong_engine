@@ -85,7 +85,7 @@ public class TileZone implements Zone{
 	 * @return if the zone has been correctly added
 	 */
 	public boolean addZone(Zone zone){
-		return this.zone.add(zone);
+		return this.zones.add(zone);
 	}
 
 	/**
@@ -94,6 +94,6 @@ public class TileZone implements Zone{
 	 * @return if the zone has been correctly removed
 	 */
 	public boolean removeZone(Zone zone){
-		return this.zone.remove(zone);
+		return this.zones.remove(zone);
 	}
 }
