@@ -41,7 +41,7 @@ public class TileZone implements Zone{
 	 * Returns the collection that contains the zones
 	 * @return zones
 	 */
-	public ArrayList<AbstractTile> getZonesCollection(){
+	public ArrayList<Zone> getZonesCollection(){
 		return this.zones;
 	}
 
