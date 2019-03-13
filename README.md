@@ -1,4 +1,4 @@
 # mahjong_engine
 Mahjong engine
 
-Read your commit in English please
+Write your commits in English please.
