@@ -59,7 +59,7 @@ F4 : Bamboo
 #### Seasons
 
 ```regex
-"S"[1-4]
+S[1-4]
 ```
 
 ##### Seasons Detail
