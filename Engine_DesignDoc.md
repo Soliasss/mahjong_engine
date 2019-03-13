@@ -43,7 +43,7 @@ D(r|g|w)
 #### Flowers
 
 ```regex
-"F"[1-4]
+F[1-4]
 ```
 
 ##### Flower Detail
