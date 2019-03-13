@@ -20,12 +20,20 @@ public class MoneyZone implements Zone{
   }
 
   /**
-	 * Not suppose to be used in MoneyZone
-	 * @return null
-	 */
-	public ArrayList<AbstractTile> getCollection(){
-		return null;
-	}
+   * Not suppose to be used in MoneyZone
+   * @return null
+   */
+  public ArrayList<AbstractTile> getTilesCollection(){
+    return null;
+  }
+  
+  /**
+   * Not suppose to be used in MoneyZone
+   * @return null
+   */
+  public ArrayList<AbstractTile> getZonesCollection(){
+    return null;
+  }
 
   /**
    * Returns the amount of money contains in the zone
