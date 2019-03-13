@@ -31,7 +31,7 @@ public class MoneyZone implements Zone{
    * Not suppose to be used in MoneyZone
    * @return null
    */
-  public ArrayList<AbstractTile> getZonesCollection(){
+  public ArrayList<Zone> getZonesCollection(){
     return null;
   }
 
