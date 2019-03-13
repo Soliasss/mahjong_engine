@@ -11,13 +11,13 @@ public interface Zone{
    * Returns the collection of tiles contains in the zone
    * @return the collection of tiles
    */
-  public Collection<AbstractTile> getTilesCollection();
+  public ArrayList<AbstractTile> getTilesCollection();
   
   /**
    * Returns the collection of zone contains in the zone
    * @return the collection of zone
    */
-  public Collection<Zone> getZonesCollection();
+  public ArrayList<Zone> getZonesCollection();
 
   /**
    * Returns the amount of money contains in the zone
