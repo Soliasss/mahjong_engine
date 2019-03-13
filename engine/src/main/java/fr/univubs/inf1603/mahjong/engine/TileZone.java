@@ -10,27 +10,39 @@ public class TileZone implements Zone{
 	private UUID id;
 	private String name;
 	private ArrayList<AbstractTile> tiles;
+	private ArrayList<Zone> zones;
 
 	/**
 	 * The constructor of TileZone, the id is generate in the constructor
 	 * @param name The name of the zone
-	 * @param tiles the collection of tiles contains in this zone
+	 * @param tiles The collection of tiles contains in this zone (cannot be null)
+	 * @param zones The collection of zones contains in this zone (can be null)
 	 * @throws TileZoneException if the collection of tiles is null
 	 */
-	public TileZone(String name, ArrayList<AbstractTile> tiles) throws TileZoneException{
+	public TileZone(String name, ArrayList<AbstractTile> tiles, ArrayList<Zone> zones) throws TileZoneException{
 		this.id = UUID.randomUUID();
 		this.name = name;
 
-		if(tiles == null) throw new TileZoneException("The collection cannot be null.");
+		if(tiles == null) throw new TileZoneException("The collection of tiles cannot be null.");
 		this.tiles  = tiles;
+		
+		this.zones  = zones;
 	}
 
 	/**
 	 * Returns the collection that contains the tiles
 	 * @return tiles
 	 */
-	public ArrayList<AbstractTile> getCollection(){
+	public ArrayList<AbstractTile> getTilesCollection(){
 		return this.tiles;
+	}
+	
+	/**
+	 * Returns the collection that contains the zones
+	 * @return zones
+	 */
+	public ArrayList<AbstractTile> getZonesCollection(){
+		return this.zones;
 	}
 
 	/**
@@ -65,5 +77,23 @@ public class TileZone implements Zone{
 	 */
 	public boolean removeTile(AbstractTile tile){
 		return this.tiles.remove(tile);
+	}
+	
+	/**
+	 * Allows to add a zone in the collection
+	 * @param zone The zone we want to add
+	 * @return if the zone has been correctly added
+	 */
+	public boolean addZone(Zone zone){
+		return this.zone.add(zone);
+	}
+
+	/**
+	 * Allows to remove a zone in the collection
+	 * @param zone The zone we want to remove
+	 * @return if the zone has been correctly removed
+	 */
+	public boolean removeZone(Zone zone){
+		return this.zone.remove(zone);
 	}
 }
