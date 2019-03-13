@@ -11,7 +11,54 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>home-repository</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>maven-ftp-inf1603</id>
+                    <url>ftp://ftp.cluster005.hosting.ovh.net</url>
+                </repository>
+            </repositories>
+            <distributionManagement>
+                <repository>
+                    <id>maven-ftp-inf1603</id>
+                    <url>ftp://ftp.cluster005.hosting.ovh.net</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>ubs-repository</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>maven-ftp-inf1603-proxy</id>
+                    <url>ftp://ftpproxy.univ-ubs.fr</url>
+                </repository>
+            </repositories>
+            <distributionManagement>
+                <repository>
+                    <id>maven-ftp-inf1603-proxy</id>
+                    <url>ftp://ftpproxy.univ-ubs.fr</url>
+                </repository>
+            </distributionManagement>
+        </profile>       
+    </profiles>
+    
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.3.2</version>
+            </extension>
+        </extensions>
+        
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
