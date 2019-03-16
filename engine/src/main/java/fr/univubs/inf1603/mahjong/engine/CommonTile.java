@@ -17,7 +17,7 @@ enum FamilyTile { BAMBOO, CHARACTER, CIRCLE; }
 /**
  * Enum of numbers
  */
-enum NumberTile { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, HEIGHT, NINE; }
+enum NumberTile { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE; }
 
 public class CommonTile extends ComplexTile{
     private FamilyTile familyTile;
