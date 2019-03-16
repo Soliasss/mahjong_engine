@@ -9,19 +9,19 @@ import java.util.ArrayList;
 public interface Zone{
   /**
    * Returns the collection of tiles contains in the zone
-   * @return the collection of tiles
+   * @return Returns the collection of tiles
    */
   public ArrayList<AbstractTile> getTilesCollection();
   
   /**
    * Returns the collection of zone contains in the zone
-   * @return the collection of zone
+   * @return Returns the collection of zone
    */
   public ArrayList<Zone> getZonesCollection();
 
   /**
    * Returns the amount of money contains in the zone
-   * @return the money
+   * @return Returns the money
    */
   public int getMoney();
 }

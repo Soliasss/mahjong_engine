@@ -1,44 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine;
 
 /**
  * @author Anton Cosnefroy
- * Class about the construction of a wind
+ * WindHonor represents tiles which are associated to a wind.
  */
 
-/**
- * Enum of all winds
- */
-enum WindTile { EAST, SOUTH, WEST, NORTH; }
+public abstract class WindHonor extends HonorTile{
+    
+    /**
+      * Enumeration of all winds
+      */
+    public enum Wind { 
+        EAST('e'), SOUTH('s'), WEST('w'), NORTH('n');
+        private final char symbol;
 
-
-public class WindHonor extends HonorTile{
-    protected WindTile windTile;
+        private Wind(char symbol){
+            this.symbol = symbol;
+        }
+        
+        public char getSymbol(){
+            return this.symbol;
+        }    
+    }
+    
+    
+    protected Wind wind;
     
     /**
      * Constructor
-     * @param windTile inintialisation of a windTile 
+     * @param wind initialization of a windTile 
      */
-    public WindHonor(WindTile windTile){
-        this.windTile = windTile;
+    public WindHonor(Wind wind){
+        this.wind = wind;
     }
     
     /**
-     * @return a windTile
+     * @return Returns this tile's associated wind
      */
-    public WindTile getWind(){
-        return this.windTile;
+    public Wind getWind(){
+        return this.wind;
     }
     
     @Override
-    /**
-     * @return a string with a windTile
-     */
     public String toString(){
-       return super.toString()+"windHonor_"+windTile;
-   }
+       return super.toString()+"windHonor_"+wind;
+    }
 }

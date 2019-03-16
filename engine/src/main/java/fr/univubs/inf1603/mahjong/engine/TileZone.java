@@ -33,6 +33,7 @@ public class TileZone implements Zone{
 	 * Returns the collection that contains the tiles
 	 * @return tiles
 	 */
+        @Override
 	public ArrayList<AbstractTile> getTilesCollection(){
 		return this.tiles;
 	}
@@ -41,6 +42,7 @@ public class TileZone implements Zone{
 	 * Returns the collection that contains the zones
 	 * @return zones
 	 */
+        @Override
 	public ArrayList<Zone> getZonesCollection(){
 		return this.zones;
 	}
@@ -49,6 +51,7 @@ public class TileZone implements Zone{
 	 * Not suppose to be used in TileZone
 	 * @return 0
 	 */
+        @Override
 	public int getMoney(){
 		return 0;
 	}
