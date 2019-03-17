@@ -4,7 +4,7 @@ This document provide information about the design decisions made about the engi
 
 ## Normalised naming of mahjong tiles
 
-### Simples
+### Commons
 
 #### Dots
 

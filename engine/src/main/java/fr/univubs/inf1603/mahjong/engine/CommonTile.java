@@ -1,67 +1,85 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine;
 
 /**
  * @author Anton Cosnefroy
- * Class about the construction of common tiles, those are families and the number associate at a family
+ * Represents common tiles (i.e bamboo,characters,dots) of a mahjong game.
  */
-
-/**
- * Enum of principals families
- */
-enum FamilyTile { BAMBOO, CHARACTER, CIRCLE; }
-/**
- * Enum of numbers
- */
-enum NumberTile { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE; }
 
 public class CommonTile extends ComplexTile{
-    private FamilyTile familyTile;
-    private NumberTile numberTile;
     
     /**
-     * Constructor
-     * A common tile is create by a family and a number
-     * @param familyTile the family of the tile
-     * @param numberTile the number of the tile
+     * Possible tile families of simple tiles
      */
-    public CommonTile(FamilyTile familyTile, NumberTile numberTile){
-        this.familyTile = familyTile;
-        this.numberTile = numberTile;
+    public enum Family { 
+        BAMBOO('b'), CHARACTERS('c'), DOTS('d');
+        private final char symbol;
+        private Family(char symbol){
+            this.symbol = symbol;
+        }
+        
+        public char getSymbol(){ 
+            return this.symbol;
+        }
+    }
+    /**
+     * Possible numbers of simple tiles
+     */
+    public enum Number { 
+        ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), NINE(9);
+        private final int value;
+        private Number(int value){
+            this.value = value;
+        }
+        public int getValue(){ 
+            return this.value;
+        }
+        public char getSymbol(){ 
+            return Character.forDigit(this.value,10);
+        }
+    }
+    
+    private final Family family;
+    private final Number number;
+    
+    /**
+     * Constructs a new CommonTile with its specified Family and Number
+     * @param family Family of the tile
+     * @param number Number of the tile
+     */
+    public CommonTile(Family family, Number number){
+        this.family = family;
+        this.number = number;
     }
     
     /**
-     * @return a familiyTile
+     * @return Returns this CommonTile's Family.
      */
-    public FamilyTile getFamily(){
-        return this.familyTile;
+    public Family getFamily(){
+        return this.family;
     }
     
     /**
-     * @return a numberTile
+     * @return Returns this CommonTile's Number.
      */
-    public NumberTile getNumber(){
-        return this.numberTile;
+    public Number getNumber(){
+        return this.number;
     }
     
     /**
-     * looks if the tile is the number 1 or 9. It's important when we count points
-     * @return a boolean true or false
+     * Looks if the CommonTile is a major tile (i.e its number is 1 or 9).
+     * @return Returns true if the tile is a major tile, false otherwise.
      */
     public boolean isMajor(){
-        if ( (this.numberTile == NumberTile.ONE) || (this.numberTile == NumberTile.NINE) ) return true;
-        return false;        
+        return (this.number == Number.ONE) || (this.number == Number.NINE);     
     }
     
     @Override
-    /**
-     * @return a string with the familyTile and the numberTile associated
-     */
+    public String toNormalizedName() {
+        return String.format("%c%c",this.getFamily(),this.getNumber()); 
+    }
+    
+    @Override
     public String toString(){
-        return super.toString()+"family_"+this.familyTile+"number_"+this.numberTile;
+        return super.toString()+"family_"+this.family+"number_"+this.number;
     }
 }

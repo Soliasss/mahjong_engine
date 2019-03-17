@@ -1,17 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine;
 
 /**
  * @author Anton Cosnefroy
- * Class about a simpleHonor
+ * This represents all simple honors (a.k.a wind tiles)
  */
 public class SimpleHonor extends WindHonor{
     
-    public SimpleHonor(WindTile windTile){
+    /**
+     * Symbol used to represent simple honors during normalized naming
+     */
+    private static final char SIMPLEHONOR_SYMBOL='W';
+    
+    public SimpleHonor(Wind windTile){
         super(windTile);
     }
     
@@ -20,6 +20,11 @@ public class SimpleHonor extends WindHonor{
      * @return a string with a simpleHonnor associate with a windTile
      */
     public String toString(){
-        return super.toString()+"simpleHonor_"+windTile;
+        return super.toString()+"simpleHonor_"+wind;
+    }
+
+    @Override
+    public String toNormalizedName() {
+        return String.format("%c%c", SIMPLEHONOR_SYMBOL, this.wind);
     }
 }

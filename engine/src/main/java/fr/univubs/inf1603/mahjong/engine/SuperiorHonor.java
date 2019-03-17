@@ -1,43 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine;
 
 /**
  * @author Anton Cosnefroy
- * Class about the construction of a dragon
+ * This represents all superior honors (a.k.a dragon tiles)
  */
-
-/**
- * Enum of all dragons
- */
-enum DragonTile { RED, GREEN, WHITE; }
 
 public class SuperiorHonor extends HonorTile {
-    private DragonTile dragonsTile;
+    /**
+     * Symbol used to represent superior honors during normalized naming
+     */
+    private static final char SUPERIORHONOR_SYMBOL='D';
     
     /**
-     * Constructor
-     * @param dragonsTile initialisation of a dragonsTile
+     * Enumeration of all dragons
      */
-    public SuperiorHonor(DragonTile dragonsTile){
-        this.dragonsTile = dragonsTile;
+    public enum Dragon { 
+        RED('r'), GREEN('g'), WHITE('w');
+        private final char symbol;
+
+        private Dragon(char symbol){
+            this.symbol = symbol;
+        }
+        
+        public char getSymbol(){
+            return this.symbol;
+        }  
+    
+    }
+    
+    private final Dragon dragon;
+    /**
+     * @param dragon Initialization of a dragonsTile
+     */
+    public SuperiorHonor(Dragon dragon){
+        this.dragon = dragon;
     }
     
     /**
-     * @return a dragonsTile
+     * @return Returns this tile's Dragon
      */
-    public DragonTile getSuperiorHonor(){
-       return this.dragonsTile;
+    public Dragon getDragon(){
+       return this.dragon;
    }
    
     @Override
-    /**
-     * @return a string with a superiorHonor associate with a dragonTile
-     */
-   public String toString(){
-       return super.toString()+"superiorHonor_"+this.dragonsTile;
-   }
+    public String toString(){
+        return super.toString()+"superiorHonor_"+this.dragon;
+    }
+
+    @Override
+    public String toNormalizedName() {
+        return String.format("%c%c",SUPERIORHONOR_SYMBOL,this.dragon.getSymbol());
+    }
 }
