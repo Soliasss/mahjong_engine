@@ -38,7 +38,7 @@ W(e|s|w|n)
 D(r|g|w)
 ```
 
-### Bonus
+### Supreme Honor
 
 #### Flowers
 
@@ -71,6 +71,18 @@ S2 : Summer
 S3 : Autumn
 
 S4 : Winter
+
+#### Hidden tile
+
+The String "XX" is used to represent a hidden tile for a certain board view.
+
+#### Test names
+
+Some names do not represent real tiles, they are place holders, mostly for testing purposes.
+
+List of used test names and their usage :
+
+- "ok" : This name can be found in JUnit tests
 
 ## Move priority representation
 

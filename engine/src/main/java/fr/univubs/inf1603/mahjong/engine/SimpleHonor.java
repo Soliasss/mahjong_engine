@@ -15,16 +15,12 @@ public class SimpleHonor extends WindHonor{
         super(windTile);
     }
     
-    @Override
-    /**
-     * @return a string with a simpleHonnor associate with a windTile
-     */
     public String toString(){
         return super.toString()+"simpleHonor_"+wind;
     }
 
     @Override
     public String toNormalizedName() {
-        return String.format("%c%c", SIMPLEHONOR_SYMBOL, this.wind);
+        return String.format("%c%c", SIMPLEHONOR_SYMBOL, this.wind.getSymbol());
     }
 }

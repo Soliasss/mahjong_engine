@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine;
 
 import org.junit.Test;
@@ -10,25 +5,19 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author purpl
+ * @author Malléjac Clément
  */
 public class SeasonTileTest {
-    
-    public SeasonTileTest() {
-    }
-
     /**
      * Test of getSeason method, of class SeasonTile.
      */
     @Test
     public void testGetSeason() {
         System.out.println("getSeason");
-        SeasonTile instance = null;
-        SeasonTile.Season expResult = null;
+        SeasonTile instance = new SeasonTile(WindHonor.Wind.WEST, SeasonTile.Season.SPRING);
+        SeasonTile.Season expResult = SeasonTile.Season.SPRING;
         SeasonTile.Season result = instance.getSeason();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -37,26 +26,9 @@ public class SeasonTileTest {
     @Test
     public void testToNormalizedName() {
         System.out.println("toNormalizedName");
-        SeasonTile instance = null;
-        String expResult = "";
+        SeasonTile instance = new SeasonTile(WindHonor.Wind.WEST, SeasonTile.Season.SPRING);
+        String expResult = "S1";
         String result = instance.toNormalizedName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class SeasonTile.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        SeasonTile instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
+    }    
 }
