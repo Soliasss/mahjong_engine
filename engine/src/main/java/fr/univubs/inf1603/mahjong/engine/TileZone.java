@@ -57,11 +57,6 @@ public class TileZone extends Zone{
   public boolean remove(GameTile tile){
     return this.content.remove(tile);
   }
-  
-  @Override
-  public ArrayList getContent(){
-    return this.content;
-  }
     
   @Override
   public boolean setHidden(){
