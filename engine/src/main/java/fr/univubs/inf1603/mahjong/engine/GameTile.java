@@ -5,7 +5,7 @@ package fr.univubs.inf1603.mahjong.engine;
  * @author Malléjac Clément
  */
 public class GameTile{
-    private final AbstractTile tile;
+    private AbstractTile tile;
     private final int gameID;
     
     /**
@@ -32,5 +32,13 @@ public class GameTile{
      */
     public int getGameID(){
         return this.gameID;
+    }
+    
+    /**
+     * Permet de set la tuile
+     * @param newTile La nouvelle tuile
+     */
+    public void setTile(AbstractTile newTile){
+        this.tile = newTile;   
     }
 }
