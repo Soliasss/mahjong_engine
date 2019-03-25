@@ -68,4 +68,9 @@ public class TileZone extends Zone{
     }
     return ret;
   }
+	
+  @Override
+  public ArrayList getContent(){
+	  return this.content;
+  }
 }
