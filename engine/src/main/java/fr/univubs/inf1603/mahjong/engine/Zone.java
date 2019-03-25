@@ -32,13 +32,7 @@ public class Zone{
    * @return content, la liste de zone
    */
   public ArrayList getContent(){
-    if(!isHidden) return this.content;
-    else{
-      ArrayList<Integer> ret = new ArrayList<Integer>();
-      for(int i=0; i<this.content.size(); i++) ret.add(new Integer(i));
-      ret.trimToSize();
-      return ret;
-    }
+    return this.content;
   }
 
   /**

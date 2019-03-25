@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author COGOLUEGNES Charles
  */
 public class TileZone extends Zone{
-  private ArrayList<GameTile> content;
+  protected ArrayList<GameTile> content;
 
   /**
    * Le constructeur de TileZone prenant que le nom en paramètre
@@ -57,18 +57,13 @@ public class TileZone extends Zone{
   public boolean remove(GameTile tile){
     return this.content.remove(tile);
   }
-  
-  @Override
-  public ArrayList getContent(){
-    return this.content;
-  }
     
   @Override
   public boolean setHidden(){
     boolean ret = false;
     if(this.isHiddable){
       this.isHidden = true;
-      for(GameTile gt : this.content) gt.setTile(new CheapTile("XX"));
+      for(GameTile gt : this.content) gt.setTile(new HiddenTile());
       ret = true;
     }
     return ret;
