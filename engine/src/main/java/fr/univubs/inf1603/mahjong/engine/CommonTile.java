@@ -75,7 +75,7 @@ public class CommonTile extends ComplexTile{
     
     @Override
     public String toNormalizedName() {
-        return String.format("%c%c",this.getFamily(),this.getNumber()); 
+        return String.format("%c%c",this.getFamily().getSymbol(),this.getNumber().getSymbol()); 
     }
     
     @Override
