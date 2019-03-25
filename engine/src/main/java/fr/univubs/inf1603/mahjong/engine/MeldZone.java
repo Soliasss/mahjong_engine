@@ -6,8 +6,7 @@ import java.util.ArrayList;
  * Cette classe représente une zone de jeu représentant un combo de tuiles bien précis
  * @author COGOLUEGNES Charles
  */
-public class MeldZone extends Zone{
-  private TileZone content;
+public class MeldZone extends TileZone{
   private Meld name;
 
   /**
@@ -16,11 +15,9 @@ public class MeldZone extends Zone{
    * @param content La TileZone
    * @param isHiddable Si la zone est cachable
    */
-  public MeldZone(Meld name, TileZone content, boolean isHiddable) throws ZoneException{
-    super(name.toString(), isHiddable);
+  public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable){
+    super(name.toString(), content, isHiddable);
     this.name = name;
-    if(content == null) throw new ZoneException("Le contenu dans MeldZone ne peut pas être null.");
-    this.content = new TileZone(content);
   }
 
   /**
@@ -44,26 +41,6 @@ public class MeldZone extends Zone{
   public boolean remove(GameTile tile, Meld newMeld){
     boolean ret = this.content.remove(tile);
     if(ret) this.setName(newMeld.toString());
-    return ret;
-  }
-  
-  @Override
-  public ArrayList getContent(){
-    return this.content.getContent();
-  }
-  
-  @Override
-  public void setContent(ArrayList content){
-    this.content.setContent(content);
-  }
-    
-  @Override
-  public boolean setHidden(){
-    boolean ret = false;
-    if(this.isHiddable){
-      ret = this.content.setHidden();
-      this.isHidden = true;
-    }
     return ret;
   }
 }
