@@ -3,7 +3,7 @@ package fr.univubs.inf1603.mahjong.engine;
 import java.util.HashMap;
 
 /**
- * This class allows to represent a move of a tile or some tiles from a position to another position
+ * Cette classe permet de représenter le déplacement d'une ou plusieurs tuiles d'un joueur
  * @author COGOLUEGNES Charles
  */
 public class Move{
@@ -13,9 +13,9 @@ public class Move{
 
 	/**
 	 *
-	 * @param player The number which represents the player who is making the move
-	 * @param priority The priority of the move regarding other moves (0 is the biggest priority, from the biggest priority to the lowest priority)
-	 * @param path A map that contains one or more transition of one or more tile(s). The int is the number of the tile in the deck. The TileZone is the zone where the tile has to go.
+	 * @param player Le nombre qui représente le numéro du joueur qui effectue le Move
+	 * @param priority La priorité du Move par rapport à d'autre Move (0 est la plus grosse priorité, n est la moins grosse priorité)
+	 * @param path Une Map qui contient l'information de déplacement de la ou des tuile(s). Le numéro reprente l'ID de la tuile, la TileZone est la zone de jeu dans laquelle la tuile va être ajoutée
 	 */
 	public Move(int player, int priority, HashMap<Integer,TileZone> path) throws MoveException{
 		if(player <= 0 || player > 4) throw new MoveException("The player's number has to be between 1 and 4.");
@@ -29,7 +29,7 @@ public class Move{
 	}
 
 	/**
-	 * Returns the number of the player
+	 * Retourne le numéro du joueur associé au Move
 	 * @return player
 	 */
 	public int getPlayer(){
@@ -37,7 +37,7 @@ public class Move{
 	}
 
 	/**
-	 * Returns the priority of the move
+	 * Retourne la priorité du Move
 	 * @return priority
 	 */
 	public int getPriority(){
@@ -45,7 +45,7 @@ public class Move{
 	}
 
 	/**
-	 * Returns the path
+	 * Retourne le map symbolisant le déplacement
 	 * @return path
 	 */
 	public HashMap<Integer,TileZone> getPath(){
