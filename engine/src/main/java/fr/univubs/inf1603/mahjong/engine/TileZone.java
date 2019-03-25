@@ -63,7 +63,7 @@ public class TileZone extends Zone{
     boolean ret = false;
     if(this.isHiddable){
       this.isHidden = true;
-      for(GameTile gt : this.content) gt.setTile(new CheapTile("XX"));
+      for(GameTile gt : this.content) gt.setTile(new HiddenTile());
       ret = true;
     }
     return ret;
