@@ -14,8 +14,9 @@ public class MeldZone extends TileZone{
    * @param name Le nom de la MeldZone (un Meld)
    * @param content La TileZone
    * @param isHiddable Si la zone est cachable
+   * @throws ZoneException si le content est null
    */
-  public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable){
+  public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable) throws ZoneException{
     super(name.toString(), content, isHiddable);
     this.name = name;
   }
