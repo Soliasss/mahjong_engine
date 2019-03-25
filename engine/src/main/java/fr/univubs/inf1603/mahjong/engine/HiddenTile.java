@@ -8,7 +8,7 @@ public class HiddenTile extends ComplexTile{
   /**
    * Le nom générique d'une tuile cachée
    */
-  private static final name = "XX";
+  private static final NAME = "XX";
   
   /**
    * Le constructeur de HiddenTile
@@ -18,6 +18,6 @@ public class HiddenTile extends ComplexTile{
   
   @Override
   public String toNormalizedName(){
-    return this.name;
+    return this.NAME;
   }
 }
