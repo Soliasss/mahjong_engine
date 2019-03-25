@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author COGOLUEGNES Charles
  */
 public class TileZone extends Zone{
-  private ArrayList<GameTile> content;
+  protected ArrayList<GameTile> content;
 
   /**
    * Le constructeur de TileZone prenant que le nom en paramètre
