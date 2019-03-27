@@ -1,6 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine;
 
-import java.beans.ConstructorProperties;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -20,7 +19,6 @@ public class GameTile implements GameElement,Serializable,Cloneable, UniqueIdent
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      */
-    @ConstructorProperties({"gameID", "tile", "uuid"})
     public GameTile(int gameID, AbstractTile tile, UUID uuid){
         this.gameID = gameID;
         this.tile = tile;

@@ -32,16 +32,6 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
     }
 
     /**
-     * Retourne le contenu de la list de zone contenu dans une autre zone
-     *
-     * @return content, la liste de zone
-     */
-    @Override
-    public ArrayList<GameZone> getContent() {
-        return this.content;
-    }
-
-    /**
      * Retourne l'UUID de la zone
      *
      * @return uuid
@@ -101,18 +91,6 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
     }
  
     /**
-     * Permet de modifier le nom de la zone
-     *
-     * @param newName Le nouveau nom
-     */
-    public void setName(String newName) {
-        String oldValue = this.name;
-        this.name = newName;
-        propertyChangeSupport.firePropertyChange("name", oldValue, this.name);
-
-    }
-
-    /**
      * Permet de modifier content
      *
      * @param content Le nouveau content
@@ -167,5 +145,20 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
 
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public ArrayList<GameElement> getContent() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean add(GameElement GameElt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean remove(GameElement GameElt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

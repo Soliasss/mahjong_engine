@@ -21,7 +21,7 @@ public abstract class GameZone implements GameElement{
         this.hidden = false;
         this.hideable = hideable;
     }
-    public abstract ArrayList<? extends GameElement> getContent();
+    public abstract ArrayList<GameElement> getContent();
     public abstract void setContent(ArrayList<? extends GameElement> content);
     public abstract boolean add(GameElement GameElt);
     public abstract boolean remove(GameElement GameElt);
