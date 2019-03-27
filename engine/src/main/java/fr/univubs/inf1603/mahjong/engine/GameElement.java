@@ -3,5 +3,5 @@
  * @author COGOLUEGNES Charles, LE BERRE SAMUEL
  */
 public interface GameElement{
-  
+ 
 }
