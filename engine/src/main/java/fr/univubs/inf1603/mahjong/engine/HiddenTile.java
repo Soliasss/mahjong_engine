@@ -9,11 +9,11 @@ public class HiddenTile extends ComplexTile{
    * Le nom générique d'une tuile cachée
    */
   private static final String NAME = "XX";
-  
+  public static HiddenTile HIDDENTILE;
   /**
    * Le constructeur de HiddenTile
    */
-  public HiddenTile(){ 
+  private HiddenTile(){ 
   }
   
   @Override

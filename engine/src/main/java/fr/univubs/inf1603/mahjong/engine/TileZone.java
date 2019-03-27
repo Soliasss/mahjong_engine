@@ -1,24 +1,27 @@
 package fr.univubs.inf1603.mahjong.engine;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+
 /**
  * Cette classe est une représentation d'une zone contenant des tuiles
+ *
  * @author COGOLUEGNES Charles
  */
-public class TileZone extends GameZone{
-    
-  protected ArrayList<GameTile> content;
+public class TileZone extends GameZone implements UniqueIdentifiable {
 
-  /**
-   * Le constructeur de TileZone prenant que le nom en paramètre
-   * @param name Le nom de la TileZone
-   * @param isHiddable Si la zone est cachable
-   */
-  public TileZone(String name, boolean isHiddable){
-    super(name, isHiddable);
-    this.content = new ArrayList<GameTile>();
-  }
+    protected ArrayList<GameTile> content;
 
+    /**
+     * Le constructeur de TileZone prenant que le nom en paramètre
+     *
+     * @param name Le nom de la TileZone
+     * @param isHiddable Si la zone est cachable
+     */
+    public TileZone(String name, boolean isHiddable) {
+        super(name, isHiddable);
+        this.content = new ArrayList<GameTile>();
+    }
   /**
    * Le constructeur de TileZone prenant le nom et la liste de tuiles en paramètres
    * @param name Le nom de la TileZone
@@ -41,37 +44,28 @@ public class TileZone extends GameZone{
 	  this.content = new ArrayList(content.getContent());
   }
 
-  /**
-   * Permet d'ajouter une tuile dans la liste
-   * @param tile La tuile à ajouter
-   * @return si la tuile à été ajoutée correctement
-   */
-  public boolean add(GameTile tile){
-    return this.content.add(tile);
-  }
+    /**
+     * Le constructeur de copie de TileZone
+     *
+     * @param content La TileZone
+     */
+    public TileZone(TileZone content) {
+        super(content.getName(), content.isHideable());
+        this.content = new ArrayList(content.getContent());
+    }
 
-  /**
-   * Permet de retirer une tuile dans la liste
-   * @param tile La tuile à retirer
-   * @return si la tuile à été retirée correctement
-   */
-  public boolean remove(GameTile tile){
-    return this.content.remove(tile);
-  }
-    
-  @Override
-  public boolean setHidden() throws ZoneException{
-    if (this.isHidden()) {
-        throw new ZoneException("Trying to hide an already hidden Zone, risks of infinite loop");
+    /**
+     * Permet d'ajouter une tuile dans la liste
+     *
+     * @param tile La tuile à ajouter
+     * @return si la tuile à été ajoutée correctement
+     */
+    public boolean add(GameTile tile) {
+        boolean ret = this.content.add(tile);
+        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
+        return ret;
     }
-    boolean ret = false;
-    if(this.hideable){
-      this.hidden = true;
-      for(GameTile gt : this.content) gt.setTile(new HiddenTile());
-      ret = true;
-    }
-    return ret;
-  }
+
 	
   @Override
   public ArrayList getContent(){
@@ -97,4 +91,34 @@ public class TileZone extends GameZone{
     public GameZone clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    /**
+     * Permet de retirer une tuile dans la liste
+     *
+     * @param tile La tuile à retirer
+     * @return si la tuile à été retirée correctement
+     */
+    public boolean remove(GameTile tile) {
+        boolean ret = this.content.remove(tile);
+        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
+        return ret;
+    }
+
+    public boolean setHidden() throws ZoneException {
+        if (this.isHidden()) {
+            throw new ZoneException("Trying to hide an already hidden Zone, risks of infinite loop");
+        }
+        if (this.hideable) {
+            this.hidden = true;
+            for(GameTile gt : this.content) {
+                if(gt.getTile()!=HiddenTile.HIDDENTILE){
+                    gt.setTile(HiddenTile.HIDDENTILE);
+                }
+            }
+        }
+        return this.hideable;
+    }
+
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 }

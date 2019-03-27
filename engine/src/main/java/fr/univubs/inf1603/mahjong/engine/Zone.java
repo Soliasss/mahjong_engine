@@ -9,13 +9,12 @@ import java.util.ArrayList;
 /**
  * Cette classe définie une zone de jeu
  *
- * @author COGOLUEGNES Charles, LE BERRE Samuel
+ * @author COGOLUEGNES Charles
  */
-public class Zone extends GameZone implements Serializable, Cloneable, GameElement {
+public class Zone extends GameZone implements Serializable, Cloneable, GameElement,UniqueIdentifiable {
 
     private ArrayList<GameZone> content;
-    private final UUID uuid;
-    
+    private final UUID uuid;    
     public Zone(String name, boolean hideable, boolean hidden, ArrayList<GameZone> content, UUID uuid) {
         super(name,hidden,hideable);
         this.uuid = uuid;
@@ -38,7 +37,7 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
      * @return content, la liste de zone
      */
     @Override
-    public ArrayList<? extends GameZone> getContent() {
+    public ArrayList<GameZone> getContent() {
         return this.content;
     }
 
@@ -47,8 +46,33 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
      *
      * @return uuid
      */
+    @Override
     public UUID getUUID() {
         return this.uuid;
+    }
+
+    /**
+     * Permet d'ajouter une zone dans la liste
+     *
+     * @param zone La zone à ajouter
+     * @return si la zone a correctement été ajoutée
+     */
+    public boolean add(Zone zone) {
+        boolean ret = this.content.add(zone);
+        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
+        return ret;
+    }
+
+    /**
+     * Permet de retirer une zone dans la liste
+     *
+     * @param zone La zone à retirer
+     * @return si la zone a correctement été retirée
+     */
+    public boolean remove(Zone zone) {
+        boolean ret = this.content.remove(zone);
+        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
+        return ret;
     }
 
     /**
@@ -75,14 +99,26 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
         }
         return this.hideable;
     }
+ 
+    /**
+     * Permet de modifier le nom de la zone
+     *
+     * @param newName Le nouveau nom
+     */
+    public void setName(String newName) {
+        String oldValue = this.name;
+        this.name = newName;
+        propertyChangeSupport.firePropertyChange("name", oldValue, this.name);
+
+    }
 
     /**
      * Permet de modifier content
+     *
      * @param content Le nouveau content
      */
-    @Override
-    public void setContent(ArrayList<? extends GameElement> content) {
-        ArrayList<GameZone> oldValue = this.content;
+    public void setContent(ArrayList content) {
+        ArrayList oldValue = this.content;
         this.content = new ArrayList(content);
         propertyChangeSupport.firePropertyChange("content", oldValue, this.content);
     }
@@ -131,44 +167,5 @@ public class Zone extends GameZone implements Serializable, Cloneable, GameEleme
 
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
-    }
-
-    public UUID getID() {
-        return this.uuid;
-    }
-    
-    @Override
-    public boolean add(GameElement GameElt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean remove(GameElement GameElt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-    /**
-     * Permet d'ajouter une zone dans la liste
-     *
-     * @param zone La zone à ajouter
-     * @return si la zone a correctement été ajoutée
-     */
-    public boolean add(GameZone zone) {
-        boolean ret = this.content.add(zone);
-        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
-        return ret;
-    }
-
-    /**
-     * Permet de retirer une zone dans la liste
-     *
-     * @param zone La zone à retirer
-     * @return si la zone a correctement été retirée
-     */
-    public boolean remove(GameZone zone) {
-        boolean ret = this.content.remove(zone);
-        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
-        return ret;
     }
 }
