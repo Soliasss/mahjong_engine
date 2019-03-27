@@ -1,23 +1,26 @@
 package fr.univubs.inf1603.mahjong.engine;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Cette classe représente une zone de jeu représentant un combo de tuiles bien précis
  * @author COGOLUEGNES Charles
  */
 public class MeldZone extends TileZone{
-  private Meld name;
+  private final Meld name;
 
-  /**
-   * Le constructeur de MeldZone
-   * @param name Le nom de la MeldZone (un Meld)
-   * @param content La TileZone
-   * @param isHiddable Si la zone est cachable
-   * @throws ZoneException si le content est null
-   */
-  public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable) throws ZoneException{
-    super(name.toString(), content, isHiddable);
+    /**
+     * Le constructeur de MeldZone
+     * @param name Le nom de la MeldZone (un Meld)
+     * @param content La TileZone
+     * @param isHiddable Si la zone est cachable
+     * @param uuid
+     * @throws ZoneException si le content est null
+     */
+  public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable,UUID uuid) throws ZoneException{
+    super(name.toString(), content, isHiddable,uuid);
     this.name = name;
   }
 
@@ -41,7 +44,10 @@ public class MeldZone extends TileZone{
    */
   public boolean remove(GameTile tile, Meld newMeld){
     boolean ret = this.content.remove(tile);
+    propertyChangeSupport.firePropertyChange("content", this.content, this.content);
     if(ret) this.setName(newMeld.toString());
     return ret;
   }
+  private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
 }
