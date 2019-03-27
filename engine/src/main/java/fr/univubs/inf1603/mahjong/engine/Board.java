@@ -69,12 +69,14 @@ public class Board implements UniqueIdentifiable {
      */
     @Override
     public Board clone(){
+        /*
         Zone retWall = this.wallZone.clone();
         Board retBoard = new Board(retWall);
         retBoard.playersZones.entrySet().forEach(entry -> {
             retBoard.addPlayerZone(entry.getKey(), entry.getValue().clone());
         });
-        return retBoard;
+        return retBoard;*/
+        return null;
     }
 
     /**
