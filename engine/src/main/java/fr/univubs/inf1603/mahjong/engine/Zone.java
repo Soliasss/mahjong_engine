@@ -1,6 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine;
 
-import java.beans.ConstructorProperties;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -12,31 +11,24 @@ import java.util.ArrayList;
  *
  * @author COGOLUEGNES Charles
  */
-public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
+public class Zone extends GameZone implements Serializable, Cloneable, GameElement,UniqueIdentifiable {
 
-    private String name;
-    protected boolean hidden;
-    protected final boolean hideable;
-    private ArrayList<Zone> content;
-    private final UUID uuid;
-
-    @ConstructorProperties({"name", "hiddable", "hidden", "content", "uuid"})
-    public Zone(String name, boolean hiddable, boolean hidden, ArrayList<Zone> content, UUID uuid) {
+    private ArrayList<GameZone> content;
+    private final UUID uuid;    
+    public Zone(String name, boolean hideable, boolean hidden, ArrayList<GameZone> content, UUID uuid) {
+        super(name,hidden,hideable);
         this.uuid = uuid;
-        this.name = name;
         this.content = content;
-        this.hidden = hidden;
-        this.hideable = hiddable;
     }
 
     /**
      * Le constructeur simplifié de Zone, l'uuid est défini automatiquement
      *
      * @param name Le nom de la zone
-     * @param hiddable Si la zone est cachable ou non
+     * @param hideable Si la zone est cachable ou non
      */
-    public Zone(String name, boolean hiddable) {
-        this(name, hiddable, false, new ArrayList<Zone>(), UUID.randomUUID());
+    public Zone(String name, boolean hideable) {
+        this(name, hideable, false, new ArrayList<GameZone>(), UUID.randomUUID());
     }
 
     /**
@@ -44,7 +36,8 @@ public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
      *
      * @return content, la liste de zone
      */
-    public ArrayList getContent() {
+    @Override
+    public ArrayList<GameZone> getContent() {
         return this.content;
     }
 
@@ -56,15 +49,6 @@ public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
     @Override
     public UUID getUUID() {
         return this.uuid;
-    }
-
-    /**
-     * Retourne le nom de la zone
-     *
-     * @return name
-     */
-    public String getName() {
-        return this.name;
     }
 
     /**
@@ -98,6 +82,7 @@ public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
      * @return si la zone a bien été cachée
      * @throws fr.univubs.inf1603.mahjong.engine.ZoneException
      */
+    @Override
     public boolean setHidden() throws ZoneException {
         if (this.isHidden()) {
             throw new ZoneException("Trying to hide an already hidden Zone, risks of infinite loop");
@@ -105,7 +90,7 @@ public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
         if (this.hideable) {
             boolean oldValue = this.hidden;
             this.hidden = true;
-            for (Zone z : this.content) {
+            for (GameZone z : this.content) {
                 if(!z.isHidden()){
                     z.setHidden();
                 }
@@ -114,25 +99,7 @@ public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
         }
         return this.hideable;
     }
-
-    /**
-     * Retourne si la zone peut être cachée
-     *
-     * @return si la zone peut être cachée
-     */
-    public boolean isHideable() {
-        return this.hideable;
-    }
-
-    /**
-     * Retourne si la zone est cachée ou non
-     *
-     * @return si la zone est cachée ou non
-     */
-    public boolean isHidden() {
-        return this.hidden;
-    }
-
+ 
     /**
      * Permet de modifier le nom de la zone
      *

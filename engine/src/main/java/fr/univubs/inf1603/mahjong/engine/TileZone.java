@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author COGOLUEGNES Charles
  */
-public class TileZone extends Zone implements UniqueIdentifiable {
+public class TileZone extends GameZone implements UniqueIdentifiable {
 
     protected ArrayList<GameTile> content;
 
@@ -22,23 +22,27 @@ public class TileZone extends Zone implements UniqueIdentifiable {
         super(name, isHiddable);
         this.content = new ArrayList<GameTile>();
     }
-
-    /**
-     * Le constructeur de TileZone prenant le nom et la liste de tuiles en
-     * paramètres
-     *
-     * @param name Le nom de la TileZone
-     * @param content la liste des tuiles
-     * @param isHiddable Si la zone est cachable
-     * @throws ZoneException Si la liste des tuiles est null
-     */
-    public TileZone(String name, ArrayList<GameTile> content, boolean isHiddable) throws ZoneException {
-        super(name, isHiddable);
-        if (content == null) {
-            throw new ZoneException("La liste de tuiles ne peut pas être null.");
-        }
-        this.content = new ArrayList(content);
-    }
+  /**
+   * Le constructeur de TileZone prenant le nom et la liste de tuiles en paramètres
+   * @param name Le nom de la TileZone
+   * @param content la liste des tuiles
+   * @param isHiddable Si la zone est cachable
+   * @throws ZoneException Si la liste des tuiles est null
+   */
+  public TileZone(String name, ArrayList<GameTile> content, boolean isHiddable) throws ZoneException{
+    super(name, isHiddable);
+    if(content == null) throw new ZoneException("La liste de tuiles ne peut pas être null.");
+    this.content = new ArrayList(content);
+  }
+  
+  /**
+   * Le constructeur de copie de TileZone
+   * @param content La TileZone
+   */
+  public TileZone(TileZone content){
+	  super(content.getName(), content.isHideable());
+	  this.content = new ArrayList(content.getContent());
+  }
 
     /**
      * Le constructeur de copie de TileZone
@@ -60,6 +64,32 @@ public class TileZone extends Zone implements UniqueIdentifiable {
         boolean ret = this.content.add(tile);
         propertyChangeSupport.firePropertyChange("content", this.content, this.content);
         return ret;
+    }
+
+	
+  @Override
+  public ArrayList getContent(){
+	  return this.content;
+  }
+
+    @Override
+    public void setContent(ArrayList<? extends GameElement> content) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean add(GameElement GameElt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean remove(GameElement GameElt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GameZone clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -89,11 +119,6 @@ public class TileZone extends Zone implements UniqueIdentifiable {
         return this.hideable;
     }
 
-    @Override
-    public ArrayList getContent() {
-        return this.content;
-    }
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
 }
