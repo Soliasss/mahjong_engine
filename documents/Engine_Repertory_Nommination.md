@@ -1,6 +1,8 @@
 # Mahjong Engine Design Document
 
 This document provide information about the package of the engine module.
+If we use the following packages we will not have to search too many time in the directory to find a specific file.
+We will separate Objects from Exceptions and Tiles from Zones
 
 ## Normalised naming of mahjong package
 
