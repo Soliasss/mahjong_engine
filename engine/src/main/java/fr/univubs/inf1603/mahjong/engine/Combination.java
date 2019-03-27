@@ -11,17 +11,25 @@ public interface Combination {
     /**
      * @return true if the combination is a pair (two identical tiles)
      */
-    boolean isPair();
+    default boolean isPair(){
+        return false;
+    }
     /**
      * @return true if the combination is a chow (a straight of 3 common tiles of the same family)
      */
-    boolean isChow();
+    default boolean isChow(){
+        return false;
+    }
     /**
      * @return true if the combination is a pung (three identical tiles)
      */
-    boolean isPung();
+    default boolean isPung(){
+        return false;
+    }
     /**
      * @return true if the combination is a kong (four identical tiles)
      */
-    boolean isKong();
+    default boolean isKong(){
+        return false;
+    }
 }
