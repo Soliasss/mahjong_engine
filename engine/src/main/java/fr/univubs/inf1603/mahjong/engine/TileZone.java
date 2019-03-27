@@ -5,7 +5,8 @@ import java.util.ArrayList;
  * Cette classe est une représentation d'une zone contenant des tuiles
  * @author COGOLUEGNES Charles
  */
-public class TileZone extends Zone{
+public class TileZone extends GameZone{
+    
   protected ArrayList<GameTile> content;
 
   /**
@@ -36,7 +37,7 @@ public class TileZone extends Zone{
    * @param content La TileZone
    */
   public TileZone(TileZone content){
-	  super(content.getName(), content.isHiddable());
+	  super(content.getName(), content.isHideable());
 	  this.content = new ArrayList(content.getContent());
   }
 
@@ -59,10 +60,13 @@ public class TileZone extends Zone{
   }
     
   @Override
-  public boolean setHidden(){
+  public boolean setHidden() throws ZoneException{
+    if (this.isHidden()) {
+        throw new ZoneException("Trying to hide an already hidden Zone, risks of infinite loop");
+    }
     boolean ret = false;
-    if(this.isHiddable){
-      this.isHidden = true;
+    if(this.hideable){
+      this.hidden = true;
       for(GameTile gt : this.content) gt.setTile(new HiddenTile());
       ret = true;
     }
@@ -73,4 +77,24 @@ public class TileZone extends Zone{
   public ArrayList getContent(){
 	  return this.content;
   }
+
+    @Override
+    public void setContent(ArrayList<? extends GameElement> content) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean add(GameElement GameElt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean remove(GameElement GameElt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GameZone clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

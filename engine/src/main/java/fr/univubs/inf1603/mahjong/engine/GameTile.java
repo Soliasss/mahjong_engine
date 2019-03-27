@@ -4,7 +4,7 @@ package fr.univubs.inf1603.mahjong.engine;
  * GameTile represents a tile once in an ongoing game of mahjong.
  * @author Malléjac Clément
  */
-public class GameTile{
+public class GameTile implements GameElement{
     private AbstractTile tile;
     private final int gameID;
     
