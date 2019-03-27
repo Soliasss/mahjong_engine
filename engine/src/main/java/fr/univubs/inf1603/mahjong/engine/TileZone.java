@@ -13,6 +13,9 @@ import java.beans.PropertyChangeListener;
  */
 public class TileZone extends GameZone implements Serializable, Cloneable{
 
+    /**
+     * La liste des tuiles contenus dans la zone.
+     */
     protected ArrayList<GameTile> tileList;
 
     /**
@@ -22,7 +25,7 @@ public class TileZone extends GameZone implements Serializable, Cloneable{
      * @param name Le nom de la TileZone
      * @param content la liste des tuiles
      * @param isHiddable Si la zone est cachable
-     * @param uuid
+     * @param uuid l identifiant unique de la zone de tuile
      * @throws ZoneException Si la liste des tuiles est null
      */
     public TileZone(String name, ArrayList<GameTile> content, boolean isHiddable,UUID uuid) throws ZoneException {
@@ -38,13 +41,19 @@ public class TileZone extends GameZone implements Serializable, Cloneable{
      *
      * @param name Le nom de la TileZone
      * @param isHiddable Si la zone est cachable
-     * @param uuid
+     * @param uuid l identifiant unique de la zone de tuile
      */
     public TileZone(String name, boolean isHiddable,UUID uuid) {
         super(uuid, name, isHiddable);
         this.tileList = new ArrayList<GameTile>();
     }
 
+    /**
+     * Le constructeur de TileZone prenant que le nom et le fait que la zone soit cachable en paramètre
+     *
+     * @param name Le nom de la TileZone
+     * @param isHiddable Si la zone est cachable
+     */
     public TileZone(String name, boolean isHiddable) {
         super(UUID.randomUUID(), name, isHiddable);
         this.tileList = new ArrayList<GameTile>();
