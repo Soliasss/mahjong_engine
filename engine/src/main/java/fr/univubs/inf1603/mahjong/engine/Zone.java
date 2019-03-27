@@ -13,7 +13,20 @@ import java.util.ArrayList;
  */
 public class Zone extends GameZone implements Serializable, Cloneable{
 
+    /**
+     * La liste des zones contenu dans la zone
+     */
     private ArrayList<GameZone> zoneList;
+    
+    /**
+     * Constructeur de Zone avec tous les paramètres
+     * @param name Le nom de la zone
+     * @param hideable Le fait que la zone soit cachable ou non
+     * @param hidden Le fait que la zone soit caché a la creation
+     * @param content La liste des zones contenu dans la zone
+     * @param uuid L identifiant unique de la zone
+     * @throws ZoneException si la liste est null
+     */
     public Zone(String name, boolean hideable, boolean hidden, ArrayList<GameZone> content, UUID uuid) throws ZoneException{
         super(uuid, name,hidden,hideable);
         if(content == null) throw new ZoneException("La liste de zones ne peut pas être null.");
@@ -52,6 +65,7 @@ public class Zone extends GameZone implements Serializable, Cloneable{
      * Rends une copie conforme de Zone actuelle (UUID different)
      *
      * @return la Zone
+     * @throws ZoneException si la liste de zone contenu dans la zone est null
      */
     @Override
     public Zone getClone() throws ZoneException{
@@ -62,6 +76,10 @@ public class Zone extends GameZone implements Serializable, Cloneable{
                 UUID.randomUUID());
     }
 
+    /**
+     * Clone le contenu de la liste des zones
+     * @return Le clone de la liste des zones
+     */
     private ArrayList cloneContent() throws ZoneException{
         ArrayList temp = new ArrayList();
         for (Object o : this.zoneList) {
