@@ -10,7 +10,7 @@ import java.util.UUID;
  * GameTile represents a tile once in an ongoing game of mahjong.
  * @author Malléjac Clément
  */
-public class GameTile implements Serializable,Cloneable{
+public class GameTile implements Serializable,Cloneable, UniqueIdentifiable{
     private AbstractTile tile;
     private final int gameID;
     private final UUID uuid;
@@ -47,6 +47,7 @@ public class GameTile implements Serializable,Cloneable{
         return this.gameID;
     }
     
+    @Override
     public UUID getUUID(){
         return this.uuid;
     }

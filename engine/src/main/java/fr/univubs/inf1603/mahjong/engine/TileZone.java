@@ -1,6 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
@@ -9,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author COGOLUEGNES Charles
  */
-public class TileZone extends Zone {
+public class TileZone extends Zone implements UniqueIdentifiable {
 
     protected ArrayList<GameTile> content;
 

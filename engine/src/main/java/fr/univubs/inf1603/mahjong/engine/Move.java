@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * @author COGOLUEGNES Charles
  */
-public class Move implements Serializable, Cloneable {
+public class Move implements Serializable, Cloneable, UniqueIdentifiable {
 
     private final int player;
     private final int priority;
@@ -85,6 +85,7 @@ public class Move implements Serializable, Cloneable {
      *
      * @return
      */
+    @Override
     public UUID getUUID() {
         return this.uuid;
     }
