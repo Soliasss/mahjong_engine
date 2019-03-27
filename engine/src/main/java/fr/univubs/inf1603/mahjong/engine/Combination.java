@@ -1,7 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine;
 
 /**
- * Interface representing combination of tiles (pair, chow, pung, and kung)
+ * Interface representing combination of tiles (pair, chow, pung, and kong)
  */
 public interface Combination {
     /**

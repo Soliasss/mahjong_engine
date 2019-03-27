@@ -5,9 +5,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
-
-
-
 /**
  * Cette classe permet de représenter le déplacement d'une ou plusieurs tuiles
  * d'un joueur
@@ -16,14 +13,14 @@ import java.util.UUID;
  */
 public class Move implements Serializable, Cloneable, UniqueIdentifiable {
 
-    private final SIDE side;
+    private final Side side;
     private final int priority;
     private final HashMap<Integer, TileZone> path;
     private final UUID uuid;
 
     /**
      *
-     * @param player Le nombre qui représente le numéro du joueur qui effectue
+     * @param side Le nombre qui représente le numéro du joueur qui effectue
      * le Move
      * @param priority La priorité du Move par rapport à d'autre Move (0 est la
      * plus grosse priorité, n est la moins grosse priorité)
@@ -34,7 +31,7 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
      * @throws fr.univubs.inf1603.mahjong.engine.MoveException
      */
     @ConstructorProperties({"player", "priority", "path", "uuid"})
-    public Move(SIDE side, int priority, HashMap<Integer, TileZone> path, UUID uuid) throws MoveException {
+    public Move(Side side, int priority, HashMap<Integer, TileZone> path, UUID uuid) throws MoveException {
         this.side = side;
 
         if (priority < 0) {
@@ -50,7 +47,7 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
         this.uuid = uuid;
     }
 
-    public Move(SIDE side, int priority, HashMap<Integer, TileZone> path) throws MoveException {
+    public Move(Side side, int priority, HashMap<Integer, TileZone> path) throws MoveException {
         this(side, priority, path, UUID.randomUUID());
     }
 
@@ -59,7 +56,7 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
      *
      * @return side
      */
-    SIDE getSide() {
+    Side getSide() {
         return this.side;
     }
 
@@ -81,15 +78,11 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
         return this.path;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public UUID getUUID() {
         return this.uuid;
     }
 }
-enum SIDE{
+enum Side {
     EAST,SOUTH,WEST,NORTH;
 }

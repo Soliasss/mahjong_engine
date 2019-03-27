@@ -13,11 +13,10 @@ public class HiddenTile extends ComplexTile{
   /**
    * Le constructeur de HiddenTile
    */
-  private HiddenTile(){ 
-  }
+  private HiddenTile(){ }
   
   @Override
   public String toNormalizedName(){
-    return this.NAME;
+    return NAME;
   }
 }

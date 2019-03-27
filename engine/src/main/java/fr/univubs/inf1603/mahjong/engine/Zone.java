@@ -3,8 +3,8 @@ package fr.univubs.inf1603.mahjong.engine;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.UUID;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Cette classe définie une zone de jeu
@@ -30,7 +30,7 @@ public class Zone extends GameZone implements Serializable, Cloneable{
     public Zone(String name, boolean hideable, boolean hidden, ArrayList<GameZone> content, UUID uuid) throws ZoneException{
         super(uuid, name,hidden,hideable);
         if(content == null) throw new ZoneException("La liste de zones ne peut pas être null.");
-        this.zoneList = new ArrayList(content);
+        this.zoneList = new ArrayList<>(content);
     }
 
     /**

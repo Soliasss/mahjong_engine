@@ -8,13 +8,14 @@ import java.util.UUID;
  *
  * @author Samuel LE BERRE
  */
-public class Board implements UniqueIdentifiable {
+public class Board implements UniqueIdentifiable, Cloneable {
 
     /**
      * Represents the players defined by an integer and their zone. The zone is
      * the container of all the zone of the player.
      */
     private HashMap<Integer, Zone> playersZones;
+
     /**
      * Represents the Wall of the Mahjong
      */
@@ -92,24 +93,20 @@ public class Board implements UniqueIdentifiable {
      * Allows to zone of a specified player
      *
      * @param player The player we want to get the zone
-     * @return 
+     * @return the zone of the given player
      */
     public Zone getPlayerZone(int player) {
         return this.playersZones.get(player);
     }
 
     /**
-     *
+     * Accesseur sur la zone du mur
      * @return Le mur du Board
      */
     public Zone getWallZone() {
         return this.wallZone;
     }
 
-    /**
-     *
-     * @return L identifiant unique du Board
-     */
     @Override
     public UUID getUUID() {
         return this.uuid;
