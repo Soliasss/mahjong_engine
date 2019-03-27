@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 /**
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 public class MeldZone extends TileZone{
   private Meld name;
 
-  /**
-   * Le constructeur de MeldZone
-   * @param name Le nom de la MeldZone (un Meld)
-   * @param content La TileZone
-   * @param isHiddable Si la zone est cachable
-   * @throws ZoneException si le content est null
-   */
+    /**
+     * Le constructeur de MeldZone
+     * @param name Le nom de la MeldZone (un Meld)
+     * @param content La TileZone
+     * @param isHiddable Si la zone est cachable
+     * @throws ZoneException si le content est null
+     */
   public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable) throws ZoneException{
     super(name.toString(), content, isHiddable);
     this.name = name;
@@ -41,7 +42,10 @@ public class MeldZone extends TileZone{
    */
   public boolean remove(GameTile tile, Meld newMeld){
     boolean ret = this.content.remove(tile);
+    propertyChangeSupport.firePropertyChange("content", this.content, this.content);
     if(ret) this.setName(newMeld.toString());
     return ret;
   }
+      private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
 }
