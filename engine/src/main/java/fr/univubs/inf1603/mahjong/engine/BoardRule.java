@@ -7,12 +7,8 @@
 package fr.univubs.inf1603.mahjong.engine;
 import fr.univubs.inf1603.mahjong.engine.Move;
 import fr.univubs.inf1603.mahjong.engine.TileZone;
-import fr.univubs.inf1603.mahjong.engine.Zone;
-import fr.univubs.inf1603.mahjong.sapi.*;
-import static java.nio.file.Files.move;
 
 import java.util.*;
-import javax.swing.text.View;
 
 /**
  *
@@ -25,12 +21,6 @@ import javax.swing.text.View;
  */
 public interface BoardRule 
 {
-    /**
-     * getting player in order
-     * @param players
-     * @return 
-     */
-    public List<Player> getPlayerOrder (List<Player>players);
     
     /**
      * starting the wall for the game
