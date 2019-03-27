@@ -13,7 +13,7 @@ public class MeldZone extends TileZone{
      * @param name Le nom de la MeldZone (un Meld)
      * @param content La TileZone
      * @param isHiddable Si la zone est cachable
-     * @param uuid
+     * @param uuid l identifiant unique de la zone de combo
      * @throws ZoneException si le content est null
      */
   public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable,UUID uuid) throws ZoneException{
@@ -26,7 +26,7 @@ public class MeldZone extends TileZone{
    * @param newMeld Le nouveau combo
    * @return si la tuile à été ajoutée correctement
    */
-  public boolean add(GameTile tile, Meld newMeld) throws ZoneException{
+  public boolean addTile(GameTile tile, Meld newMeld) throws ZoneException{
     boolean ret = super.addTile(tile);
     if(ret) this.setName(newMeld.toString());
     return ret;
@@ -38,7 +38,7 @@ public class MeldZone extends TileZone{
    * @param newMeld Le nouveau combo
    * @return si la tuile à été retirée correctement
    */
-  public boolean remove(GameTile tile, Meld newMeld) throws ZoneException{
+  public boolean removeTile(GameTile tile, Meld newMeld) throws ZoneException{
     boolean ret = super.removeTile(tile);
     if(ret) this.setName(newMeld.toString());
     return ret;
