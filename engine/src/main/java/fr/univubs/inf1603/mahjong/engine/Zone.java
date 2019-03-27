@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author COGOLUEGNES Charles
  */
-public class Zone implements Serializable, Cloneable {
+public class Zone implements Serializable, Cloneable, UniqueIdentifiable{
 
     private String name;
     protected boolean hidden;
@@ -53,6 +53,7 @@ public class Zone implements Serializable, Cloneable {
      *
      * @return uuid
      */
+    @Override
     public UUID getUUID() {
         return this.uuid;
     }
