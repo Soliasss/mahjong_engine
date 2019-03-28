@@ -11,6 +11,7 @@ public class Game{
   private GameRule rule;
   private boolean finish;
   private Move lastMove;
+  private Board board;
   
   /**
    * Le constructeur de Game
@@ -20,6 +21,9 @@ public class Game{
   public Game(GameRule rule) throws GameException{
     if(rule == null) throw new GameException("Le règle ne peut pas être null.");
     this.rule = rule;
+    this.lastMove = null;
+    this.finish = false;
+    this.board = null;
   }
   
   /**
@@ -27,7 +31,9 @@ public class Game{
    * @return une map faisant correspondance entre le numéro du joueur et le vent
    */
   public Hash<Integer,Wind> launchGame(){
-    return null;
+    HashMap<Integer,Wind> ret = this.rule.getPlayersOrder();
+    this.board = this.rule.initBoard();
+    return ret;
   }
   
   /**
@@ -52,9 +58,17 @@ public class Game{
    * Retourne un Board en fonction du joueur, si joueur=0 alors retourne le Board en entier avec les zones non cachées
    * @param player le joueur
    * @return le board du joueur
+   * @throws ZoneException si certaines zones ne sont pas cachées alors qu'elle devrait l'être
    */
-  public Board getBoard(int player){
-    return null;
+  public Board getBoard(int player) throws GameException{
+    Board ret = this.board.clone();
+    if(!(ret.getWallZone()).setHidden()) throw new GameException("La zone du mur n'a pas été cachée correctement.");
+    for(int i=1; i<5; i++){
+      if(i != player){
+        if(!(ret.getPlayerZone(i)).setHidden()) throw new GameException("La zone du joueur "+i+" n'a pas été cachée correctement."); 
+      }
+    }
+    return ret;
   }
   
   /**
@@ -71,7 +85,8 @@ public class Game{
    * @return la liste possible de Move
    */
   public ArrayList<Move> getPossibleMoves(){
-    return null;
+    ArrayList<Move> ret = this.rule.findValidMoves(this.board, this.lastMove);
+    return ret;
   }
   
   /**
