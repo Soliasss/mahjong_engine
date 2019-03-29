@@ -1,7 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine;
 
 /**
- * Interface representing combination of tiles (pair, chow, pung, and kung)
+ * Interface representing combination of tiles (pair, chow, pung, and kong)
  */
 public interface Combination {
     /**
@@ -32,4 +32,11 @@ public interface Combination {
     default boolean isKong(){
         return false;
     }
+    
+    /**
+     *
+     * @param tiles the tiles of the combination
+     * @return true or false if a pair, chow, pung or kung is valid
+     */
+    public boolean isValid(GameTile[] tiles);
 }
