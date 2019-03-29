@@ -13,14 +13,14 @@ import java.util.UUID;
  */
 public class Move implements Serializable, Cloneable, UniqueIdentifiable {
 
-    private final int player;
+    private final Side side;
     private final int priority;
     private final HashMap<Integer, TileZone> path;
     private final UUID uuid;
 
     /**
      *
-     * @param player Le nombre qui représente le numéro du joueur qui effectue
+     * @param side Le nombre qui représente le numéro du joueur qui effectue
      * le Move
      * @param priority La priorité du Move par rapport à d'autre Move (0 est la
      * plus grosse priorité, n est la moins grosse priorité)
@@ -31,11 +31,8 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
      * @throws fr.univubs.inf1603.mahjong.engine.MoveException
      */
     @ConstructorProperties({"player", "priority", "path", "uuid"})
-    public Move(int player, int priority, HashMap<Integer, TileZone> path, UUID uuid) throws MoveException {
-        if (player <= 0 || player > 4) {
-            throw new MoveException("The player's number has to be between 1 and 4.");
-        }
-        this.player = player;
+    public Move(Side side, int priority, HashMap<Integer, TileZone> path, UUID uuid) throws MoveException {
+        this.side = side;
 
         if (priority < 0) {
             throw new MoveException("The priority has to be positive or O");
@@ -50,17 +47,17 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
         this.uuid = uuid;
     }
 
-    public Move(int player, int priority, HashMap<Integer, TileZone> path) throws MoveException {
-        this(player, priority, path, UUID.randomUUID());
+    public Move(Side side, int priority, HashMap<Integer, TileZone> path) throws MoveException {
+        this(side, priority, path, UUID.randomUUID());
     }
 
     /**
-     * Retourne le numéro du joueur associé au Move
+     * Retourne le coté du joueur associé au Move
      *
-     * @return player
+     * @return side
      */
-    public int getPlayer() {
-        return this.player;
+    Side getSide() {
+        return this.side;
     }
 
     /**
@@ -81,12 +78,11 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
         return this.path;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public UUID getUUID() {
         return this.uuid;
     }
+}
+enum Side {
+    EAST,SOUTH,WEST,NORTH;
 }

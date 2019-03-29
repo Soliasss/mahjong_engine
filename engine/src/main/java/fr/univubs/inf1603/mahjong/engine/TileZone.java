@@ -1,6 +1,8 @@
 package fr.univubs.inf1603.mahjong.engine;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,10 +11,12 @@ import java.util.UUID;
  *
  * @author COGOLUEGNES Charles
  */
-public class TileZone extends GameZone implements UniqueIdentifiable {
+public class TileZone extends GameZone implements Serializable, Cloneable{
 
-    protected ArrayList<GameTile> content;
-    private final UUID uuid;
+    /**
+     * La liste des tuiles contenus dans la zone.
+     */
+    protected ArrayList<GameTile> tileList;
 
     /**
      * Le constructeur de TileZone prenant le nom et la liste de tuiles en
@@ -21,16 +25,15 @@ public class TileZone extends GameZone implements UniqueIdentifiable {
      * @param name Le nom de la TileZone
      * @param content la liste des tuiles
      * @param isHiddable Si la zone est cachable
-     * @param uuid
+     * @param uuid l identifiant unique de la zone de tuile
      * @throws ZoneException Si la liste des tuiles est null
      */
     public TileZone(String name, ArrayList<GameTile> content, boolean isHiddable,UUID uuid) throws ZoneException {
-        super(name, isHiddable);
+        super(uuid, name, isHiddable);
         if (content == null) {
             throw new ZoneException("La liste de tuiles ne peut pas être null.");
         }
-        this.content = new ArrayList(content);
-        this.uuid = uuid;
+        this.tileList = new ArrayList<>(content);
     }
 
     /**
@@ -38,67 +41,27 @@ public class TileZone extends GameZone implements UniqueIdentifiable {
      *
      * @param name Le nom de la TileZone
      * @param isHiddable Si la zone est cachable
-     * @param uuid
+     * @param uuid l identifiant unique de la zone de tuile
      */
     public TileZone(String name, boolean isHiddable,UUID uuid) {
-        super(name, isHiddable);
-        this.content = new ArrayList<GameTile>();
-        this.uuid = uuid;
+        super(uuid, name, isHiddable);
+        this.tileList = new ArrayList<>();
     }
 
+    /**
+     * Le constructeur de TileZone prenant que le nom et le fait que la zone soit cachable en paramètre
+     *
+     * @param name Le nom de la TileZone
+     * @param isHiddable Si la zone est cachable
+     */
     public TileZone(String name, boolean isHiddable) {
-        super(name, isHiddable);
-        this.content = new ArrayList<GameTile>();
-        this.uuid = UUID.randomUUID();
-    }
-    
-
-    /**
-     * Permet d'ajouter une tuile dans la liste
-     *
-     * @param tile La tuile à ajouter
-     * @return si la tuile à été ajoutée correctement
-     */
-    public boolean add(GameTile tile) {
-        boolean ret = this.content.add(tile);
-        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
-        return ret;
+        super(UUID.randomUUID(), name, isHiddable);
+        this.tileList = new ArrayList<GameTile>();
     }
 
     @Override
-    public ArrayList getContent() {
-        return this.content;
-    }
-
-    @Override
-    public void setContent(ArrayList<? extends GameElement> content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean add(GameElement GameElt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean remove(GameElement GameElt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public GameZone clone() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * Permet de retirer une tuile dans la liste
-     *
-     * @param tile La tuile à retirer
-     * @return si la tuile à été retirée correctement
-     */
-    public boolean remove(GameTile tile) {
-        boolean ret = this.content.remove(tile);
-        propertyChangeSupport.firePropertyChange("content", this.content, this.content);
+    public GameZone getClone() throws ZoneException{
+        TileZone ret = new TileZone(this.getName(), this.tileList, this.hideable, UUID.randomUUID());
         return ret;
     }
 
@@ -109,7 +72,7 @@ public class TileZone extends GameZone implements UniqueIdentifiable {
         }
         if (this.hideable) {
             this.hidden = true;
-            for (GameTile gt : this.content) {
+            for (GameTile gt : this.tileList) {
                 if (gt.getTile() != HiddenTile.HIDDENTILE) {
                     gt.setTile(HiddenTile.HIDDENTILE);
                 }
@@ -119,9 +82,66 @@ public class TileZone extends GameZone implements UniqueIdentifiable {
     }
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
 
     @Override
-    public UUID getUUID() {
-        return this.uuid;
+    public ArrayList<GameZone> getZones() throws ZoneException{
+        throw new ZoneException("Impossible d'avoir une liste de zone dans cette zone de tuiles.");
+    }
+
+    @Override
+    public ArrayList<GameTile> getTiles() throws ZoneException {
+        return this.tileList;
+    }
+
+    @Override
+    public void setZones(ArrayList<GameZone> zones) throws ZoneException {
+        throw new ZoneException("Impossible de modifier la liste de tuiles en liste de zones.");
+    }
+
+    @Override
+    public void setTiles(ArrayList<GameTile> tiles) throws ZoneException {
+        ArrayList oldValue = this.tileList;
+        this.tileList = new ArrayList(tiles);
+        propertyChangeSupport.firePropertyChange("content", oldValue, this.tileList);
+    }
+
+    @Override
+    public boolean addZone(GameZone zone) throws ZoneException {
+        throw new ZoneException("Impossible d'ajouter une zone dans une liste de tuiles.");
+    }
+
+    @Override
+    public boolean removeZone(GameZone zone) throws ZoneException {
+        throw new ZoneException("Impossible de retirer une zone dans une liste de tuiles.");
+    }
+
+    @Override
+    public boolean addTile(GameTile tile) throws ZoneException {
+        boolean ret = this.tileList.add(tile);
+        propertyChangeSupport.firePropertyChange("content", this.tileList, this.tileList);
+        return ret;
+    }
+
+    @Override
+    public boolean removeTile(GameTile tile) throws ZoneException {
+        boolean ret = this.tileList.remove(tile);
+        propertyChangeSupport.firePropertyChange("content", this.tileList, this.tileList);
+        return ret;
     }
 }

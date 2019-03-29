@@ -1,92 +1,79 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine;
 
-import java.util.List;
+import java.util.ArrayDeque;
 
 /**
+ * StartingWall : class can be usefull if we need to display where the breach is formed on the wall
  *
  * @author Abdelilah MOULIDA
  */
-
-/**
- * 
- * StartingWall : class can be usefull if we need to display where the breach is formed on the wall
- */
-public class StartingWall 
+public class StartingWall
 {
     /**
-     * Variables :
+     * side of the wall where the breach is made
      */
-    private int startingSide;
-    private int startingHeap;
-    private List<GameTile> cut;
-    
+    private Side startingSide;
     /**
-     * 
-     * @param startingSide
-     * @param startingHeap
-     * @param cut 
+     * heap of the wall where the breach is made
      */
-    StartingWall(int startingSide, int startingHeap, List<GameTile>cut)
-    {
+    private int startingHeap;
+    /**
+     * {@link ArrayDeque} representing the tiles in the wall, we chose a deque because
+     * drawing from the back of the wall is possible
+     */
+    private ArrayDeque<GameTile> cut;
+
+    /**
+     * Constructor of the object,
+     * @param startingSide side of the wall where the breach is made
+     * @param startingHeap heap of the wall where the breach is made
+     * @param cut {@link ArrayDeque} representing the tiles in the wall
+     */
+    StartingWall(Side startingSide, int startingHeap, ArrayDeque<GameTile>cut) {
         this.startingSide = startingSide;
         this.startingHeap = startingHeap;
-        this.cut = cut;
+        this.cut = new ArrayDeque<>(cut);
     }
-    
+
     /**
-     * getters and setters
+     * @return the starting side
      */
-    
-    /**
-     * return the starting side
-     * @return 
-     */
-    public int getStartingSide() {
+    public Side getStartingSide() {
         return startingSide;
     }
-    
+
     /**
-     * return the starting heap
-     * @return 
+     * @return the starting heap
      */
     public int getStartingHeap() {
         return startingHeap;
     }
-    
+
     /**
-     * return the cut
-     * @return 
+     * @return the cut
      */
-    public List<GameTile> getCut() {
+    public ArrayDeque<GameTile> getCut() {
         return cut;
     }
-    
+
     /**
-     * modify the starting side
-     * @param startingSide 
+     * @param startingSide the starting side to modify
      */
-    public void setStartingSide(int startingSide) {
+    public void setStartingSide(Side startingSide) {
         this.startingSide = startingSide;
     }
-    
+
     /**
-     * modify the starting heap
-     * @param startingHeap 
+     * @param startingHeap the starting heap to modify
      */
     public void setStartingHeap(int startingHeap) {
         this.startingHeap = startingHeap;
     }
-    
+
     /**
-     * modify the cut
-     * @param cut 
+     * @param cut the cut to modify
      */
-    public void setCut(List<GameTile> cut) {
-        this.cut = cut;
+    public void setCut(ArrayDeque<GameTile> cut) {
+        this.cut = new ArrayDeque<>(cut);
     }
 }

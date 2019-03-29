@@ -1,6 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine;
 
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,19 +8,16 @@ import java.util.UUID;
  * @author COGOLUEGNES Charles
  */
 public class MeldZone extends TileZone{
-  private final Meld name;
-
     /**
      * Le constructeur de MeldZone
      * @param name Le nom de la MeldZone (un Meld)
      * @param content La TileZone
      * @param isHiddable Si la zone est cachable
-     * @param uuid
+     * @param uuid l identifiant unique de la zone de combo
      * @throws ZoneException si le content est null
      */
   public MeldZone(Meld name, ArrayList<GameTile> content, boolean isHiddable,UUID uuid) throws ZoneException{
     super(name.toString(), content, isHiddable,uuid);
-    this.name = name;
   }
 
   /**
@@ -30,24 +26,21 @@ public class MeldZone extends TileZone{
    * @param newMeld Le nouveau combo
    * @return si la tuile à été ajoutée correctement
    */
-  public boolean add(GameTile tile, Meld newMeld){
-    boolean ret = this.content.add(tile);
+  public boolean addTile(GameTile tile, Meld newMeld) throws ZoneException{
+    boolean ret = super.addTile(tile);
     if(ret) this.setName(newMeld.toString());
     return ret;
   }
 
   /**
-   * Permet dde retirer une tuile dans la liste, le meld sera donc modifié
+   * Permet de retirer une tuile dans la liste, le meld sera donc modifié
    * @param tile La tuile à retirer
    * @param newMeld Le nouveau combo
    * @return si la tuile à été retirée correctement
    */
-  public boolean remove(GameTile tile, Meld newMeld){
-    boolean ret = this.content.remove(tile);
-    propertyChangeSupport.firePropertyChange("content", this.content, this.content);
+  public boolean removeTile(GameTile tile, Meld newMeld) throws ZoneException{
+    boolean ret = super.removeTile(tile);
     if(ret) this.setName(newMeld.toString());
     return ret;
   }
-  private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
 }

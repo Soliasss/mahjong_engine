@@ -21,6 +21,7 @@ public class CommonTile extends ComplexTile{
             return this.symbol;
         }
     }
+
     /**
      * Possible numbers of simple tiles
      */
