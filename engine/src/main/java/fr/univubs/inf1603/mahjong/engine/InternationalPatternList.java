@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine;
 
 import java.util.Collection;
+import java.util.Vector;
 
 /**
  * Implementation of the {@link AbstractPatternList} for the international ruleset.
@@ -44,7 +45,8 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                return null;
+                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                return toReturn;
             }
         },
         BIG_THREE_DRAGONS {
