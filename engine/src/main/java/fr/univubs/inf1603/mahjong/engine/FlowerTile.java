@@ -9,8 +9,7 @@ public class FlowerTile extends SupremeHonor{
      * Symbol used to represent seasons during normalized naming
      */
     private static final char FLOWER_SYMBOL='F';
-    
-    
+
     /**
      * Possible flowers of flower tiles
      */

@@ -28,6 +28,7 @@ public class InternationalPatternList implements AbstractPatternList {
         return InternationalPatterns.values();
     }
 
+    @Override
     public IdentifiablePattern getPattern(String name) {
         return InternationalPatterns.valueOf(name);
     }
