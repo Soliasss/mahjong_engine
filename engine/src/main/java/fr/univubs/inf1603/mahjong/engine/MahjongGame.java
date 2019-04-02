@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Cette classe permet de représenter une partie de Mahjong
  * @author COGOLUEGNES Charles
  */
-public class Game{
+public class MahjongGame{
   private HashMap<Integer,Wind> listPlayers;
   private GameRule rule;
   private boolean finish;
@@ -18,7 +18,7 @@ public class Game{
    * @param rule La règle qui va être jouée
    * @throws GameException si la règle est null
    */
-  public Game(GameRule rule) throws GameException{
+  public MahjongGame(GameRule rule) throws GameException{
     if(rule == null) throw new GameException("Le règle ne peut pas être null.");
     this.rule = rule;
     this.lastMove = null;
