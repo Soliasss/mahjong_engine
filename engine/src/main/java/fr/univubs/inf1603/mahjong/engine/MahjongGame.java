@@ -1,12 +1,15 @@
 package fr.univubs.inf1603.mahjong.engine;
 
+import fr.univubs.inf1603.mahjong.dao.Persistable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Cette classe permet de représenter une partie de Mahjong
  * @author COGOLUEGNES Charles
  */
-public class MahjongGame{
+public class MahjongGame implements Persistable{
+  private UUID uuid;
   private HashMap<Integer,Wind> listPlayers;
   private GameRule rule;
   private boolean finish;
@@ -24,6 +27,15 @@ public class MahjongGame{
     this.lastMove = null;
     this.finish = false;
     this.board = null;
+    this.uuid = UUID.randomUUID();
+  }
+  
+  /**
+   * Retourne l'UUID de la partie
+   * @return uuid
+   */
+  public UUID getUUID(){
+    return this.uuid; 
   }
   
   /**
