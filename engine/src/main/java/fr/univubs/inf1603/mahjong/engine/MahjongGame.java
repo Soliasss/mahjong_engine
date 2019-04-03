@@ -2,7 +2,10 @@ package fr.univubs.inf1603.mahjong.engine;
 
 import fr.univubs.inf1603.mahjong.dao.Persistable;
 import java.util.ArrayList;
+import java.util;HashMap;
 import java.util.UUID;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Cette classe permet de représenter une partie de Mahjong
