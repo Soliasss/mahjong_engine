@@ -1,5 +1,8 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.GameTile;
+import fr.univubs.inf1603.mahjong.engine.Meld;
+import fr.univubs.inf1603.mahjong.engine.ZoneException;
 import java.util.ArrayList;
 import java.util.UUID;
 
