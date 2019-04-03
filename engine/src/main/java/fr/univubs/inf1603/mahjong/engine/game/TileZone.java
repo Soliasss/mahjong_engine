@@ -99,47 +99,41 @@ public class TileZone extends GameZone implements Serializable, Cloneable{
         propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
     }
 
-    @Override
-    public ArrayList<GameZone> getZones() throws ZoneException{
-        throw new ZoneException("Impossible d'avoir une liste de zone dans cette zone de tuiles.");
-    }
-
-    @Override
-    public ArrayList<GameTile> getTiles() throws ZoneException {
+    /**
+     * Permet de retourner la liste de GameTile
+     * @return la liste de GameTile
+     */
+    public ArrayList<GameTile> getTiles() {
         return this.tileList;
     }
 
-    @Override
-    public void setZones(ArrayList<GameZone> zones) throws ZoneException {
-        throw new ZoneException("Impossible de modifier la liste de tuiles en liste de zones.");
-    }
-
-    @Override
-    public void setTiles(ArrayList<GameTile> tiles) throws ZoneException {
+    /**
+     * Permet de modifier la liste de GameTile
+     * @param tiles La liste de tuiles
+     */
+    public void setTiles(ArrayList<GameTile> tiles) {
         ArrayList oldValue = this.tileList;
         this.tileList = new ArrayList(tiles);
         propertyChangeSupport.firePropertyChange("content", oldValue, this.tileList);
     }
 
-    @Override
-    public boolean addZone(GameZone zone) throws ZoneException {
-        throw new ZoneException("Impossible d'ajouter une zone dans une liste de tuiles.");
-    }
-
-    @Override
-    public boolean removeZone(GameZone zone) throws ZoneException {
-        throw new ZoneException("Impossible de retirer une zone dans une liste de tuiles.");
-    }
-
-    @Override
-    public boolean addTile(GameTile tile) throws ZoneException {
+    /**
+     * Permet d'ajouter une tuile dans la liste
+     * @param tile La tuile à ajouter
+     * @return si la tuile à été ajoutée correctement
+     */
+    public boolean addTile(GameTile tile) { 
         boolean ret = this.tileList.add(tile);
         propertyChangeSupport.firePropertyChange("content", this.tileList, this.tileList);
         return ret;
     }
 
-    @Override
-    public boolean removeTile(GameTile tile) throws ZoneException {
+    /**
+     * Permet de retirer une tuile dans la liste
+     * @param tile La tuile à retirer
+     * @return si la tuile à été retirée correctement
+     */
+    public boolean removeTile(GameTile tile) {
         boolean ret = this.tileList.remove(tile);
         propertyChangeSupport.firePropertyChange("content", this.tileList, this.tileList);
         return ret;

@@ -39,63 +39,7 @@ public abstract class GameZone implements UniqueIdentifiable{
         this.hidden = false;
         this.hideable = hideable;
     }
-    
-    /**
-     * Permet de retourner la liste de GameZone
-     * @return la liste de GameZone
-     * @throws ZoneException Si la GameZone ne peut pas retourner une liste de zones
-     */
-    public abstract ArrayList<GameZone> getZones() throws ZoneException;
-    
-    /**
-     * Permet de retourner la liste de GameTile
-     * @return la liste de GameTile
-     * @throws ZoneException Si la GameZone ne peut pas retourner une liste de tuiles
-     */
-    public abstract ArrayList<GameTile> getTiles() throws ZoneException;
-    
-    /**
-     * Permet de modifier la liste de GameZone
-     * @param zones La liste de zones
-     * @throws ZoneException Si la GameZone ne peut pas modifer sa liste par une liste de zones
-     */
-    public abstract void setZones(ArrayList<GameZone> zones) throws ZoneException;
-    
-    /**
-     * Permet de modifier la liste de GameTile
-     * @param tiles La liste de tuiles
-     * @throws ZoneException Si la GameZone ne peut pas modifer sa liste par une liste de tuiles
-     */
-    public abstract void setTiles(ArrayList<GameTile> tiles) throws ZoneException;
-    
-    /**
-     * Permet d'ajouter une zone dans la liste
-     * @param zone La zone à ajouter
-     * @return si la zone a correctement été ajoutée
-     */
-    public abstract boolean addZone(GameZone zone) throws ZoneException;
-    
-    /**
-     * Permet de retirer une zone dans la liste
-     * @param zone La zone à retirer
-     * @return si la zone a correctement été retirée
-     */
-    public abstract boolean removeZone(GameZone zone) throws ZoneException;
-    
-    /**
-     * Permet d'ajouter une tuile dans la liste
-     * @param tile La tuile à ajouter
-     * @return si la tuile à été ajoutée correctement
-     */
-    public abstract boolean addTile(GameTile tile) throws ZoneException;
-    
-    /**
-     * Permet de retirer une tuile dans la liste
-     * @param tile La tuile à retirer
-     * @return si la tuile à été retirée correctement
-     */
-    public abstract boolean removeTile(GameTile tile) throws ZoneException;
-    
+     
     /**
      * Retourne si la zone est cachée
      * @return si la zone est cachée

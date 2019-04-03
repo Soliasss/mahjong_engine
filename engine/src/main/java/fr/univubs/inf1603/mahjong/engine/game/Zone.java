@@ -112,49 +112,40 @@ public class Zone extends GameZone implements Serializable, Cloneable{
         propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
     }
 
-    @Override
+    /**
+     * Permet de retourner la liste de GameZone
+     * @return la liste de GameZone
+     */
     public ArrayList<GameZone> getZones() {
         return this.zoneList;
     }
 
-    @Override
-    public ArrayList<GameTile> getTiles() throws ZoneException {
-        throw new ZoneException("Impossible d'avoir une liste de tuiles sur cette zone.");
-    }
-
-    @Override
-    public void setZones(ArrayList<GameZone> zones) throws ZoneException {
+    /**
+     * Permet de modifier la liste de GameZone
+     * @param zones La liste de zones
+     */
+    public void setZones(ArrayList<GameZone> zones) {
         ArrayList oldValue = this.zoneList;
         this.zoneList = new ArrayList(zones);
         propertyChangeSupport.firePropertyChange("content", oldValue, this.zoneList);
     }
 
-    @Override
-    public void setTiles(ArrayList<GameTile> tiles) throws ZoneException {
-        throw new ZoneException("Impossible de modifier la liste de zone en liste de tuiles.");
-    }
-
-    @Override
-    public boolean addZone(GameZone zone) throws ZoneException {
+    /**
+     * Permet d'ajouter une zone dans la liste
+     * @param zone La zone à ajouter
+     * @return si la zone a correctement été ajoutée
+     */
+    public boolean addZone(GameZone zone) {
         boolean ret = this.zoneList.add(zone);
         propertyChangeSupport.firePropertyChange("content", this.zoneList, this.zoneList);
         return ret;
     }
 
-    @Override
-    public boolean removeZone(GameZone zone) throws ZoneException {
+   
+    public boolean removeZone(GameZone zone) {
         boolean ret = this.zoneList.remove(zone);
         propertyChangeSupport.firePropertyChange("content", this.zoneList, this.zoneList);
         return ret;
     }
 
-    @Override
-    public boolean addTile(GameTile tile) throws ZoneException {
-        throw new ZoneException("Impossible d'ajouter une tuile dans une liste de zones."); 
-    }
-
-    @Override
-    public boolean removeTile(GameTile tile) throws ZoneException {
-        throw new ZoneException("Impossible de retirer une tuile dans une liste de zones."); 
-    }
 }
