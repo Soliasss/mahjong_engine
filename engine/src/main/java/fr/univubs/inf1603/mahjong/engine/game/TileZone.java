@@ -1,9 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.GameTile;
-import fr.univubs.inf1603.mahjong.engine.GameZone;
 import fr.univubs.inf1603.mahjong.engine.HiddenTile;
-import fr.univubs.inf1603.mahjong.engine.ZoneException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;

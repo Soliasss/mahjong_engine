@@ -1,5 +1,6 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.game.Zone;
 import java.util.HashMap;
 import java.util.UUID;
 

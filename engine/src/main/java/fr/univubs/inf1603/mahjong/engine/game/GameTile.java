@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.game;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
