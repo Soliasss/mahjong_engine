@@ -1,6 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.Meld;
 import java.util.ArrayList;
 import java.util.UUID;
 

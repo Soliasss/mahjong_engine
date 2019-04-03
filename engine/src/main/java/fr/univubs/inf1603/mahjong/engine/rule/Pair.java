@@ -1,27 +1,29 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.rule;
+
+import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
 /**
- * This class validates if we have a kong in the player's hand and of he's valid
+ *
  * @author anton
  */
-public class Kong implements Combination{
-    private GameTile[] tiles;
+public class Pair implements Combination{
 
-    public Kong(GameTile[] tiles) throws Exception{
+    private GameTile[] tiles;
+    
+    public Pair(GameTile[] tiles) throws Exception{
         if(isValid(tiles)){
             this.tiles = tiles;
         } else {
-            throw new Exception("Kong non valide");
+            throw new Exception("Pair non valide");
         }
     }
-    
     @Override
     public GameTile[] getTiles() {
         return this.tiles;
     }
 
     @Override
-    public boolean isKong() {
+    public boolean isPair() {
         return true;
     }
 

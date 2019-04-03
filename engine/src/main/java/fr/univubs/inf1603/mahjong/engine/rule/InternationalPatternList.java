@@ -1,7 +1,7 @@
-package fr.univubs.inf1603.mahjong.engine.scoring;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.AbstractPatternList;
-import fr.univubs.inf1603.mahjong.engine.PlayerSet;
+import fr.univubs.inf1603.mahjong.engine.rule.AbstractPatternList;
+import fr.univubs.inf1603.mahjong.engine.rule.PlayerSet;
 import java.util.Collection;
 
 /**

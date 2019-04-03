@@ -1,5 +1,7 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
+import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+import fr.univubs.inf1603.mahjong.engine.game.Side;
 import java.util.ArrayDeque;
 
 /**

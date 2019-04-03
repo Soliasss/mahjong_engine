@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * PlayerSet represents the state of all tiles a player has; including the player's hand, tiles set down, winds from the round 
@@ -7,6 +7,7 @@ package fr.univubs.inf1603.mahjong.engine;
  * @author Pierre Guriel--Fardel, Anton Cosnefroy
  */
 
+import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import java.util.ArrayList;
 import java.util.Collection;
 

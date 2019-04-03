@@ -1,6 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.GameRule;
+import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import java.util.ArrayList;
 
 /**

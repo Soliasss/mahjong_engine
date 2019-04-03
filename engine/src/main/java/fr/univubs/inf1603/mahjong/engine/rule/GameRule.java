@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * Grouping interface for {@link ScoringSystem} and {@link BoardRule}.

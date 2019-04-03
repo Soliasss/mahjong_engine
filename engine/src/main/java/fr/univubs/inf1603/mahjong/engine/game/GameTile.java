@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.util.UUID;
  * GameTile represents a tile once in an ongoing game of mahjong.
  * @author Malléjac Clément
  */
-public class GameTile implements Serializable,Cloneable, UniqueIdentifiable
+public class GameTile implements Serializable,Cloneable, UniqueIdentifiable{
     private AbstractTile tile;
     private final int gameID;
     private final UUID uuid;

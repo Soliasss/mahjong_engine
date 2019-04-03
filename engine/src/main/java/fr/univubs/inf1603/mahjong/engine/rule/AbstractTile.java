@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine.rule.tiles;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * AbstractTile represents the concept of tile in mahjong rules.

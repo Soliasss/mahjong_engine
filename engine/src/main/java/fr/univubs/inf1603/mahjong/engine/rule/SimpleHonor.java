@@ -1,6 +1,6 @@
-package fr.univubs.inf1603.mahjong.engine.rule.tiles;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.tiles.WindHonor;
+import fr.univubs.inf1603.mahjong.engine.rule.WindHonor;
 
 /**
  * @author Anton Cosnefroy

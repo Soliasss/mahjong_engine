@@ -1,6 +1,6 @@
-package fr.univubs.inf1603.mahjong.engine.rule.tiles;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.tiles.AbstractTile;
+import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 
 /**
  * @author Anton Cosnefroy

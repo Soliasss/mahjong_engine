@@ -1,5 +1,11 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.rule;
 
+
+
+import fr.univubs.inf1603.mahjong.engine.rule.StartingWall;
+import fr.univubs.inf1603.mahjong.engine.game.Side;
+import fr.univubs.inf1603.mahjong.engine.game.Move;
+import fr.univubs.inf1603.mahjong.engine.game.TileZone;
 import java.util.Collection;
 import java.util.EnumMap;
 
