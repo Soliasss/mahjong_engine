@@ -1,5 +1,7 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.UniqueIdentifiable;
+import fr.univubs.inf1603.mahjong.engine.game.TileZone;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
      * des tuile(s). Le numéro reprente l'ID de la tuile, la TileZone est la
      * zone de jeu dans laquelle la tuile va être ajoutée
      * @param uuid
-     * @throws fr.univubs.inf1603.mahjong.engine.MoveException
+     * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
      */
     @ConstructorProperties({"player", "priority", "path", "uuid"})
     public Move(Side side, int priority, HashMap<Integer, TileZone> path, UUID uuid) throws MoveException {

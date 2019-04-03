@@ -1,5 +1,7 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.Board;
+import fr.univubs.inf1603.mahjong.engine.GameRule;
 import java.util.ArrayList;
 
 /**

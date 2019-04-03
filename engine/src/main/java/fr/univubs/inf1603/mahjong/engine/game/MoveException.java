@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine;
+package fr.univubs.inf1603.mahjong.engine.game;
 
 /**
  * Cette classe va être appellée dans Move afin de lever une exception
