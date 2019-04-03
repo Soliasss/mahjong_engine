@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine.rule;
+package fr.univubs.inf1603.mahjong.engine.scoring;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import java.util.Collection;
