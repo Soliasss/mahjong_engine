@@ -3,7 +3,7 @@ package fr.univubs.inf1603.mahjong.engine;
 import java.util.Collection;
 
 /**
- * Representation of a pattern in a hand ({@link PlayerSet})
+ * Representation of a pattern in a ({@link PlayerSet})
  */
 public class IdentifiedPattern {
     /**

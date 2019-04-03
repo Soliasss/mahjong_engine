@@ -1,10 +1,10 @@
 package fr.univubs.inf1603.mahjong.engine;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.beans.PropertyChangeListener;
 
 /**
  * Cette classe est une représentation d'une zone contenant des tuiles
@@ -33,7 +33,7 @@ public class TileZone extends GameZone implements Serializable, Cloneable{
         if (content == null) {
             throw new ZoneException("La liste de tuiles ne peut pas être null.");
         }
-        this.tileList = new ArrayList(content);
+        this.tileList = new ArrayList<>(content);
     }
 
     /**
@@ -45,7 +45,7 @@ public class TileZone extends GameZone implements Serializable, Cloneable{
      */
     public TileZone(String name, boolean isHiddable,UUID uuid) {
         super(uuid, name, isHiddable);
-        this.tileList = new ArrayList<GameTile>();
+        this.tileList = new ArrayList<>();
     }
 
     /**

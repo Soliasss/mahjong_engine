@@ -33,7 +33,7 @@ public class MeldZone extends TileZone{
   }
 
   /**
-   * Permet dde retirer une tuile dans la liste, le meld sera donc modifié
+   * Permet de retirer une tuile dans la liste, le meld sera donc modifié
    * @param tile La tuile à retirer
    * @param newMeld Le nouveau combo
    * @return si la tuile à été retirée correctement

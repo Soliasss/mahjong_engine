@@ -7,7 +7,6 @@ package fr.univubs.inf1603.mahjong.engine;
 public abstract class SupremeHonor extends WindHonor{
 
     /**
-     * 
      * @param windTile initialization of a windTile
      */
     public SupremeHonor(Wind windTile) {

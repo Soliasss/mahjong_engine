@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- *
  * @author Samuel LE BERRE, COGOLUEGNES Charles
  */
 public abstract class GameZone implements UniqueIdentifiable{

@@ -1,69 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package fr.univubs.inf1603.mahjong.engine;
-import fr.univubs.inf1603.mahjong.engine.Move;
-import fr.univubs.inf1603.mahjong.engine.TileZone;
-import fr.univubs.inf1603.mahjong.engine.Zone;
-import fr.univubs.inf1603.mahjong.sapi.*;
-import static java.nio.file.Files.move;
 
-import java.util.*;
-import javax.swing.text.View;
+import java.util.Collection;
+import java.util.EnumMap;
 
 /**
+ * BoardRule : interface to manage rules for the board
  *
  * @author Abdelilah MOULIDA
  */
+public interface BoardRule {
+    /**
+     * Roll the dice to find the order of the players
+     * @return an array of sides, each element is associated with a player (its index)
+     */
+    Side[] getPlayerOrder();
 
-/**
- * 
- * BoardRule : interface to manage rules for the board
- */
-public interface BoardRule 
-{
     /**
-     * getting player in order
-     * @param players
-     * @return 
+     * Roll the dice to build a {@link StartingWall}
+     * @return a new random starting wall
      */
-    public List<Player> getPlayerOrder (List<Player>players);
-    
+    StartingWall buildWall();
+
     /**
-     * starting the wall for the game
-     * @return 
+     * Distribute the tiles in the right {@link TileZone}
+     * @param startingWall the starting wall we are distributing from
+     * @return the tile zones filled with the distributed tiles
      */
-    public StartingWall buildWall();
-    
+    Collection<TileZone> distributeTiles(StartingWall startingWall);
+
     /**
-     * for the distribution of tiles
-     * @param startingWall
-     * @return 
+     * Check if a move is valid according to the rules in the given game state
+     * @param tileArrangement how the tiles are on the board, part of the game state
+     * @param lastMove the last move played, part of the game state
+     * @param move the move we need to check for validity
+     * @return true if the move is valid, false otherwise
      */
-    public Map<GameTile, TileZone> distributeTiles(StartingWall startingWall);
-    
+    boolean isMoveValid(Collection<TileZone> tileArrangement, Move lastMove, Move move);
+
     /**
-     * check if the move done is respect rules or no
-     * @param tileArrangement
-     * @param move
-     * @return 
+     * Give all the valid move for each {@link Side} according to the rules in the given game state
+     * @param tileArrangement how the tiles are on the board, part of the game state
+     * @param lastMove the last move played, part of the game state
+     * @return the moves for each side
      */
-    public boolean isMoveValid(Map<GameTile, TileZone> tileArrangement, Move move);
-    
+    EnumMap<Side, Move> findValidMoves(Collection<TileZone> tileArrangement, Move lastMove);
+
     /**
-     * show possible moves that respect rules
-     * @param tileArrangement
-     * @return 
+     * Check from a given game state if the game can/should end.
+     * @param tileArrangement the "game state", how the tiles are on the board
+     * @param lastMove the last move played, part of the game state
+     * @return true if the game can/should end.
      */
-    public List<Move> findValidMoves(Map<GameTile, TileZone> tileArrangement);
-    
-    /**
-     * checking if the game is finish and return a boolean
-     * @param tileArrangement
-     * @return 
-     */
-    public boolean isGameFinished(Map<GameTile, TileZone> tileArrangement);
+    boolean isGameFinished(Collection<TileZone> tileArrangement, Move lastMove);
 }
