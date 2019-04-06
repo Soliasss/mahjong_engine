@@ -8,7 +8,7 @@ import java.util.UUID;
  * Cette classe permet de représenter une partie de Mahjong
  * @author COGOLUEGNES Charles
  */
-public class MahjongGame implements Persistable{
+public class MahjongGame{
   private UUID uuid;
   private HashMap<Integer,Side> listPlayers;
   private GameRule rule;
