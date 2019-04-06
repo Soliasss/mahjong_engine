@@ -3,7 +3,6 @@ package fr.univubs.inf1603.mahjong.engine.game;
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * 
@@ -28,7 +27,7 @@ public interface Game extends Persistable {
      * @return une map faisant correspondance entre le numéro du joueur et le
      * vent
      */
-    public HashMap<Integer, Side> launchGame();
+    public Side[] launchGame();
 
     /**
      * Ajoute un Move qui sera (ou non), effectué en fonction du context actuel (timing, validité, ...)
@@ -47,7 +46,7 @@ public interface Game extends Persistable {
     public boolean isFinish();
 
     /**
-     * Retourne un Board en fonction du joueur, si joueur=0 alors retourne le
+     * Retourne un Board en fonction du numero du joueur, si joueur est différent de 0,1,2 ou 3 alors retourne le
      * Board en entier avec les zones non cachées
      *
      * @param player le joueur
@@ -55,7 +54,7 @@ public interface Game extends Persistable {
      * @throws ZoneException si certaines zones ne sont pas cachées alors
      * qu'elle devrait l'être
      */
-    public Board getBoard(int player) throws GameException;
+    public Board getBoardView(int player) throws GameException;
 
     /**
      * Retourne le nombre de points d'un joueur à un instant t

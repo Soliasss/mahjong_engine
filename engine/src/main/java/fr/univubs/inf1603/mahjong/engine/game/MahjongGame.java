@@ -4,7 +4,6 @@ import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -14,8 +13,7 @@ import java.util.UUID;
  */
 public class MahjongGame implements Game {
 
-    private UUID uuid;
-    private HashMap<Integer, Side> listPlayers;
+    private Side[] listPlayers;
     private GameRule rule;
     private boolean finish;
     private Move lastMove;
@@ -25,7 +23,8 @@ public class MahjongGame implements Game {
     private Duration playingTime;
     
     private ArrayList<Move> registeredMoves;
-
+    private UUID uuid;
+    
     public MahjongGame(GameRule rule) throws GameException {
         if (rule == null) {
             throw new GameException("Le règle ne peut pas être null.");
@@ -38,10 +37,10 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public HashMap<Integer, Side> launchGame() {
-        HashMap<Integer, Side> ret = this.rule.getPlayersOrder();
+    public Side[] launchGame() {
+        this.listPlayers = this.rule.getPlayersOrder();
         this.board = this.rule.initBoard();
-        return ret;
+        return listPlayers;
     }
 
     @Override
@@ -55,18 +54,9 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public Board getBoard(int player) throws GameException {
+    public Board getBoardView(int player) throws GameException {
         Board ret = this.board.clone();
-        if (!(ret.getWallZone()).setHidden()) {
-            throw new GameException("La zone du mur n'a pas été cachée correctement.");
-        }
-        for (int i = 1; i < 5; i++) {
-            if (i != player) {
-                if (!(ret.getPlayerZone(i)).setHidden()) {
-                    throw new GameException("La zone du joueur " + i + " n'a pas été cachée correctement.");
-                }
-            }
-        }
+        
         return ret;
     }
 
