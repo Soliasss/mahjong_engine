@@ -1,6 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.game.TileZone;
+import fr.univubs.inf1603.mahjong.engine.persistence.UniqueIdentifiable;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -83,7 +83,4 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
     public UUID getUUID() {
         return this.uuid;
     }
-}
-enum Side {
-    EAST,SOUTH,WEST,NORTH;
 }

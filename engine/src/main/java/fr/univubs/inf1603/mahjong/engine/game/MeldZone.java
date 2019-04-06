@@ -25,6 +25,7 @@ public class MeldZone extends TileZone{
    * @param tile La tuile à ajouter
    * @param newMeld Le nouveau combo
    * @return si la tuile à été ajoutée correctement
+   * @throws fr.univubs.inf1603.mahjong.engine.game.ZoneException
    */
   public boolean addTile(GameTile tile, Meld newMeld) throws ZoneException{
     boolean ret = super.addTile(tile);
@@ -37,6 +38,7 @@ public class MeldZone extends TileZone{
    * @param tile La tuile à retirer
    * @param newMeld Le nouveau combo
    * @return si la tuile à été retirée correctement
+     * @throws fr.univubs.inf1603.mahjong.engine.game.ZoneException
    */
   public boolean removeTile(GameTile tile, Meld newMeld) throws ZoneException{
     boolean ret = super.removeTile(tile);
