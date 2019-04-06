@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.persistence.UniqueIdentifiable;
 import fr.univubs.inf1603.mahjong.engine.game.TileZone;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;

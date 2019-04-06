@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.persistence.UniqueIdentifiable;
 import fr.univubs.inf1603.mahjong.engine.game.ZoneException;
 import java.util.ArrayList;
 import java.util.UUID;
