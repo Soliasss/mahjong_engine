@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -8,7 +9,7 @@ import java.util.UUID;
  * Cette classe permet de représenter une partie de Mahjong
  * @author COGOLUEGNES Charles
  */
-public class MahjongGame{
+public class MahjongGame implements Game{
   private UUID uuid;
   private HashMap<Integer,Side> listPlayers;
   private GameRule rule;
@@ -108,4 +109,10 @@ public class MahjongGame{
   public Game clone(){
     return null;
   }
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    @Override
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
+    }
 }

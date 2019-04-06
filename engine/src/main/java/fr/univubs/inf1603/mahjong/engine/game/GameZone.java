@@ -1,14 +1,12 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.persistence.UniqueIdentifiable;
-import fr.univubs.inf1603.mahjong.engine.game.ZoneException;
-import java.util.ArrayList;
+import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import java.util.UUID;
 
 /**
  * @author Samuel LE BERRE, COGOLUEGNES Charles
  */
-public abstract class GameZone implements UniqueIdentifiable{
+public abstract class GameZone implements Persistable{
     private final UUID uuid;
     private String name;
     protected boolean hidden;    
@@ -52,7 +50,7 @@ public abstract class GameZone implements UniqueIdentifiable{
     /**
      * Permet de configurer l'attribut hidden, rendant la zone cachée ainsi que toutes les zones filles
      * @return si la zone a bien été cachée
-     * @throws fr.univubs.inf1603.mahjong.engine.ZoneException
+     * @throws fr.univubs.inf1603.mahjong.engine.game.ZoneException
      */
     public abstract boolean setHidden() throws ZoneException;
     
