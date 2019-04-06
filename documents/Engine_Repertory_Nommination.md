@@ -9,27 +9,22 @@ We will separate Objects from Exceptions and Tiles from Zones
 ```
 engine  
 │
-└───Object
-|   └───Tiles
-|   │   |   AbstractTiles.java
-|   │   │   CommonTile.java
-|   |   |   Complex.Tile.java
-|   |   |   Flower.java
-|   |   |   GameTile.java
-|   |   |   HonorTile.java
-|   |   |   Season.java
-|   |   |   SimpleHonor.java
-|   |   |   SuperiorHonor.java
-|   |   |   WindHonor.java
-|   │   
-|   └───Zones
-|   |   │   MoneyZone.java
-|   |   │   MoneyZone.java
-|   |   │   TileZone.java
-|   |   |   Zone.java
-|   |
-|   └───Board.java
-|   └───Game.java
-└───Exceptions
-|   └───TileZoneException.java
+└───rule
+|   │   AbstractTiles.java
+|   │   CommonTile.java
+|   |   Complex.Tile.java
+|   |   Flower.java
+|   |   GameTile.java
+|   |   HonorTile.java
+|   |   Season.java
+|   |   SimpleHonor.java
+|   |   SuperiorHonor.java
+|   |   WindHonor.java
+|   
+└───game
+|   │   TileZone.java
+|   |   Zone.java
+|   |   Board.java
+|   |   Game.java
+|  
 ```
