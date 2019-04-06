@@ -2,18 +2,15 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import java.util.ArrayList;
-import java.util;HashMap;
+import java.util.HashMap;
 import java.util.UUID;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  * Cette classe permet de représenter une partie de Mahjong
  * @author COGOLUEGNES Charles
  */
 public class MahjongGame implements Persistable{
   private UUID uuid;
-  private HashMap<Integer,Wind> listPlayers;
+  private HashMap<Integer,Side> listPlayers;
   private GameRule rule;
   private boolean finish;
   private Move lastMove;
@@ -45,8 +42,8 @@ public class MahjongGame implements Persistable{
    * Permet de lancer la partie
    * @return une map faisant correspondance entre le numéro du joueur et le vent
    */
-  public Hash<Integer,Wind> launchGame(){
-    HashMap<Integer,Wind> ret = this.rule.getPlayersOrder();
+  public HashMap<Integer,Side> launchGame(){
+    HashMap<Integer,Side> ret = this.rule.getPlayersOrder();
     this.board = this.rule.initBoard();
     return ret;
   }
@@ -110,23 +107,5 @@ public class MahjongGame implements Persistable{
    */
   public Game clone(){
     return null;
-  }
-  
-  private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
-  public void addPropertyChangeListener(PropertyChangeListener listener) {
-      propertyChangeSupport.addPropertyChangeListener(listener);
-  }
-
-  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-      propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-  }
-
-  public void removePropertyChangeListener(PropertyChangeListener listener) {
-      propertyChangeSupport.removePropertyChangeListener(listener);
-  }
-
-  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-      propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
   }
 }
