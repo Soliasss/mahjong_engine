@@ -5,5 +5,5 @@ package fr.univubs.inf1603.mahjong.engine.game;
  * @author purpl
  */
 public enum Side {
-    EAST,SOUTH,WEST,NORTH;
+    EAST,SOUTH,WEST,NORTH,NONE;
 }

@@ -2,117 +2,114 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import java.beans.PropertyChangeSupport;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+
 /**
  * Cette classe permet de représenter une partie de Mahjong
+ *
  * @author COGOLUEGNES Charles
  */
-public class MahjongGame implements Game{
-  private UUID uuid;
-  private HashMap<Integer,Side> listPlayers;
-  private GameRule rule;
-  private boolean finish;
-  private Move lastMove;
-  private Board board;
-  
-  /**
-   * Le constructeur de Game
-   * @param rule La règle qui va être jouée
-   * @throws GameException si la règle est null
-   */
-  public MahjongGame(GameRule rule) throws GameException{
-    if(rule == null) throw new GameException("Le règle ne peut pas être null.");
-    this.rule = rule;
-    this.lastMove = null;
-    this.finish = false;
-    this.board = null;
-    this.uuid = UUID.randomUUID();
-  }
-  
-  /**
-   * Retourne l'UUID de la partie
-   * @return uuid
-   */
-  public UUID getUUID(){
-    return this.uuid; 
-  }
-  
-  /**
-   * Permet de lancer la partie
-   * @return une map faisant correspondance entre le numéro du joueur et le vent
-   */
-  public HashMap<Integer,Side> launchGame(){
-    HashMap<Integer,Side> ret = this.rule.getPlayersOrder();
-    this.board = this.rule.initBoard();
-    return ret;
-  }
-  
-  /**
-   * Permet d'effectuer un Move sur le Board
-   * @param move Le Move
-   * @return si le Move a été effectué
-   */
-  public boolean makeMove(Move move){
-    this.lastMove = move;
-    return false;
-  }
-  
-  /**
-   * Retourne si la partie est finie ou non
-   * @return si la partie est finie ou non
-   */
-  public boolean isFinish(){
-    return this.finish; 
-  }
-  
-  /**
-   * Retourne un Board en fonction du joueur, si joueur=0 alors retourne le Board en entier avec les zones non cachées
-   * @param player le joueur
-   * @return le board du joueur
-   * @throws ZoneException si certaines zones ne sont pas cachées alors qu'elle devrait l'être
-   */
-  public Board getBoard(int player) throws GameException{
-    Board ret = this.board.clone();
-    if(!(ret.getWallZone()).setHidden()) throw new GameException("La zone du mur n'a pas été cachée correctement.");
-    for(int i=1; i<5; i++){
-      if(i != player){
-        if(!(ret.getPlayerZone(i)).setHidden()) throw new GameException("La zone du joueur "+i+" n'a pas été cachée correctement."); 
-      }
+public class MahjongGame implements Game {
+
+    private UUID uuid;
+    private HashMap<Integer, Side> listPlayers;
+    private GameRule rule;
+    private boolean finish;
+    private Move lastMove;
+    private Board board;
+    
+    private Duration stealingTime;
+    private Duration playingTime;
+    
+    private ArrayList<Move> registeredMoves;
+
+    public MahjongGame(GameRule rule) throws GameException {
+        if (rule == null) {
+            throw new GameException("Le règle ne peut pas être null.");
+        }
+        this.rule = rule;
+        this.lastMove = null;
+        this.finish = false;
+        this.board = null;
+        this.uuid = UUID.randomUUID();
     }
-    return ret;
-  }
-  
-  /**
-   * Retourne le nombre de points d'un joueur à un instant t
-   * @param player Le joueur
-   * @return le nombre de points du joueur
-   */
-  public int getPlayerPoints(int player){
-    return 0;
-  }
-  
-  /**
-   * Retourne la liste possible de Move à effectuer pour tout les joueurs en fonction de l'état du Board
-   * @return la liste possible de Move
-   */
-  public ArrayList<Move> getPossibleMoves(){
-    ArrayList<Move> ret = this.rule.findValidMoves(this.board, this.lastMove);
-    return ret;
-  }
-  
-  /**
-   * Retourne un clone du jeu en cours
-   * @return un clone de Game
-   */
-  public Game clone(){
-    return null;
-  }
+
+    @Override
+    public HashMap<Integer, Side> launchGame() {
+        HashMap<Integer, Side> ret = this.rule.getPlayersOrder();
+        this.board = this.rule.initBoard();
+        return ret;
+    }
+
+    @Override
+    public void registerMove(Move move) {
+        
+    }
+
+    @Override
+    public boolean isFinish() {
+        return this.finish;
+    }
+
+    @Override
+    public Board getBoard(int player) throws GameException {
+        Board ret = this.board.clone();
+        if (!(ret.getWallZone()).setHidden()) {
+            throw new GameException("La zone du mur n'a pas été cachée correctement.");
+        }
+        for (int i = 1; i < 5; i++) {
+            if (i != player) {
+                if (!(ret.getPlayerZone(i)).setHidden()) {
+                    throw new GameException("La zone du joueur " + i + " n'a pas été cachée correctement.");
+                }
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public int getPlayerPoints(int player) {
+        return 0;
+    }
+
+    @Override
+    public ArrayList<Move> getPossibleMoves() {
+        ArrayList<Move> ret = this.rule.findValidMoves(this.board, this.lastMove);
+        return ret;
+    }
+
+    @Override
+    public Game clone() {
+        return null;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.uuid;
+    }
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
     @Override
     public PropertyChangeSupport getPropertyChangeSupport() {
         return propertyChangeSupport;
+    }
+
+    @Override
+    public Duration getStealingTime() {
+        return this.stealingTime;
+    }
+
+    @Override
+    public Duration getPlayingTime() {
+        return this.playingTime;
+    }
+
+    @Override
+    public Move getLastMove() {
+        return this.lastMove;
     }
 }

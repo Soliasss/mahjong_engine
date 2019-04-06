@@ -38,6 +38,7 @@ public class Zone extends GameZone implements Serializable, Cloneable, Persistab
      *
      * @param name Le nom de la zone
      * @param hideable Si la zone est cachable ou non
+     * @throws fr.univubs.inf1603.mahjong.engine.game.ZoneException
      */
     public Zone(String name, boolean hideable) throws ZoneException{
         this(name, hideable, false, new ArrayList<GameZone>(), UUID.randomUUID());
