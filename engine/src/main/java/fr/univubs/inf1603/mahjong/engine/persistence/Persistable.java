@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine.persistence;
 
 /**
- *
+ * This interface provides the tools for a persistency framework
  * @author purpl
  */
-public interface Persistable {
+public interface Persistable extends UniqueIdentifiable,MahjongObservable{
     
 }
