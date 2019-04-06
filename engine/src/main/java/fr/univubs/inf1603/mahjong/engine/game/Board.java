@@ -83,15 +83,6 @@ public class Board implements Persistable, Cloneable {
     }
 
     /**
-     * Allows to return an instance of the Board
-     *
-     * @return The board we want to return
-     */
-    public Board getBoard() {
-        return this;
-    }
-
-    /**
      * Allows to zone of a specified player
      *
      * @param player The player we want to get the zone
