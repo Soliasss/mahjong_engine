@@ -4,8 +4,9 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  * This class is call when we want to show an exception about rules
  * @author Anton Cosnefroy
  */
-public class RulesException {
+public class RulesException extends Exception{
     public RulesException(String msg){
+        super(msg);
         System.out.println("[Rules Exception]"+msg);
     }
     
