@@ -10,11 +10,11 @@ public class Pair implements Combination {
 
     private GameTile[] tiles;
 
-    public Pair(GameTile[] tiles) throws Exception {
+    public Pair(GameTile[] tiles) throws RulesException {
         if (isValid(tiles)) {
             this.tiles = tiles;
         } else {
-            throw new Exception("Pair non valide");
+            throw new RulesException("Invalid pair");
         }
     }
 
@@ -29,7 +29,7 @@ public class Pair implements Combination {
     }
 
     @Override
-    public boolean isValid(GameTile[] tiles) {
+    public final boolean isValid(GameTile[] tiles) {
         return tiles.length == 2
                 && tiles[0].getTile() == tiles[1].getTile();
     }
