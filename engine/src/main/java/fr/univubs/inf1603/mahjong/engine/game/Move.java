@@ -1,6 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.persistence.UniqueIdentifiable;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -12,7 +11,7 @@ import java.util.UUID;
  *
  * @author COGOLUEGNES Charles
  */
-public class Move implements Serializable, Cloneable, UniqueIdentifiable {
+public class Move implements Serializable, Cloneable {
 
     private final Side side;
     private final int priority;
@@ -77,10 +76,5 @@ public class Move implements Serializable, Cloneable, UniqueIdentifiable {
      */
     public HashMap<Integer, TileZone> getPath() {
         return this.path;
-    }
-
-    @Override
-    public UUID getUUID() {
-        return this.uuid;
     }
 }

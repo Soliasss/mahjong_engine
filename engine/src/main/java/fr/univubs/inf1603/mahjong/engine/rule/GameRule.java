@@ -1,11 +1,29 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * Grouping interface for {@link ScoringSystem} and {@link BoardRule}.
- * All rules should implement this interface since all rules have to fulfil these two contracts.
- * This choice was made because not all the methods from the both parent interfaces are needed to perform
- * simpler operations. For example, we don't need {@link BoardRule BoardRule's} methods to compute
- * the score of a hand with {@link ScoringSystem ScoringSystem's} methods. Additionally,
- * all the implementations of this interface should be singletons
+ * Interface representing the notion of a rule in its broadest sense.
+ * All rules will implement this interface.
+ * Additionally, all the implementations of this interface should be singletons
  */
-public interface GameRule extends ScoringSystem, BoardRule {}
+public interface GameRule {
+
+    /**
+     * @return the name of the rule
+     */
+    String getName();
+
+    /**
+     * @return the description of the rule
+     */
+    String getDescirption();
+
+    /**
+     * @return a reference to the {@link ScoringSystem} of the rule
+     */
+    ScoringSystem getScoringSystem();
+
+    /**
+     * @return a reference to the {@link BoardRule} of the rule
+     */
+    BoardRule getBoardRule();
+}
