@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.game.Zone;
+import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  *
  * @author Samuel LE BERRE
  */
-public class Board implements UniqueIdentifiable, Cloneable {
+public class Board implements Persistable, Cloneable {
 
     /**
      * Represents the players defined by an integer and their zone. The zone is
@@ -82,15 +83,6 @@ public class Board implements UniqueIdentifiable, Cloneable {
     }
 
     /**
-     * Allows to return an instance of the Board
-     *
-     * @return The board we want to return
-     */
-    public Board getBoard() {
-        return this;
-    }
-
-    /**
      * Allows to zone of a specified player
      *
      * @param player The player we want to get the zone
@@ -111,5 +103,11 @@ public class Board implements UniqueIdentifiable, Cloneable {
     @Override
     public UUID getUUID() {
         return this.uuid;
+    }
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    @Override
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
     }
 }

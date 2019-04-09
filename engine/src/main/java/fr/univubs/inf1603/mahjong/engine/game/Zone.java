@@ -1,6 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import java.beans.PropertyChangeListener;
+import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * @author COGOLUEGNES Charles
  */
-public class Zone extends GameZone implements Serializable, Cloneable{
+public class Zone extends GameZone implements Serializable, Cloneable, Persistable{
 
     /**
      * La liste des zones contenu dans la zone
@@ -38,6 +38,7 @@ public class Zone extends GameZone implements Serializable, Cloneable{
      *
      * @param name Le nom de la zone
      * @param hideable Si la zone est cachable ou non
+     * @throws fr.univubs.inf1603.mahjong.engine.game.ZoneException
      */
     public Zone(String name, boolean hideable) throws ZoneException{
         this(name, hideable, false, new ArrayList<GameZone>(), UUID.randomUUID());
@@ -94,24 +95,6 @@ public class Zone extends GameZone implements Serializable, Cloneable{
         return temp;
     }
 
-    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
-    }
-
     /**
      * Permet de retourner la liste de GameZone
      * @return la liste de GameZone
@@ -146,6 +129,12 @@ public class Zone extends GameZone implements Serializable, Cloneable{
         boolean ret = this.zoneList.remove(zone);
         propertyChangeSupport.firePropertyChange("content", this.zoneList, this.zoneList);
         return ret;
+    }
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    @Override
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
     }
 
 }

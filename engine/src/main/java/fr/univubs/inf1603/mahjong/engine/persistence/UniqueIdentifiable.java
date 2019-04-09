@@ -1,4 +1,4 @@
-package fr.univubs.inf1603.mahjong.engine.game;
+package fr.univubs.inf1603.mahjong.engine.persistence;
 
 import java.util.UUID;
 

@@ -68,6 +68,7 @@
 
         <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

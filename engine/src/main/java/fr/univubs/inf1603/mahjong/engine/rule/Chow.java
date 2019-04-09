@@ -13,13 +13,13 @@ public class Chow implements Combination {
     /**
      *
      * @param tiles
-     * @throws Exception
+     * @throws RulesException
      */
-    public Chow(GameTile[] tiles) throws Exception{
+    public Chow(GameTile[] tiles) throws RulesException{
         if(isValid(tiles)){
            this.tiles = tiles; 
         } else {
-            throw new Exception("Chow non valide");
+            throw new RulesException("Invalid chow");
         }
     }
     @Override
@@ -33,11 +33,10 @@ public class Chow implements Combination {
     }
     
     @Override
-    public boolean isValid(GameTile[] tiles){
-        for(int i=0; i < tiles.length; i++){
-            if( (tiles[i] == tiles[i+1]) && (tiles[i+1] == tiles[i+2]) )
-                return true;
-        }
-        return false;
+    public final boolean isValid(GameTile[] tiles){
+        //Works on the basis that the tiles are either ordered or not a Chow
+        return tiles.length==3 &&
+                tiles[1].getTile() == tiles[0].getTile().getNext() &&
+                tiles[2].getTile() == tiles[1].getTile().getNext();
     }
 }
