@@ -12,13 +12,24 @@ public interface AbstractTile {
     String toNormalizedName();
 
     /**
-     * This method is (mostly) used by {@link CommonTile} to find the tile follow the calling tile,
+     * This method is (mostly) used by {@link CommonTile} to find the tile following the calling tile,
      * this is useful to find a chow (straight of tile). Since each rule can have a different set
      * of following tiles, this method has to be overridden in the declaration of the tiles in
      * implementations of {@link GameRule}.
      * @return a reference to the following tile
      */
     default AbstractTile getNext(){
+        return null;
+    }
+
+    /**
+     * This method is (mostly) used by {@link CommonTile} to find the tile followed by the calling tile,
+     * this is useful to find a chow (straight of tile). Since each rule can have a different set
+     * of following tiles, this method has to be overridden in the declaration of the tiles in
+     * implementations of {@link GameRule}.
+     * @return a reference to the followed tile
+     */
+    default AbstractTile getPrevious(){
         return null;
     }
 }

@@ -1,8 +1,15 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
+<<<<<<< HEAD
 import fr.univubs.inf1603.mahjong.engine.game.Side;
+=======
+
+
+>>>>>>> e4d456bd939dab45a4a911556296357cd11386c3
 import fr.univubs.inf1603.mahjong.engine.game.Move;
+import fr.univubs.inf1603.mahjong.engine.game.Side;
 import fr.univubs.inf1603.mahjong.engine.game.TileZone;
+
 import java.util.Collection;
 import java.util.EnumMap;
 
