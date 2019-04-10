@@ -17,7 +17,7 @@ public class MahjongGame implements Game {
     private GameRule rule;
     private boolean finish;
     private Move lastMove;
-    private Board board;
+    private MahjongBoard board;
     
     private Duration stealingTime;
     private Duration playingTime;
@@ -54,8 +54,8 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public Board getBoardView(int player) throws GameException {
-        Board ret = this.board.clone();
+    public MahjongBoard getBoardView(int player) throws GameException {
+        MahjongBoard ret = this.board.clone();
         
         return ret;
     }
