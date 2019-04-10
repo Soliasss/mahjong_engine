@@ -15,7 +15,7 @@ public interface GameRule {
     /**
      * @return the description of the rule
      */
-    String getDescirption();
+    String getDescription();
 
     /**
      * @return a reference to the {@link ScoringSystem} of the rule
