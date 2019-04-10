@@ -30,8 +30,8 @@ public class Pair implements Combination {
 
     @Override
     public final boolean isValid(GameTile[] tiles) {
-        return tiles.length == 2
-                && tiles[0].getTile() == tiles[1].getTile();
+        return  tiles.length == 2 &&
+                tiles[0].getTile() == tiles[1].getTile();
     }
 
 }

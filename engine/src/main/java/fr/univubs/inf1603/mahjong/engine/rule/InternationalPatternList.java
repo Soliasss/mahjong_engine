@@ -12,23 +12,17 @@ import java.util.Collection;
  */
 public class InternationalPatternList implements AbstractPatternList {
 
-    private static InternationalPatternList INSTANCE = new InternationalPatternList();
-//    private int maxPoint = 88;
+    public final static InternationalPatternList DEFAULT = new InternationalPatternList(InternationalPatterns.values());
 
-    private InternationalPatternList() {}
+    private IdentifiablePattern patterns[];
 
-    public static synchronized InternationalPatternList getInstance() {
-        return INSTANCE;
+    public InternationalPatternList(IdentifiablePattern ... patterns) {
+        this.patterns = patterns;
     }
-/*
-    public void setMaxPoint(int maxPoint) {
-        this.maxPoint = maxPoint;
-    }
-*/
 
     @Override
     public IdentifiablePattern[] getPatterns() {
-        return InternationalPatterns.values();
+        return this.patterns;
     }
 
     @Override
