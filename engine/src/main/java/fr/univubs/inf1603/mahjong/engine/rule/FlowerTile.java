@@ -1,8 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.SupremeHonor;
-import fr.univubs.inf1603.mahjong.engine.rule.WindHonor;
-
 /**
  * @author Anton Cosnefroy
  * Flower tiles are bonus tiles used in some rules, they are associated to winds.
@@ -17,16 +14,16 @@ public class FlowerTile extends SupremeHonor{
      * Possible flowers of flower tiles
      */
     public enum Flower{
-        PLUM(1,WindHonor.Wind.EAST), ORCHID(2,WindHonor.Wind.SOUTH), CHRYSANTHEMUM(3,WindHonor.Wind.WEST), BAMBOO(4,WindHonor.Wind.NORTH);
+        PLUM(1, Wind.EAST), ORCHID(2, Wind.SOUTH), CHRYSANTHEMUM(3, Wind.WEST), BAMBOO(4, Wind.NORTH);
         private final int value;
-        private final WindHonor.Wind wind;
+        private final Wind wind;
 
-        private Flower(int value,WindHonor.Wind wind){
+        private Flower(int value, Wind wind){
             this.value = value;
             this.wind = wind;
         }
         
-        public WindHonor.Wind getWind(){
+        public Wind getWind(){
             return this.wind;
         }
         

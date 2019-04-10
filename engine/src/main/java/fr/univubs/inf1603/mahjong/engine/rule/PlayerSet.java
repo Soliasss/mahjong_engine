@@ -20,8 +20,8 @@ public class PlayerSet {
     private Collection<SupremeHonor> supremeHonors;
     private boolean drawnFromWall;
     private boolean takenFromDiscard;
-    private WindHonor.Wind roundWind;
-    private WindHonor.Wind playerWind;
+    private Wind roundWind;
+    private Wind playerWind;
     
     /**
      *
@@ -36,7 +36,7 @@ public class PlayerSet {
      * @param playerWind Wind of a player, it's influencing the scoring
      */
     public PlayerSet(GameTile winningTile, Collection<Combination> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<SupremeHonor> supremeHonors,
-            boolean drawnFromWall, boolean takenFromDiscard, WindHonor.Wind roundWind, WindHonor.Wind playerWind){
+                     boolean drawnFromWall, boolean takenFromDiscard, Wind roundWind, Wind playerWind){
         this.winningTile = winningTile;
         this.hand = new ArrayList<Combination>(hand);
         this.concealed = new ArrayList<Combination>(concealed);
@@ -100,14 +100,14 @@ public class PlayerSet {
     /**
      * @return the wind during this round if his a upward or downward wind
      */
-    public WindHonor.Wind getRoundWind(){
+    public Wind getRoundWind(){
         return this.roundWind;
     }
     
     /**
      * @return the wind of the player, it could be east, south, weast or north
      */
-    public WindHonor.Wind getPlayerWind(){
+    public Wind getPlayerWind(){
         return this.playerWind;
     }
 

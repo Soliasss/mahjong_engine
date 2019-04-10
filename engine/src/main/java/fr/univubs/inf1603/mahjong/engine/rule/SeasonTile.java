@@ -15,16 +15,16 @@ public class SeasonTile extends SupremeHonor{
     * Enumeration of all seasons
     */
     public enum Season { 
-        SPRING(1,WindHonor.Wind.EAST), SUMMER(2,WindHonor.Wind.SOUTH), AUTUMN(3,WindHonor.Wind.WEST), WINTER(4,WindHonor.Wind.NORTH);
+        SPRING(1, Wind.EAST), SUMMER(2, Wind.SOUTH), AUTUMN(3, Wind.WEST), WINTER(4, Wind.NORTH);
         private final int value;
-        private final WindHonor.Wind wind;
+        private final Wind wind;
 
-        private Season(int value,WindHonor.Wind wind){
+        private Season(int value, Wind wind){
             this.value = value;
             this.wind = wind;
         }
         
-        public WindHonor.Wind getWind(){
+        public Wind getWind(){
             return this.wind;
         }
         
