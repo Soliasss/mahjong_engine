@@ -1,7 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.WindHonor;
-
 /**
  * @author Anton Cosnefroy
  * This represents all simple honors (a.k.a wind tiles)
