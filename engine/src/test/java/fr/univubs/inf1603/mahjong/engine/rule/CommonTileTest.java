@@ -1,8 +1,8 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.CommonTile;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -40,8 +40,8 @@ public class CommonTileTest {
     public void testIsMajor() {
         System.out.println("isMajor");
         CommonTile instance1 = new CommonTile(CommonTile.Family.BAMBOO, CommonTile.Number.NINE);
-        CommonTile instance2 = new CommonTile(CommonTile.Family.DOTS, CommonTile.Number.ONE);
-        CommonTile instance3 = new CommonTile(CommonTile.Family.CHARACTERS, CommonTile.Number.TWO);
+        CommonTile instance2 = new CommonTile(CommonTile.Family.DOT, CommonTile.Number.ONE);
+        CommonTile instance3 = new CommonTile(CommonTile.Family.CHARACTER, CommonTile.Number.TWO);
         CommonTile instance4 = new CommonTile(CommonTile.Family.BAMBOO, CommonTile.Number.EIGHT);
 
         boolean expResult = true;
