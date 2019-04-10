@@ -1,8 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.SupremeHonor;
-import fr.univubs.inf1603.mahjong.engine.rule.WindHonor;
-
 /**
  * @author Anton Cosnefroy
  * Season tiles are bonus tiles used in some rules, they are associated to winds.
@@ -42,11 +39,10 @@ public class SeasonTile extends SupremeHonor{
     /**
      * Constructor
      * A wind is associate to a season
-     * @param windTile initialization of windTile
-     * @param season initialization of seasonTile 
+     * @param season initialization of seasonTile
      */
-    public SeasonTile(Wind windTile, Season season){
-        super(windTile);
+    public SeasonTile(Season season){
+        super(season.getWind());
         this.season = season;
     }
     
