@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -13,51 +14,38 @@ import java.util.UUID;
  */
 public class MahjongGame implements Game {
 
-    private Side[] listPlayers;
+    private Wind[] playerWind;
     private GameRule rule;
-    private boolean finish;
-    private Move lastMove;
+    private Move lastPlayedMove;
     private MahjongBoard board;
-    
+
     private Duration stealingTime;
     private Duration playingTime;
-    
+
     private ArrayList<Move> registeredMoves;
     private UUID uuid;
-    
+
     public MahjongGame(GameRule rule) throws GameException {
-        if (rule == null) {
-            throw new GameException("Le règle ne peut pas être null.");
-        }
         this.rule = rule;
-        this.lastMove = null;
-        this.finish = false;
         this.board = null;
         this.uuid = UUID.randomUUID();
     }
 
     @Override
-    public Side[] launchGame() {
-        this.listPlayers = this.rule.getPlayersOrder();
-        this.board = this.rule.initBoard();
-        return listPlayers;
+    public void launchGame() {
+        throw new UnsupportedOperationException("not implemented yet");
+//        this.playerWind = this.rule.getPlayersOrder();
+        //      this.board = this.rule.initBoard();
     }
 
     @Override
-    public void registerMove(Move move) {
-        
+    public void registerMove(Move move) throws GameException {
+        throw new UnsupportedOperationException("not immplemented yes");
     }
 
     @Override
-    public boolean isFinish() {
-        return this.finish;
-    }
-
-    @Override
-    public MahjongBoard getBoardView(int player) throws GameException {
-        MahjongBoard ret = this.board.clone();
-        
-        return ret;
+    public Board getBoard(Wind wind) throws GameException {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 
     @Override
@@ -67,13 +55,30 @@ public class MahjongGame implements Game {
 
     @Override
     public ArrayList<Move> getPossibleMoves() {
-        ArrayList<Move> ret = this.rule.findValidMoves(this.board, this.lastMove);
-        return ret;
+        throw new UnsupportedOperationException("not implemented yet");
+        //ArrayList ret = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
+        //return ret;
     }
 
     @Override
-    public Game clone() {
-        return null;
+    public MahjongGame clone() {
+        throw new UnsupportedOperationException("not implemented yet");
+//        return new MahjongGameGame();
+    }
+
+    @Override
+    public Duration getStealingTime() {
+        return this.stealingTime;
+    }
+
+    @Override
+    public Duration getPlayingTime() {
+        return this.playingTime;
+    }
+
+    @Override
+    public Move getLastPlayedMove() {
+        return this.lastPlayedMove;
     }
 
     @Override
@@ -89,17 +94,48 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public Duration getStealingTime() {
-        return this.stealingTime;
+    public GameRule getRule() {
+        return this.rule;
     }
 
     @Override
-    public Duration getPlayingTime() {
-        return this.playingTime;
+    public Wind getCurrentwind() throws GameException {
+        return this.board.getCurrentWind();
     }
 
     @Override
-    public Move getLastMove() {
-        return this.lastMove;
+    public int getPlayerPoints(Wind wind) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public int[] getAllPlayerPoints() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Wind getPlayerWind(int player) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getPlayerFromWind(Wind wind) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Wind[] getPlayerWinds() throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<Move> getPossibleMoves(int player) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

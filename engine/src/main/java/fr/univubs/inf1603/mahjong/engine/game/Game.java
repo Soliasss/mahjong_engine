@@ -4,6 +4,7 @@ import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.time.Duration;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,13 +22,6 @@ public interface Game extends Persistable {
             INDEXED_AVAILABLE_MOVES_P2 = "availablemovesp2",
             INDEXED_AVAILABLE_MOVES_P3 = "availablemovesp3",
             CURRENT_WIND = "currentwind";
-
-    /**
-     * Retourne un clone du jeu en cours
-     *
-     * @return un clone de Game
-     */
-    public Game clone();
 
     /**
      * Permet de récupérer la règles utilisée pour cette partie
@@ -71,8 +65,6 @@ public interface Game extends Persistable {
      */
     public Duration getPlayingTime();
 
-
-
     /**
      * Retourne la vision d'un MahjongBoard en fonction du vent MahjongBoard en
      * entier avec les zones non cachées
@@ -89,7 +81,7 @@ public interface Game extends Persistable {
      * @return Le dernier Move joué.
      */
     public Move getLastPlayedMove();
-    
+
     /**
      * Retourne le nombre de points d'un joueur à un instant t
      *
@@ -114,7 +106,6 @@ public interface Game extends Persistable {
     public int[] getAllPlayerPoints();
 
     /**
-     *
      * @param player Le numéro du joueur dont on veut le vent
      * @return Le vent du joueur correspondant
      * @throws GameException Si la partie n'a pas commencé ou si il existe une
@@ -131,12 +122,17 @@ public interface Game extends Persistable {
     public int getPlayerFromWind(Wind wind) throws GameException;
 
     /**
-     *
-     * @return Un tableau de vents où l'indice est le num"ro du joueur
+     * @return Un tableau de vents où l'indice est le numéro du joueur
      * correspondant
      * @throws GameException Si la partie n'a pas commencé ou si il existe une
      * incoherence dans Game
      */
     public Wind[] getPlayerWinds() throws GameException;
+
+    public ArrayList<Move> getPossibleMoves() throws GameException;
+
+    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException;
+
+    public ArrayList<Move> getPossibleMoves(int player) throws GameException;
 
 }

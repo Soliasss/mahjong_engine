@@ -1,8 +1,10 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 /**
@@ -10,104 +12,86 @@ import java.util.UUID;
  *
  * @author Samuel LE BERRE
  */
-public class MahjongBoard implements Persistable, Cloneable {
+public class MahjongBoard implements Board,Persistable, Cloneable {
 
-    /**
-     * Represents the players defined by an integer and their zone. The zone is
-     * the container of all the zone of the player.
-     */
-    private HashMap<Integer, Zone> playersZones;
-
-    /**
-     * Represents the Wall of the Mahjong
-     */
-    private Zone wallZone;
+    private Wind currentWind;
     private final UUID uuid;
+    private final EnumMap<TileZoneIdentifier, TileZone> zones;
 
     /**
-     * Constructor of Board with a wall and the playersZones
+     * This constructor allows initialization of all fields and should only be
+     * used by a persistence framework, factories, or other constructors of this
+     * class
      *
-     * @param wZ The Wall of the Board
-     * @param pZ The HashMap of the Player(int) and their Zone
-     * @param uuid L identifiant unique du Board
+     * @param wind
+     * @param uuid
+     * @param zones
      */
-    public MahjongBoard(Zone wZ, HashMap<Integer, Zone> pZ, UUID uuid) {
-        this.wallZone = wZ;
-        this.playersZones = pZ;
+    public MahjongBoard(Wind wind, UUID uuid, EnumMap<TileZoneIdentifier, TileZone> zones) {
+        this.currentWind = wind;
         this.uuid = uuid;
+        this.zones = zones;
     }
 
-    /**
-     * Constructor of Board with a wall and the playersZones
-     *
-     * @param wZ The Wall of the Board
-     * @param pZ The HashMap of the Player(int) and their Zone
-     */
-    public MahjongBoard(Zone wZ, HashMap<Integer, Zone> pZ) {
-        this(wZ, pZ, UUID.randomUUID());
-    }
-
-    /**
-     * Constructor of Board with a wall
-     *
-     * @param wZ The Wall of the Board
-     */
-    private MahjongBoard(Zone wZ) {
-        this(wZ, new HashMap<Integer, Zone>(), UUID.randomUUID());
-    }
-
-    /**
-     * Add a player and his zone into the HashMap
-     *
-     * @param player The player we want to add in the HashMap
-     * @param zone The zone of the player
-     */
-    public void addPlayerZone(int player, Zone zone) {
-        this.playersZones.put(player, zone);
-    }
-
-    /**
-     * Fait une copie du MahjongBoard
-     * @return La copie du MahjongBoard
-     */
-    @Override
-    public MahjongBoard clone(){
-        /*
-        Zone retWall = this.wallZone.clone();
-        MahjongBoard retBoard = new MahjongBoard(retWall);
-        retBoard.playersZones.entrySet().forEach(entry -> {
-            retBoard.addPlayerZone(entry.getKey(), entry.getValue().clone());
-        });
-        return retBoard;*/
-        return null;
-    }
-
-    /**
-     * Allows to zone of a specified player
-     *
-     * @param player The player we want to get the zone
-     * @return the zone of the given player
-     */
-    public Zone getPlayerZone(int player) {
-        return this.playersZones.get(player);
-    }
-
-    /**
-     * Accesseur sur la zone du mur
-     * @return Le mur du MahjongBoard
-     */
-    public Zone getWallZone() {
-        return this.wallZone;
+    public MahjongBoard(Wind wind) {
+        this.currentWind = wind;
+        this.uuid = UUID.randomUUID();
+        this.zones = new EnumMap<>(TileZoneIdentifier.class);
+        for(Entry<TileZoneIdentifier,TileZone> entry : zones.entrySet()){
+            entry.setValue(new MahjongTileZone(entry.getKey()));
+        }
     }
 
     @Override
-    public UUID getUUID() {
+    public Wind getCurrentWind() throws GameException {
+        return this.currentWind;
+    }
+    
+    public void setWind(Wind newWind) {
+        this.currentWind = newWind;
+    }
+
+    
+    
+    Board getViewFromWind(Wind wind) throws ZoneException {
+        throw new UnsupportedOperationException("not implemented yet"); //TODO : implement view computing
+    }
+
+    @Override
+    public UUID getUUID(){
         return this.uuid;
     }
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    
     @Override
     public PropertyChangeSupport getPropertyChangeSupport() {
-        return propertyChangeSupport;
+        return this.propertyChangeSupport;
     }
+
+    @Override
+    public GameTileInterface getTile(int gameIndex) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TileZone getTileZoneOfTile(int gameIndex) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TileZone getTileZoneOfTile(GameTileInterface tile) throws GameException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TileZone getTileZone(TileZoneIdentifier identifier) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TileZone getTileZone(String normalizedName) throws ZoneException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

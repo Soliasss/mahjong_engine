@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 
 /**
  *
@@ -43,4 +44,7 @@ public interface Board extends Persistable {
      * @throws ZoneException If the provided String does not correspond to any zone
      */
     public TileZone getTileZone(String normalizedName) throws ZoneException;
+    
+    public Wind getCurrentWind() throws GameException;
+    
 }
