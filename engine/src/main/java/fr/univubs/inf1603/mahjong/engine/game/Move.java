@@ -15,7 +15,7 @@ public class Move implements Serializable, Cloneable {
 
     private final Side side;
     private final int priority;
-    private final HashMap<Integer, TileZone> path;
+    private final HashMap<Integer, MahjongTileZone> path;
     private final UUID uuid;
 
     /**
@@ -25,13 +25,13 @@ public class Move implements Serializable, Cloneable {
      * @param priority La priorité du Move par rapport à d'autre Move (0 est la
      * plus grosse priorité, n est la moins grosse priorité)
      * @param path Une Map qui contient l'information de déplacement de la ou
-     * des tuile(s). Le numéro reprente l'ID de la tuile, la TileZone est la
-     * zone de jeu dans laquelle la tuile va être ajoutée
+ des tuile(s). Le numéro reprente l'ID de la tuile, la MahjongTileZone est la
+ zone de jeu dans laquelle la tuile va être ajoutée
      * @param uuid
      * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
      */
     @ConstructorProperties({"player", "priority", "path", "uuid"})
-    public Move(Side side, int priority, HashMap<Integer, TileZone> path, UUID uuid) throws MoveException {
+    public Move(Side side, int priority, HashMap<Integer, MahjongTileZone> path, UUID uuid) throws MoveException {
         this.side = side;
 
         if (priority < 0) {
@@ -47,7 +47,7 @@ public class Move implements Serializable, Cloneable {
         this.uuid = uuid;
     }
 
-    public Move(Side side, int priority, HashMap<Integer, TileZone> path) throws MoveException {
+    public Move(Side side, int priority, HashMap<Integer, MahjongTileZone> path) throws MoveException {
         this(side, priority, path, UUID.randomUUID());
     }
 
@@ -74,7 +74,7 @@ public class Move implements Serializable, Cloneable {
      *
      * @return path
      */
-    public HashMap<Integer, TileZone> getPath() {
+    public HashMap<Integer, MahjongTileZone> getPath() {
         return this.path;
     }
 }
