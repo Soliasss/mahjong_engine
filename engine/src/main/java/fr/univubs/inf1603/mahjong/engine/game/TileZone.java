@@ -1,14 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine.game;
+
+import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
+import java.util.ArrayList;
 
 /**
  *
  * @author purpl
  */
-public interface TileZone {
-    
+public interface TileZone extends Persistable{
+        public static final String 
+                INDEXED_TILES="indexedtiles",
+                SIZE="size";
+        
+        /**
+         * @return This tile zone's list of tiles
+         */
+        public ArrayList<GameTile> getTiles();
+        
+        /**
+         * @return This tile zone's identifier
+         */
+        public TileZoneIdentifier getIdentifier();
 }
