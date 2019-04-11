@@ -1,8 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.SupremeHonor;
-import fr.univubs.inf1603.mahjong.engine.rule.WindHonor;
-
 /**
  * @author Anton Cosnefroy
  * Season tiles are bonus tiles used in some rules, they are associated to winds.
@@ -18,16 +15,16 @@ public class SeasonTile extends SupremeHonor{
     * Enumeration of all seasons
     */
     public enum Season { 
-        SPRING(1,WindHonor.Wind.EAST), SUMMER(2,WindHonor.Wind.SOUTH), AUTUMN(3,WindHonor.Wind.WEST), WINTER(4,WindHonor.Wind.NORTH);
+        SPRING(1, Wind.EAST), SUMMER(2, Wind.SOUTH), AUTUMN(3, Wind.WEST), WINTER(4, Wind.NORTH);
         private final int value;
-        private final WindHonor.Wind wind;
+        private final Wind wind;
 
-        private Season(int value,WindHonor.Wind wind){
+        private Season(int value, Wind wind){
             this.value = value;
             this.wind = wind;
         }
         
-        public WindHonor.Wind getWind(){
+        public Wind getWind(){
             return this.wind;
         }
         
@@ -42,11 +39,10 @@ public class SeasonTile extends SupremeHonor{
     /**
      * Constructor
      * A wind is associate to a season
-     * @param windTile initialization of windTile
-     * @param season initialization of seasonTile 
+     * @param season initialization of seasonTile
      */
-    public SeasonTile(Wind windTile, Season season){
-        super(windTile);
+    public SeasonTile(Season season){
+        super(season.getWind());
         this.season = season;
     }
     

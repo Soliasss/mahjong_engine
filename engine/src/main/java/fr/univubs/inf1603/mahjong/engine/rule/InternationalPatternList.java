@@ -1,7 +1,9 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.AbstractPatternList;
-import fr.univubs.inf1603.mahjong.engine.rule.PlayerSet;
+import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -69,7 +71,25 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                return null;
+                ArrayList<IdentifiedPattern> result = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+
+                int nbOfKong = 0;
+                Collection<GameTile> kongsFound = new ArrayList<>();
+
+                for (Combination currentCombi: allCombinations) {
+                    if (currentCombi.isKong()){
+                        nbOfKong++;
+                        kongsFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                    }
+                }
+
+                if (nbOfKong == 4){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, kongsFound);
+                    result.add(pattern);
+                }
+
+                return result;
             }
         },
         SEVEN_SHIFTED_PAIRS {

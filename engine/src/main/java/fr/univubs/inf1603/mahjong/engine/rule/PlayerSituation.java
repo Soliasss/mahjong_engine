@@ -7,6 +7,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  */
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,8 +19,8 @@ public class PlayerSituation {
     private Collection<SupremeHonor> supremeHonors;
     private boolean drawnFromWall;
     private boolean takenFromDiscard;
-    private WindHonor.Wind roundWind;
-    private WindHonor.Wind playerWind;
+    private Wind roundWind;
+    private Wind playerWind;
     
     /**
      *
@@ -34,7 +35,7 @@ public class PlayerSituation {
      * @param playerWind Wind of a player, it's influencing the scoring
      */
     public PlayerSituation(GameTile winningTile, Collection<GameTile> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<SupremeHonor> supremeHonors,
-            boolean drawnFromWall, boolean takenFromDiscard, WindHonor.Wind roundWind, WindHonor.Wind playerWind){
+                           boolean drawnFromWall, boolean takenFromDiscard, Wind roundWind, Wind playerWind){
         this.winningTile = winningTile;
         this.hand = new ArrayList<GameTile>(hand);
         this.concealed = new ArrayList<Combination>(concealed);
@@ -106,7 +107,7 @@ public class PlayerSituation {
      *
      * @return the wind during this round if his a upward or downward wind
      */
-    public WindHonor.Wind getRoundWind(){
+    public Wind getRoundWind(){
         return this.roundWind;
     }
     
@@ -114,7 +115,7 @@ public class PlayerSituation {
      *
      * @return the wind of the player, it could be east, south, weast or north
      */
-    public WindHonor.Wind getPlayerWind(){
+    public Wind getPlayerWind(){
         return this.playerWind;
     }
 }

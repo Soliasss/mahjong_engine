@@ -8,6 +8,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  */
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,8 +20,8 @@ public class PlayerSet {
     private Collection<SupremeHonor> supremeHonors;
     private boolean drawnFromWall;
     private boolean takenFromDiscard;
-    private WindHonor.Wind roundWind;
-    private WindHonor.Wind playerWind;
+    private Wind roundWind;
+    private Wind playerWind;
     
     /**
      *
@@ -35,7 +36,7 @@ public class PlayerSet {
      * @param playerWind Wind of a player, it's influencing the scoring
      */
     public PlayerSet(GameTile winningTile, Collection<Combination> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<SupremeHonor> supremeHonors,
-            boolean drawnFromWall, boolean takenFromDiscard, WindHonor.Wind roundWind, WindHonor.Wind playerWind){
+                     boolean drawnFromWall, boolean takenFromDiscard, Wind roundWind, Wind playerWind){
         this.winningTile = winningTile;
         this.hand = new ArrayList<Combination>(hand);
         this.concealed = new ArrayList<Combination>(concealed);
@@ -48,15 +49,13 @@ public class PlayerSet {
     }
     
     /**
-     *
-     * @return winningTile The last tile drawn or stolen which allow us to win 
+     * @return winningTile The last tile drawn or stolen which allow us to win
      */
     public GameTile getWinningTile(){
         return this.winningTile;
     }
     
     /**
-     *
      * @return hand It's a list of combination in the player's hand
      */
     public Collection<Combination> getHand(){
@@ -64,7 +63,6 @@ public class PlayerSet {
     }
     
     /**
-     *
      * @return concealed It's a list of combination if some tiles are hidden
      */
     public Collection<Combination> getConcealed(){
@@ -72,7 +70,6 @@ public class PlayerSet {
     }
     
     /**
-     *
      * @return melds It's a list of combination about tiles set down
      */
     public Collection<Combination> getMelds(){
@@ -80,7 +77,6 @@ public class PlayerSet {
     }
     
     /**
-     *
      * @return It's a list of supremeHonors set down
      */
     public Collection<SupremeHonor> getSupremeHonors(){
@@ -88,7 +84,6 @@ public class PlayerSet {
     }
     
     /**
-     *
      * @return true or false if the last tile was drawn from the wall
      */
     public boolean isDrawnForWall(){
@@ -96,7 +91,6 @@ public class PlayerSet {
     }
     
     /**
-     *
      * @return true or false if the last tile was stolen
      */
     public boolean isTakenFromDiscard(){
@@ -104,18 +98,26 @@ public class PlayerSet {
     }
     
     /**
-     *
      * @return the wind during this round if his a upward or downward wind
      */
-    public WindHonor.Wind getRoundWind(){
+    public Wind getRoundWind(){
         return this.roundWind;
     }
     
     /**
-     *
      * @return the wind of the player, it could be east, south, weast or north
      */
-    public WindHonor.Wind getPlayerWind(){
+    public Wind getPlayerWind(){
         return this.playerWind;
+    }
+
+    public Collection<Combination> getAllCombinations() {
+        ArrayList<Combination> allCombinations = new ArrayList<>();
+
+        allCombinations.addAll(hand);
+        allCombinations.addAll(concealed);
+        allCombinations.addAll(melds);
+
+        return allCombinations;
     }
 }

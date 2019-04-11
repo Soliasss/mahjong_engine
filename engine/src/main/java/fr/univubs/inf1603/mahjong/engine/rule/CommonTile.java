@@ -11,7 +11,7 @@ public class CommonTile extends ComplexTile{
      * Possible tile families of simple tiles
      */
     public enum Family { 
-        BAMBOO('b'), CHARACTERS('c'), DOTS('d');
+        BAMBOO('b'), CHARACTER('c'), DOT('d');
         private final char symbol;
         private Family(char symbol){
             this.symbol = symbol;

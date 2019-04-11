@@ -1,13 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
-
-<<<<<<< HEAD
-import fr.univubs.inf1603.mahjong.engine.game.Side;
-=======
-
-
->>>>>>> e4d456bd939dab45a4a911556296357cd11386c3
+import fr.univubs.inf1603.mahjong.engine.game.Board;
 import fr.univubs.inf1603.mahjong.engine.game.Move;
-import fr.univubs.inf1603.mahjong.engine.game.Side;
 import fr.univubs.inf1603.mahjong.engine.game.TileZone;
 
 import java.util.Collection;
@@ -24,7 +17,7 @@ public interface BoardRule {
      * Roll the dice to find the order of the players
      * @return an array of sides, each element is associated with a player (its index)
      */
-    Side[] getPlayerOrder();
+    Wind[] getPlayerOrder();
 
     /**
      * Roll the dice to build a {@link StartingWall}
@@ -50,11 +43,11 @@ public interface BoardRule {
 
     /**
      * Give all the valid move for each {@link Side} according to the rules in the given game state
-     * @param tileArrangement how the tiles are on the board, part of the game state
+     * @param board State of the board to evaluate
      * @param lastMove the last move played, part of the game state
      * @return the moves for each side
      */
-    EnumMap<Side, Move> findValidMoves(Collection<TileZone> tileArrangement, Move lastMove);
+    EnumMap<Wind, Move> findValidMoves(Board board, Move lastMove);
 
     /**
      * Check from a given game state if the game can/should end.
