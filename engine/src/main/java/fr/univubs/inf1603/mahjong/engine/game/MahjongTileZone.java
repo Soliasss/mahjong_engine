@@ -74,12 +74,12 @@ public class MahjongTileZone implements TileZone, Persistable{
 
     @Override
     public ArrayList<GameTile> getTiles() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.tiles;
     }
 
     @Override
     public TileZoneIdentifier getIdentifier() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.identifier;
     }
 
 }
