@@ -36,7 +36,7 @@ public class Chow implements Combination {
     public final boolean isValid(GameTile[] tiles){
         //Works on the basis that the tiles are either ordered or not a Chow
         return tiles.length==3 &&
-                tiles[1].getTile() == tiles[0].getTile().getNext() &&
-                tiles[2].getTile() == tiles[1].getTile().getNext();
+                tiles[0].getTile().getNext() == tiles[1].getTile() &&
+                tiles[1].getTile().getNext() == tiles[2].getTile();
     }
 }

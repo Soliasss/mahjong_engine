@@ -24,7 +24,6 @@ public class PlayerSet {
     private Wind playerWind;
     
     /**
-     *
      * @param winningTile It's the tile drawn from the wall or stolen, it's a winning tile if we win with her
      * @param hand  The hand of the player, it's a representation of combinations in the hand
      * @param concealed If we have a concealed combination like Kong
@@ -47,7 +46,24 @@ public class PlayerSet {
         this.roundWind = roundWind;
         this.playerWind = playerWind;
     }
-    
+
+    /**
+     * @param situation situation the set is created from, a set has the same attributes of the situation except
+     *                  the hand which can vary from arrangement
+     * @param hand arrangement of the hand
+     */
+    public PlayerSet(PlayerSituation situation, Collection<Combination> hand) {
+        this.winningTile = situation.getWinningTile();
+        this.hand = new ArrayList<Combination>(hand);
+        this.concealed = new ArrayList<Combination>(situation.getConcealed());
+        this.melds = new ArrayList<Combination>(situation.getMelds());
+        this.supremeHonors = new ArrayList<SupremeHonor>(situation.getSupremeHonors());
+        this.drawnFromWall = situation.isDrawnForWall();
+        this.takenFromDiscard = situation.isTakenFromDiscard();
+        this.roundWind = situation.getRoundWind();
+        this.playerWind = situation.getPlayerWind();
+    }
+
     /**
      * @return winningTile The last tile drawn or stolen which allow us to win
      */

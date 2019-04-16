@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -26,7 +27,7 @@ public interface ScoringSystem {
      * @param situation situation where the player wants to call the mahjong
      * @return a collection of sets arranged from the situation
      */
-    Collection<PlayerSet> identifySet(PlayerSituation situation);
+    Collection<PlayerSet> createSetsFromSituation(PlayerSituation situation);
 
     /**
      * Given a specific tile arrangement, we can identify the patterns in it.
@@ -34,7 +35,14 @@ public interface ScoringSystem {
      * @return a collection of all the pattern found in the set,
      * some patterns that cannot coexist could be listed
      */
-    Collection<IdentifiedPattern> identifyPatterns(PlayerSet set);
+    default Collection<IdentifiedPattern> identifyPatterns(PlayerSet set){
+        ArrayList<IdentifiedPattern> result = new ArrayList<>();
+
+        for (IdentifiablePattern pattern : getPatternList().getPatterns())
+            result.addAll(pattern.identify(set));
+
+        return result;
+    }
 
     /**
      * Since some patterns cannot be called together, we need to split all the possible calls in different collections
@@ -48,5 +56,12 @@ public interface ScoringSystem {
      * @param patterns
      * @return
      */
-    int computeScore(Collection<IdentifiedPattern> patterns);
+    default int computeScore(Collection<IdentifiedPattern> patterns){
+        int result = 0;
+
+        for (IdentifiedPattern pattern : patterns)
+            result += pattern.getPattern().getValue();
+
+        return result;
+    }
 }
