@@ -115,17 +115,25 @@ public class MahjongGame implements Game {
 
     @Override
     public Wind getPlayerWind(int player) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(player<0 || player > 3)throw new GameException("The player you are asking the wind from doesn't exist. There is only 4 player describs by 0 1 2 3 .");
+        Wind wind = this.playerWind[player];
+        if(wind == null) throw new GameException("The wind of a player cannot be null.");
+        return wind;
     }
 
     @Override
     public int getPlayerFromWind(Wind wind) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int player = -1;
+        for(int i=0; i<4; i++){
+            if(this.playerWind[i] == wind) player = i;
+        }
+        if(player == -1)throw new GameException("The wind has to be in the playerWind.");
+        return player;
     }
 
     @Override
     public Wind[] getPlayerWinds() throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.playerWind;
     }
 
     @Override

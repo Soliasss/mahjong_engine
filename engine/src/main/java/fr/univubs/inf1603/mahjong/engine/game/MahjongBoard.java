@@ -71,27 +71,74 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
 
     @Override
     public GameTileInterface getTile(int gameIndex) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GameTileInterface gTile = null;
+        TileZone tmp = null;
+        boolean stop = false;
+        for(TileZoneIdentifier tzi : this.zones.keySet()){
+            tmp = this.zones.get(tzi);
+            for(GameTile tile : tmp.getTiles()){
+                if(tile.getGameID() == gameIndex){
+                    gTile = tile;
+                    stop = true;
+                    break;
+                }
+            }
+            if(stop)break;
+        } 
+        if(gTile == null) throw new GameException("The gameIndex isn't in the Board");
+        return gTile;
     }
 
     @Override
     public TileZone getTileZoneOfTile(int gameIndex) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TileZone tz = null;
+        TileZone tmp = null;
+        boolean stop = false;
+        for(TileZoneIdentifier tzi : this.zones.keySet()){
+            tmp = this.zones.get(tzi);
+            for(GameTile tile : tmp.getTiles()){
+                if(tile.getGameID() == gameIndex){
+                    tz = tmp;
+                    stop = true;
+                    break;
+                }
+            }
+            if(stop)break;
+        } 
+        if(tz == null) throw new GameException("The gameIndex isn't in the Board");
+        return tz;
     }
 
     @Override
     public TileZone getTileZoneOfTile(GameTileInterface tile) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.getTileZoneOfTile(tile.getGameID());
     }
 
     @Override
-    public TileZone getTileZone(TileZoneIdentifier identifier) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public TileZone getTileZone(TileZoneIdentifier identifier) throws GameException{
+        TileZone tz =  this.zones.get(identifier);
+        if(tz == null) throw new GameException("The identifier isn't in the Board");
+        return tz;
     }
 
     @Override
     public TileZone getTileZone(String normalizedName) throws ZoneException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TileZone tz = null;
+        TileZone tmp = null;
+        boolean stop = false;
+        for(TileZoneIdentifier tzi : this.zones.keySet()){
+            tmp = this.zones.get(tzi);
+            for(GameTile tile : tmp.getTiles()){
+                if(tile.getTile().toNormalizedName().equals(normalizedName)){
+                    tz = tmp;
+                    stop = true;
+                    break;
+                }
+            }
+            if(stop)break;
+        } 
+        if(tz == null) throw new ZoneException("The normalized do not correspond to any tile of the Board");
+        return tz;
     }
 
 }

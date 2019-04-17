@@ -12,7 +12,7 @@ import java.util.UUID;
  *
  * @author Malléjac Clément
  */
-public class GameTile implements Serializable, Cloneable, Persistable {
+public class GameTile implements GameTileInterface, Serializable, Cloneable, Persistable {
 
     private AbstractTile tile;
     private final int gameID;
@@ -34,10 +34,7 @@ public class GameTile implements Serializable, Cloneable, Persistable {
         this(gameID, tile, UUID.randomUUID());
     }
 
-    /**
-     *
-     * @return Returns this GameTile's AbstractTile
-     */
+    @Override
     public AbstractTile getTile() {
         return this.tile;
     }
@@ -46,6 +43,7 @@ public class GameTile implements Serializable, Cloneable, Persistable {
      * 
      * @return Returns this tiles order in the deck
      */
+    @Override
     public int getGameID() {
         return this.gameID;
     }

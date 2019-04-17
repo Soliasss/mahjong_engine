@@ -34,8 +34,9 @@ public interface Board extends Persistable {
     /**
      * @param identifier The identifier of the TileZone we want
      * @return The zone corresponding to this identifier
+     * @throws GameException If the wanted tilezone is not in the board.
      */
-    public TileZone getTileZone(TileZoneIdentifier identifier);
+    public TileZone getTileZone(TileZoneIdentifier identifier)throws GameException;
 
     /**
      * 
