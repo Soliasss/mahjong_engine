@@ -1,11 +1,10 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.PlayerSet;
 import java.util.Collection;
 
 /**
  * Interface representing a pattern.
- * A pattern is a group of {@link GameTile} and/or {@link Combination}.
+ * A pattern is a group of {@link fr.univubs.inf1603.mahjong.engine.game.GameTile GameTile} and/or {@link Combination}.
  */
 public interface IdentifiablePattern {
     /**

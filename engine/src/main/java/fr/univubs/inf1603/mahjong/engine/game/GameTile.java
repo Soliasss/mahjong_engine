@@ -2,6 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
+
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.UUID;
@@ -38,6 +39,10 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         return this.tile;
     }
 
+    /**
+     * 
+     * @return Returns this tiles order in the deck
+     */
     @Override
     public int getGameID() {
         return this.gameID;
@@ -63,6 +68,10 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
 
         this.tile = newTile;
         propertyChangeSupport.firePropertyChange("tile", oldValue, this.tile);
+    }
+
+    public String toString(){
+        return gameID + ":" + tile.toNormalizedName();
     }
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);

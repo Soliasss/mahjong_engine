@@ -3,7 +3,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
 /**
- *
  * @author anton
  */
 public class Pung implements Combination {
@@ -30,9 +29,9 @@ public class Pung implements Combination {
 
     @Override
     public final boolean isValid(GameTile[] tiles) {
-        return tiles.length == 3
-                && tiles[0].getTile().getNext() == tiles[1].getTile()
-                && tiles[0].getTile().getNext() == tiles[2].getTile();
+        return  tiles.length == 3 &&
+                tiles[0].getTile() == tiles[1].getTile() &&
+                tiles[0].getTile() == tiles[2].getTile();
     }
 
 }

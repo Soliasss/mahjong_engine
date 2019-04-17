@@ -36,7 +36,6 @@ public interface Combination {
     }
     
     /**
-     *
      * @param tiles the tiles of the combination
      * @return true or false if a pair, chow, pung or kong is valid
      */

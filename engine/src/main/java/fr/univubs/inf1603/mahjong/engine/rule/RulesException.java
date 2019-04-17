@@ -8,5 +8,9 @@ public class RulesException extends Exception{
     RulesException(String msg){
         super(msg);
     }
+
+    RulesException(String s, Exception e) {
+        super(s, e);
+    }
 }
 
