@@ -11,6 +11,8 @@ import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -20,9 +22,6 @@ import static org.junit.Assert.*;
  */
 public class MahjongGameTest {
     
-    public MahjongGameTest() {
-    }
-
     /**
      * Test of launchGame method, of class MahjongGame.
      */
@@ -194,11 +193,16 @@ public class MahjongGameTest {
      * Test of getCurrentwind method, of class MahjongGame.
      */
     @Test
-    public void testGetCurrentwind() throws Exception {
+    public void testGetCurrentwind(){
         System.out.println("getCurrentwind");
         MahjongGame instance = null;
         Wind expResult = null;
-        Wind result = instance.getCurrentwind();
+        Wind result=null;
+        try {
+            result = instance.getCurrentwind();
+        } catch (GameException ex) {
+            Logger.getLogger(MahjongGameTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -269,7 +273,7 @@ public class MahjongGameTest {
     @Test
     public void testGetPlayerWinds() throws Exception {
         System.out.println("getPlayerWinds");
-        MahjongGame instance = null;
+        MahjongGame instance = null;//new MahjongGame();
         Wind[] expResult = null;
         Wind[] result = instance.getPlayerWinds();
         assertArrayEquals(expResult, result);
@@ -281,13 +285,17 @@ public class MahjongGameTest {
      * Test of getPossibleMoves method, of class MahjongGame.
      */
     @Test
-    public void testGetPossibleMoves_Wind() throws Exception {
+    public void testGetPossibleMoves_Wind(){
         System.out.println("getPossibleMoves");
         Wind wind = null;
         MahjongGame instance = null;
         ArrayList<Move> expResult = null;
-        ArrayList<Move> result = instance.getPossibleMoves(wind);
-        assertEquals(expResult, result);
+        ArrayList<Move> result=null;
+        try {
+            result = instance.getPossibleMoves(wind);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -296,12 +304,17 @@ public class MahjongGameTest {
      * Test of getPossibleMoves method, of class MahjongGame.
      */
     @Test
-    public void testGetPossibleMoves_int() throws Exception {
+    public void testGetPossibleMoves_int(){
         System.out.println("getPossibleMoves");
         int player = 0;
         MahjongGame instance = null;
         ArrayList<Move> expResult = null;
-        ArrayList<Move> result = instance.getPossibleMoves(player);
+        ArrayList<Move> result=null;
+        try {
+            result = instance.getPossibleMoves(player);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

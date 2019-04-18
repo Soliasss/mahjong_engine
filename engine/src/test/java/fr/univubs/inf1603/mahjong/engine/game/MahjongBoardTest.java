@@ -5,8 +5,10 @@
  */
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.rule.InternationalTiles;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
+import java.util.EnumMap;
 import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -16,9 +18,6 @@ import static org.junit.Assert.*;
  * @author purpl
  */
 public class MahjongBoardTest {
-    
-    public MahjongBoardTest() {
-    }
 
     /**
      * Test of getCurrentWind method, of class MahjongBoard.
@@ -26,12 +25,10 @@ public class MahjongBoardTest {
     @Test
     public void testGetCurrentWind() throws Exception {
         System.out.println("getCurrentWind");
-        MahjongBoard instance = null;
-        Wind expResult = null;
+        MahjongBoard instance = new MahjongBoard(Wind.NORTH);
+        Wind expResult = Wind.NORTH;
         Wind result = instance.getCurrentWind();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -40,11 +37,16 @@ public class MahjongBoardTest {
     @Test
     public void testSetWind() {
         System.out.println("setWind");
-        Wind newWind = null;
-        MahjongBoard instance = null;
+        Wind newWind = Wind.NORTH;
+        MahjongBoard instance = new MahjongBoard(Wind.EAST);
         instance.setWind(newWind);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Wind result = null;
+        try {
+            result = instance.getCurrentWind();
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception : "+ex);
+        }
+        assertEquals(newWind, result);
     }
 
     /**
@@ -68,12 +70,11 @@ public class MahjongBoardTest {
     @Test
     public void testGetUUID() {
         System.out.println("getUUID");
-        MahjongBoard instance = null;
-        UUID expResult = null;
+        UUID u  = UUID.randomUUID();
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, u, new EnumMap<>(TileZoneIdentifier.class));
+        UUID expResult = u;
         UUID result = instance.getUUID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -82,87 +83,139 @@ public class MahjongBoardTest {
     @Test
     public void testGetPropertyChangeSupport() {
         System.out.println("getPropertyChangeSupport");
-        MahjongBoard instance = null;
-        PropertyChangeSupport expResult = null;
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
         PropertyChangeSupport result = instance.getPropertyChangeSupport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
     /**
      * Test of getTile method, of class MahjongBoard.
      */
     @Test
-    public void testGetTile() throws Exception {
+    public void testGetTile(){
         System.out.println("getTile");
-        int gameIndex = 0;
-        MahjongBoard instance = null;
-        GameTileInterface expResult = null;
-        GameTileInterface result = instance.getTile(gameIndex);
+        int gameIndex = 1;
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        GameTile gameTile = new GameTile(gameIndex, InternationalTiles.BAMBOO_1);
+        try {
+            ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(gameTile);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
+        GameTileInterface expResult = gameTile;
+        GameTileInterface result = null;
+        try {
+            result = instance.getTile(gameIndex);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getTileZoneOfTile method, of class MahjongBoard.
      */
     @Test
-    public void testGetTileZoneOfTile_int() throws Exception {
+    public void testGetTileZoneOfTile_int(){
         System.out.println("getTileZoneOfTile");
-        int gameIndex = 0;
-        MahjongBoard instance = null;
-        TileZone expResult = null;
-        TileZone result = instance.getTileZoneOfTile(gameIndex);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int gameIndex = 1;
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        GameTile gameTile = new GameTile(gameIndex, InternationalTiles.BAMBOO_1);
+        try {
+            ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(gameTile);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
+        TileZone expResult1 = null;
+        try {
+            expResult1 = instance.getTileZone(TileZoneIdentifier.DiscardEast);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception : "+ex);
+        }
+        TileZone result1=null;
+        try {
+            result1 = instance.getTileZoneOfTile(gameIndex);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception : "+ex);
+        }
+        
+        TileZoneIdentifier expResult2 = TileZoneIdentifier.DiscardEast;
+        TileZoneIdentifier result2 = result1.getIdentifier();
+        assertEquals(expResult1, result1);
+        assertEquals(expResult2, result2);
+
     }
 
     /**
      * Test of getTileZoneOfTile method, of class MahjongBoard.
      */
     @Test
-    public void testGetTileZoneOfTile_GameTileInterface() throws Exception {
+    public void testGetTileZoneOfTile_GameTileInterface(){
         System.out.println("getTileZoneOfTile");
-        GameTileInterface tile = null;
-        MahjongBoard instance = null;
-        TileZone expResult = null;
-        TileZone result = instance.getTileZoneOfTile(tile);
+        GameTile tile = new GameTile(0, InternationalTiles.BAMBOO_1);
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        try {
+            ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(tile);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
+
+        TileZone expResult=null;
+        try {
+            expResult = instance.getTileZone(TileZoneIdentifier.DiscardEast);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
+        TileZone result=null;
+        try {
+            result = instance.getTileZoneOfTile(tile);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getTileZone method, of class MahjongBoard.
      */
     @Test
-    public void testGetTileZone_TileZoneIdentifier() throws Exception {
+    public void testGetTileZone_TileZoneIdentifier(){
         System.out.println("getTileZone");
-        TileZoneIdentifier identifier = null;
-        MahjongBoard instance = null;
-        TileZone expResult = null;
-        TileZone result = instance.getTileZone(identifier);
+        GameTile tile = new GameTile(0, InternationalTiles.BAMBOO_1);
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        try {
+            ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(tile);
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
+
+        TileZoneIdentifier result=null;
+        try {
+            result = instance.getTileZone(TileZoneIdentifier.DiscardEast).getIdentifier();
+        } catch (GameException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
+        TileZoneIdentifier expResult = TileZoneIdentifier.DiscardEast;
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getTileZone method, of class MahjongBoard.
      */
     @Test
-    public void testGetTileZone_String() throws Exception {
+    public void testGetTileZone_String(){
         System.out.println("getTileZone");
-        String normalizedName = "";
-        MahjongBoard instance = null;
-        TileZone expResult = null;
-        TileZone result = instance.getTileZone(normalizedName);
+        String normalizedName = "Wall";
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        TileZoneIdentifier expResult = TileZoneIdentifier.Wall;
+        TileZone result=null;
+        try {
+            result = instance.getTileZone(normalizedName);
+        } catch (ZoneException ex) {
+            fail("MahjongBoard threw an exception :"+ex);
+        }
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

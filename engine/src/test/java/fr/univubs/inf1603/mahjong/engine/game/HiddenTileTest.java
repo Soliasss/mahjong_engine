@@ -13,9 +13,6 @@ import static org.junit.Assert.*;
  * @author purpl
  */
 public class HiddenTileTest {
-    
-    public HiddenTileTest() {
-    }
 
     /**
      * Test of toNormalizedName method, of class HiddenTile.
@@ -23,12 +20,10 @@ public class HiddenTileTest {
     @Test
     public void testToNormalizedName() {
         System.out.println("toNormalizedName");
-        HiddenTile instance = null;
-        String expResult = "";
+        HiddenTile instance = HiddenTile.HIDDENTILE;
+        String expResult = "XX";
         String result = instance.toNormalizedName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

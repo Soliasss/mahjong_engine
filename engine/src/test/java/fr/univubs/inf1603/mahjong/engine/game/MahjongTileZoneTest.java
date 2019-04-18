@@ -5,6 +5,7 @@
  */
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.rule.InternationalTiles;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -17,20 +18,16 @@ import static org.junit.Assert.*;
  */
 public class MahjongTileZoneTest {
     
-    public MahjongTileZoneTest() {
-    }
-
     /**
      * Test of addTile method, of class MahjongTileZone.
      */
     @Test
     public void testAddTile() {
         System.out.println("addTile");
-        GameTile tile = null;
-        MahjongTileZone instance = null;
+        GameTile tile = new GameTile(1,InternationalTiles.BAMBOO_1);
+        MahjongTileZone instance = new MahjongTileZone(new ArrayList<>(), UUID.randomUUID(), TileZoneIdentifier.Wall);
         instance.addTile(tile);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(instance.getTiles().contains(tile));
     }
 
     /**
@@ -39,11 +36,10 @@ public class MahjongTileZoneTest {
     @Test
     public void testRemoveTile() {
         System.out.println("removeTile");
-        GameTile tile = null;
-        MahjongTileZone instance = null;
-        instance.removeTile(tile);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        GameTile tile = new GameTile(1,InternationalTiles.BAMBOO_1);
+        MahjongTileZone instance = new MahjongTileZone(new ArrayList<>(), UUID.randomUUID(), TileZoneIdentifier.Wall);
+        instance.addTile(tile);
+        assertFalse(instance.getTiles().contains(tile));
     }
 
     /**
@@ -52,12 +48,10 @@ public class MahjongTileZoneTest {
     @Test
     public void testGetUUID() {
         System.out.println("getUUID");
-        MahjongTileZone instance = null;
-        UUID expResult = null;
+        UUID expResult = UUID.randomUUID();
+        MahjongTileZone instance = new MahjongTileZone(new ArrayList<>(), expResult, TileZoneIdentifier.Wall);
         UUID result = instance.getUUID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -66,12 +60,9 @@ public class MahjongTileZoneTest {
     @Test
     public void testGetPropertyChangeSupport() {
         System.out.println("getPropertyChangeSupport");
-        MahjongTileZone instance = null;
-        PropertyChangeSupport expResult = null;
+        MahjongTileZone instance = new MahjongTileZone(TileZoneIdentifier.Wall);
         PropertyChangeSupport result = instance.getPropertyChangeSupport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
     /**
@@ -94,12 +85,10 @@ public class MahjongTileZoneTest {
     @Test
     public void testGetTiles() {
         System.out.println("getTiles");
-        MahjongTileZone instance = null;
-        ArrayList<GameTile> expResult = null;
+        ArrayList<GameTile> expResult = new ArrayList<>();
+        MahjongTileZone instance = new MahjongTileZone(expResult, UUID.randomUUID(), TileZoneIdentifier.HandEast);
         ArrayList<GameTile> result = instance.getTiles();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -108,12 +97,10 @@ public class MahjongTileZoneTest {
     @Test
     public void testGetIdentifier() {
         System.out.println("getIdentifier");
-        MahjongTileZone instance = null;
-        TileZoneIdentifier expResult = null;
+        TileZoneIdentifier expResult = TileZoneIdentifier.HandEast;
+        MahjongTileZone instance = new MahjongTileZone(new ArrayList<>(), UUID.randomUUID(), expResult);
         TileZoneIdentifier result = instance.getIdentifier();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

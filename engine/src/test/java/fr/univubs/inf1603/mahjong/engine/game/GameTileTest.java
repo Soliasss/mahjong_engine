@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
+import fr.univubs.inf1603.mahjong.engine.rule.InternationalTiles;
 import java.beans.PropertyChangeSupport;
 import java.util.UUID;
 import org.junit.Test;
@@ -16,9 +12,6 @@ import static org.junit.Assert.*;
  * @author purpl
  */
 public class GameTileTest {
-    
-    public GameTileTest() {
-    }
 
     /**
      * Test of getTile method, of class GameTile.
@@ -26,12 +19,10 @@ public class GameTileTest {
     @Test
     public void testGetTile() {
         System.out.println("getTile");
-        GameTile instance = null;
-        AbstractTile expResult = null;
+        GameTile instance = new GameTile(1, InternationalTiles.BAMBOO_1);
+        AbstractTile expResult = InternationalTiles.BAMBOO_1;
         AbstractTile result = instance.getTile();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -40,12 +31,10 @@ public class GameTileTest {
     @Test
     public void testGetGameID() {
         System.out.println("getGameID");
-        GameTile instance = null;
-        int expResult = 0;
+        GameTile instance = new GameTile(1, InternationalTiles.BAMBOO_1);
+        int expResult = 1;
         int result = instance.getGameID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -54,12 +43,11 @@ public class GameTileTest {
     @Test
     public void testGetUUID() {
         System.out.println("getUUID");
-        GameTile instance = null;
-        UUID expResult = null;
+        UUID u = UUID.randomUUID();
+        GameTile instance = new GameTile(0, InternationalTiles.BAMBOO_1, u);
+        UUID expResult = u;
         UUID result = instance.getUUID();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -82,11 +70,11 @@ public class GameTileTest {
     @Test
     public void testSetTile() {
         System.out.println("setTile");
-        AbstractTile newTile = null;
-        GameTile instance = null;
+        AbstractTile newTile = InternationalTiles.BAMBOO_1;
+        GameTile instance = new GameTile(0, InternationalTiles.DOT_1);
         instance.setTile(newTile);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        AbstractTile result = instance.getTile();
+        assertEquals(newTile, result);
     }
 
     /**
@@ -95,12 +83,10 @@ public class GameTileTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        GameTile instance = null;
-        String expResult = "";
+        GameTile instance = new GameTile(0, InternationalTiles.DOT_1);
+        String expResult = "d1";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -109,12 +95,9 @@ public class GameTileTest {
     @Test
     public void testGetPropertyChangeSupport() {
         System.out.println("getPropertyChangeSupport");
-        GameTile instance = null;
-        PropertyChangeSupport expResult = null;
+        GameTile instance = new GameTile(0, InternationalTiles.BAMBOO_1);
         PropertyChangeSupport result = instance.getPropertyChangeSupport();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
     
 }

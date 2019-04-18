@@ -13,11 +13,7 @@ import static org.junit.Assert.*;
  *
  * @author purpl
  */
-public class MoveTest {
-    
-    public MoveTest() {
-    }
-
+public class MoveTest{
     /**
      * Test of getSide method, of class Move.
      */
@@ -28,8 +24,6 @@ public class MoveTest {
         Side expResult = null;
         Side result = instance.getSide();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
