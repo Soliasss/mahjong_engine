@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
-import fr.univubs.inf1603.mahjong.engine.game.Side;
 import java.util.ArrayDeque;
 
 /**
@@ -14,7 +13,7 @@ public class StartingWall
     /**
      * side of the wall where the breach is made
      */
-    private Side startingSide;
+    private Wind startingSide;
     /**
      * heap of the wall where the breach is made
      */
@@ -31,7 +30,7 @@ public class StartingWall
      * @param startingHeap heap of the wall where the breach is made
      * @param cut {@link ArrayDeque} representing the tiles in the wall
      */
-    StartingWall(Side startingSide, int startingHeap, ArrayDeque<GameTile>cut) {
+    StartingWall(Wind startingSide, int startingHeap, ArrayDeque<GameTile>cut) {
         this.startingSide = startingSide;
         this.startingHeap = startingHeap;
         this.cut = new ArrayDeque<>(cut);
@@ -40,7 +39,7 @@ public class StartingWall
     /**
      * @return the starting side
      */
-    public Side getStartingSide() {
+    public Wind getStartingSide() {
         return startingSide;
     }
 
@@ -61,7 +60,7 @@ public class StartingWall
     /**
      * @param startingSide the starting side to modify
      */
-    public void setStartingSide(Side startingSide) {
+    public void setStartingSide(Wind startingSide) {
         this.startingSide = startingSide;
     }
 
