@@ -50,14 +50,14 @@ public class MoveTest{
     @Test
     public void testGetPath() {
         System.out.println("getPath");
-        HashMap<Integer, MahjongTileZone> expResult = new HashMap<>();
+        HashMap<Integer, TileZoneIdentifier> expResult = new HashMap<>();
         Move instance=null;
         try {
             instance = new Move(Wind.WEST, 0, expResult);
         } catch (MoveException ex) {
             fail("Move threw an exception: "+ex);
         }
-        HashMap<Integer, MahjongTileZone> result = instance.getPath();
+        HashMap<Integer, TileZoneIdentifier> result = instance.getPath();
         assertEquals(expResult, result);
     }
     

@@ -85,9 +85,9 @@ public class MahjongTileZoneTest {
     @Test
     public void testGetTiles() {
         System.out.println("getTiles");
-        ArrayList<GameTile> expResult = new ArrayList<>();
+        ArrayList<GameTileInterface> expResult = new ArrayList<>();
         MahjongTileZone instance = new MahjongTileZone(expResult, UUID.randomUUID(), TileZoneIdentifier.HandEast);
-        ArrayList<GameTile> result = instance.getTiles();
+        ArrayList<GameTileInterface> result = instance.getTiles();
         assertEquals(expResult, result);
     }
 
