@@ -42,9 +42,9 @@ public interface Board extends Persistable {
      * 
      * @param normalizedName The normalized name of the zone we want to get
      * @return Returns the zone corresponding to this normalized name
-     * @throws ZoneException If the provided String does not correspond to any zone
+     * @throws GameException If the provided String does not correspond to any zone
      */
-    public TileZone getTileZone(String normalizedName) throws ZoneException;
+    public TileZone getTileZone(String normalizedName) throws GameException;
     
     public Wind getCurrentWind() throws GameException;
     

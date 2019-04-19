@@ -4,6 +4,7 @@ import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -17,6 +18,8 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
     private Wind currentWind;
     private final UUID uuid;
     private final EnumMap<TileZoneIdentifier, TileZone> zones;
+    private HashMap<Integer,GameTileInterface> indexToTile;
+    private HashMap<GameTileInterface,TileZone> tileToZone;
 
     /**
      * This constructor allows initialization of all fields and should only be
@@ -31,6 +34,8 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
         this.currentWind = wind;
         this.uuid = uuid;
         this.zones = zones;
+        indexToTile=null;
+        tileToZone=null;
     }
 
     public MahjongBoard(Wind wind) {
@@ -40,6 +45,8 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
         for(Entry<TileZoneIdentifier,TileZone> entry : zones.entrySet()){
             entry.setValue(new MahjongTileZone(entry.getKey()));
         }
+        indexToTile=null;
+        tileToZone=null;
     }
 
     @Override
@@ -50,10 +57,8 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
     public void setWind(Wind newWind) {
         this.currentWind = newWind;
     }
-
     
-    
-    Board getViewFromWind(Wind wind) throws ZoneException {
+    public Board getViewFromWind(Wind wind) throws ZoneException {
         throw new UnsupportedOperationException("not implemented yet"); //TODO : implement view computing
     }
 
@@ -71,47 +76,32 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
 
     @Override
     public GameTileInterface getTile(int gameIndex) throws GameException {
-        GameTileInterface gTile = null;
-        TileZone tmp = null;
-        boolean stop = false;
-        for(TileZoneIdentifier tzi : this.zones.keySet()){
-            tmp = this.zones.get(tzi);
-            for(GameTile tile : tmp.getTiles()){
-                if(tile.getGameID() == gameIndex){
-                    gTile = tile;
-                    stop = true;
-                    break;
-                }
-            }
-            if(stop)break;
-        } 
-        if(gTile == null) throw new GameException("The gameIndex isn't in the Board");
-        return gTile;
+        if(indexToTile == null){
+            buildReverseSearch();
+        }
+        GameTileInterface result = indexToTile.get(gameIndex);
+        if(result==null){
+            throw new GameException("Unable to find tile of gameIndex "+gameIndex);
+        }
+        return result;
     }
 
     @Override
     public TileZone getTileZoneOfTile(int gameIndex) throws GameException {
-        TileZone tz = null;
-        TileZone tmp = null;
-        boolean stop = false;
-        for(TileZoneIdentifier tzi : this.zones.keySet()){
-            tmp = this.zones.get(tzi);
-            for(GameTile tile : tmp.getTiles()){
-                if(tile.getGameID() == gameIndex){
-                    tz = tmp;
-                    stop = true;
-                    break;
-                }
-            }
-            if(stop)break;
-        } 
-        if(tz == null) throw new GameException("The gameIndex isn't in the Board");
-        return tz;
+        return this.getTileZoneOfTile(getTile(gameIndex));        
     }
 
     @Override
     public TileZone getTileZoneOfTile(GameTileInterface tile) throws GameException {
-        return this.getTileZoneOfTile(tile.getGameID());
+        if(tileToZone == null){
+            buildReverseSearch();
+        }
+        TileZone result = this.tileToZone.get(tile);
+        if(result.getTiles().contains(tile)){
+            return result;
+        }
+        //At this point the tile that was asked for is either not present on the Board or the reverse search is broken
+        throw new GameException("Tile does not exist within this Board");
     }
 
     @Override
@@ -122,23 +112,46 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
     }
 
     @Override
-    public TileZone getTileZone(String normalizedName) throws ZoneException {
-        TileZone tz = null;
-        TileZone tmp = null;
-        boolean stop = false;
-        for(TileZoneIdentifier tzi : this.zones.keySet()){
-            tmp = this.zones.get(tzi);
-            for(GameTile tile : tmp.getTiles()){
-                if(tile.getTile().toNormalizedName().equals(normalizedName)){
-                    tz = tmp;
-                    stop = true;
-                    break;
-                }
-            }
-            if(stop)break;
-        } 
-        if(tz == null) throw new ZoneException("The normalized do not correspond to any tile of the Board");
-        return tz;
+    public TileZone getTileZone(String normalizedName) throws GameException {
+        return getTileZone(TileZoneIdentifier.getIdentifierFromNormalizedName(normalizedName));
     }
-
+    
+    private void buildReverseSearch() throws GameException{
+        this.indexToTile = new HashMap<>();
+        this.tileToZone = new HashMap<>();
+        for(TileZone t : this.zones.values()){
+            for(GameTileInterface tile : t.getTiles()){
+                this.indexToTile.put(tile.getGameID(), tile);
+                this.tileToZone.put(tile, t);
+            }
+        } 
+    }
+    
+    
+    /**
+     * This applies given Move to the Board moving tiles from zones to other ones
+     * @param move Move to be applied
+     * @throws GameException If the move is incoherent or appears to be forged
+     */
+    public void applyMove(Move move) throws GameException{
+        isMoveCoherent(move);
+        for(Entry<Integer, TileZoneIdentifier> t : move.getPath().entrySet()){
+            GameTileInterface buf = getTile(t.getKey());
+            getTileZoneOfTile(buf).getTiles().remove(buf);
+            getTileZone(t.getValue()).getTiles().add(buf);
+            this.tileToZone.put(buf,getTileZone(t.getValue()));//Updating the reverse search
+        }
+    }
+    
+    private void isMoveCoherent(Move move) throws GameException{
+        for(Entry<Integer, TileZoneIdentifier> t : move.getPath().entrySet()){
+            if(getTileZoneOfTile(t.getKey())==null){
+                throw new GameException("Move "+move.getUUID()+" is trying to move a tile that does not exist");
+            }
+            if(getTileZoneOfTile(t.getKey()) == getTileZone(t.getValue())){
+                throw new GameException("Move "+move.getUUID()+" is trying to move a tile back into the same zone");
+            }
+        }
+    }
+    
 }

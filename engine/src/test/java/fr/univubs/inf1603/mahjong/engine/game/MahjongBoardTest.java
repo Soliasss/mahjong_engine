@@ -212,10 +212,10 @@ public class MahjongBoardTest {
         TileZone result=null;
         try {
             result = instance.getTileZone(normalizedName);
-        } catch (ZoneException ex) {
+        } catch (GameException ex) {
             fail("MahjongBoard threw an exception :"+ex);
         }
         assertEquals(expResult, result);
     }
-    
+
 }

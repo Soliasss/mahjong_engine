@@ -10,71 +10,76 @@ import java.util.UUID;
  *
  * @author COGOLUEGNES Charles
  */
-public class MahjongTileZone implements TileZone, Persistable{
+public class MahjongTileZone implements TileZone, Persistable {
 
-    private final ArrayList<GameTile> tiles;
+    private final ArrayList<GameTileInterface> tiles;
     private final UUID uuid;
     private final TileZoneIdentifier identifier;
-    
+
     /**
      * Constructor allowing for an initialization of all fields.
+     *
      * @param tiles The list of tile we want this tile zone to have
      * @param uuid This tile zone's UUID
      * @param identifier This tile zone's identifier
      */
-    public MahjongTileZone(ArrayList<GameTile> tiles,UUID uuid,TileZoneIdentifier identifier){
+    public MahjongTileZone(ArrayList<GameTileInterface> tiles, UUID uuid, TileZoneIdentifier identifier) {
         this.tiles = tiles;
         this.uuid = uuid;
         this.identifier = identifier;
     }
-    
+
     /**
      * Constructor for a new empty tile zones
+     *
      * @param identifier This tile zone's identifier
      */
-    public MahjongTileZone(TileZoneIdentifier identifier){
-        this(new ArrayList<GameTile>(),UUID.randomUUID(),identifier);
+    public MahjongTileZone(TileZoneIdentifier identifier) {
+        this(new ArrayList<GameTileInterface>(), UUID.randomUUID(), identifier);
     }
-    
-    
+
     /**
      * Adds a GameTile to this TileZone's list of tiles
+     *
      * @param tile The tile we want to add to this TileZone
      */
-    public void addTile(GameTile tile){
+    public void addTile(GameTile tile) {
         this.tiles.add(tile);
     }
-    
+
     /**
      * Removes a GameTile from this TileZone's list of tiles
+     *
      * @param tile The tile we want to remove from this TileZone
      */
-    public void removeTile(GameTile tile){
+    public void removeTile(GameTile tile) {
         this.tiles.remove(tile);
     }
-    
+
     @Override
     public UUID getUUID() {
         return this.uuid;
     }
 
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-    
+
     @Override
     public PropertyChangeSupport getPropertyChangeSupport() {
         return this.propertyChangeSupport;
     }
 
     @Override
-    public MahjongTileZone clone(){
-        ArrayList<GameTile> cloneList = new ArrayList<>();
+    public MahjongTileZone clone() {
+        throw new UnsupportedOperationException("Not implemented yet");
+        /*        ArrayList<GameTile> cloneList = new ArrayList<>();
         this.tiles.forEach(elem->cloneList.add((GameTile)elem.clone()));
         return new MahjongTileZone(cloneList, UUID.randomUUID(), identifier);
+         */
     }
 
     @Override
-    public ArrayList<GameTile> getTiles() {
-        return this.tiles;
+    public ArrayList<GameTileInterface> getTiles() {
+        return (ArrayList<GameTileInterface>) this.tiles;
     }
 
     @Override

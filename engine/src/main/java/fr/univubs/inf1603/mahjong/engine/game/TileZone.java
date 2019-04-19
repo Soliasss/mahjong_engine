@@ -15,7 +15,7 @@ public interface TileZone extends Persistable{
         /**
          * @return This tile zone's list of tiles
          */
-        public ArrayList<GameTile> getTiles();
+        public ArrayList<GameTileInterface> getTiles();
         
         /**
          * @return This tile zone's identifier
