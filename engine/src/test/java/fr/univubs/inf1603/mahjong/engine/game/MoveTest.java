@@ -5,6 +5,7 @@
  */
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -32,12 +33,10 @@ public class MoveTest{
     @Test
     public void testGetPriority() {
         System.out.println("getPriority");
-        Move instance = null;
-        int expResult = 0;
+        int expResult = 5;
+        Move instance = new Move(Wind.EAST, expResult, new HashMap<Integer, MahjongTileZone>());
         int result = instance.getPriority();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
