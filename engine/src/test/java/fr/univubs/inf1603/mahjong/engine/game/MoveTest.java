@@ -22,8 +22,8 @@ public class MoveTest{
     public void testGetSide() {
         System.out.println("getSide");
         Move instance = null;
-        Side expResult = null;
-        Side result = instance.getSide();
+        Wind expResult = null;
+        Wind result = instance.getWind();
         assertEquals(expResult, result);
     }
 
@@ -34,7 +34,12 @@ public class MoveTest{
     public void testGetPriority() {
         System.out.println("getPriority");
         int expResult = 5;
-        Move instance = new Move(Wind.EAST, expResult, new HashMap<Integer, MahjongTileZone>());
+        Move instance=null;
+        try {
+            instance = new Move(Wind.EAST, expResult, new HashMap<>());
+        } catch (MoveException ex) {
+            fail("Move threw an exception: "+ex);
+        }
         int result = instance.getPriority();
         assertEquals(expResult, result);
     }
@@ -45,12 +50,15 @@ public class MoveTest{
     @Test
     public void testGetPath() {
         System.out.println("getPath");
-        Move instance = null;
-        HashMap<Integer, MahjongTileZone> expResult = null;
+        HashMap<Integer, MahjongTileZone> expResult = new HashMap<>();
+        Move instance=null;
+        try {
+            instance = new Move(Wind.WEST, 0, expResult);
+        } catch (MoveException ex) {
+            fail("Move threw an exception: "+ex);
+        }
         HashMap<Integer, MahjongTileZone> result = instance.getPath();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
