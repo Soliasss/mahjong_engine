@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.UUID;
  */
 public class Move implements Serializable, Cloneable {
 
-    private final Side side;
+    private final Wind wind;
     private final int priority;
     private final HashMap<Integer, MahjongTileZone> path;
     private final UUID uuid;
@@ -31,8 +32,8 @@ public class Move implements Serializable, Cloneable {
      * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
      */
     @ConstructorProperties({"player", "priority", "path", "uuid"})
-    public Move(Side side, int priority, HashMap<Integer, MahjongTileZone> path, UUID uuid) throws MoveException {
-        this.side = side;
+    public Move(Wind wind, int priority, HashMap<Integer, MahjongTileZone> path, UUID uuid) throws MoveException {
+        this.wind = wind;
 
         if (priority < 0) {
             throw new MoveException("The priority has to be positive or O");
@@ -47,8 +48,8 @@ public class Move implements Serializable, Cloneable {
         this.uuid = uuid;
     }
 
-    public Move(Side side, int priority, HashMap<Integer, MahjongTileZone> path) throws MoveException {
-        this(side, priority, path, UUID.randomUUID());
+    public Move(Wind wind, int priority, HashMap<Integer, MahjongTileZone> path) throws MoveException {
+        this(wind, priority, path, UUID.randomUUID());
     }
 
     /**
@@ -56,8 +57,8 @@ public class Move implements Serializable, Cloneable {
      *
      * @return side
      */
-    Side getSide() {
-        return this.side;
+    Wind getWind() {
+        return this.wind;
     }
 
     /**
