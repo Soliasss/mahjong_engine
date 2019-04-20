@@ -42,8 +42,8 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
         this.currentWind = wind;
         this.uuid = UUID.randomUUID();
         this.zones = new EnumMap<>(TileZoneIdentifier.class);
-        for(Entry<TileZoneIdentifier,TileZone> entry : zones.entrySet()){
-            entry.setValue(new MahjongTileZone(entry.getKey()));
+        for( TileZoneIdentifier tzi : TileZoneIdentifier.values()){
+            this.zones.put(tzi,new MahjongTileZone(tzi));
         }
         indexToTile=null;
         tileToZone=null;
@@ -106,7 +106,7 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
 
     @Override
     public TileZone getTileZone(TileZoneIdentifier identifier) throws GameException{
-        TileZone tz =  this.zones.get(identifier);
+        TileZone tz = this.zones.get(identifier);
         if(tz == null) throw new GameException("The identifier isn't in the Board");
         return tz;
     }
