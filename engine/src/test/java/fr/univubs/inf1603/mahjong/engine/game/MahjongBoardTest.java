@@ -50,21 +50,6 @@ public class MahjongBoardTest {
     }
 
     /**
-     * Test of getViewFromWind method, of class MahjongBoard.
-     */
-    @Test
-    public void testGetViewFromWind() throws Exception {
-        System.out.println("getViewFromWind");
-        Wind wind = null;
-        MahjongBoard instance = null;
-        Board expResult = null;
-        Board result = instance.getViewFromWind(wind);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getUUID method, of class MahjongBoard.
      */
     @Test
@@ -83,7 +68,7 @@ public class MahjongBoardTest {
     @Test
     public void testGetPropertyChangeSupport() {
         System.out.println("getPropertyChangeSupport");
-        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        MahjongBoard instance = new MahjongBoard(Wind.WEST);
         PropertyChangeSupport result = instance.getPropertyChangeSupport();
         assertNotNull(result);
     }
@@ -95,7 +80,7 @@ public class MahjongBoardTest {
     public void testGetTile(){
         System.out.println("getTile");
         int gameIndex = 1;
-        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        MahjongBoard instance = new MahjongBoard(Wind.WEST);
         GameTile gameTile = new GameTile(gameIndex, InternationalTiles.BAMBOO_1);
         try {
             ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(gameTile);
@@ -119,7 +104,7 @@ public class MahjongBoardTest {
     public void testGetTileZoneOfTile_int(){
         System.out.println("getTileZoneOfTile");
         int gameIndex = 1;
-        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        MahjongBoard instance = new MahjongBoard(Wind.WEST);
         GameTile gameTile = new GameTile(gameIndex, InternationalTiles.BAMBOO_1);
         try {
             ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(gameTile);
@@ -153,7 +138,7 @@ public class MahjongBoardTest {
     public void testGetTileZoneOfTile_GameTileInterface(){
         System.out.println("getTileZoneOfTile");
         GameTile tile = new GameTile(0, InternationalTiles.BAMBOO_1);
-        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        MahjongBoard instance = new MahjongBoard(Wind.WEST);
         try {
             ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(tile);
         } catch (GameException ex) {
@@ -182,7 +167,7 @@ public class MahjongBoardTest {
     public void testGetTileZone_TileZoneIdentifier(){
         System.out.println("getTileZone");
         GameTile tile = new GameTile(0, InternationalTiles.BAMBOO_1);
-        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        MahjongBoard instance = new MahjongBoard(Wind.WEST);
         try {
             ((MahjongTileZone)instance.getTileZone(TileZoneIdentifier.DiscardEast)).addTile(tile);
         } catch (GameException ex) {
@@ -207,11 +192,11 @@ public class MahjongBoardTest {
     public void testGetTileZone_String(){
         System.out.println("getTileZone");
         String normalizedName = "Wall";
-        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), new EnumMap<>(TileZoneIdentifier.class));
+        MahjongBoard instance = new MahjongBoard(Wind.WEST);
         TileZoneIdentifier expResult = TileZoneIdentifier.Wall;
-        TileZone result=null;
+        TileZoneIdentifier result=null;
         try {
-            result = instance.getTileZone(normalizedName);
+            result = instance.getTileZone(normalizedName).getIdentifier();
         } catch (GameException ex) {
             fail("MahjongBoard threw an exception :"+ex);
         }

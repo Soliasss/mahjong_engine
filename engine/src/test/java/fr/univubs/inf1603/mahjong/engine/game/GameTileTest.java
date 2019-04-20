@@ -51,20 +51,6 @@ public class GameTileTest {
     }
 
     /**
-     * Test of clone method, of class GameTile.
-     */
-    @Test
-    public void testClone() {
-        System.out.println("clone");
-        GameTile instance = null;
-        GameTile expResult = null;
-        GameTile result = instance.clone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of setTile method, of class GameTile.
      */
     @Test
@@ -84,7 +70,7 @@ public class GameTileTest {
     public void testToString() {
         System.out.println("toString");
         GameTile instance = new GameTile(0, InternationalTiles.DOT_1);
-        String expResult = "d1";
+        String expResult = "0:d1";
         String result = instance.toString();
         assertEquals(expResult, result);
     }

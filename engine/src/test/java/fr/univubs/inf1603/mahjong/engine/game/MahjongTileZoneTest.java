@@ -39,6 +39,7 @@ public class MahjongTileZoneTest {
         GameTile tile = new GameTile(1,InternationalTiles.BAMBOO_1);
         MahjongTileZone instance = new MahjongTileZone(new ArrayList<>(), UUID.randomUUID(), TileZoneIdentifier.Wall);
         instance.addTile(tile);
+        instance.removeTile(tile);
         assertFalse(instance.getTiles().contains(tile));
     }
 
@@ -65,19 +66,6 @@ public class MahjongTileZoneTest {
         assertNotNull(result);
     }
 
-    /**
-     * Test of clone method, of class MahjongTileZone.
-     */
-    @Test
-    public void testClone() {
-        System.out.println("clone");
-        MahjongTileZone instance = null;
-        MahjongTileZone expResult = null;
-        MahjongTileZone result = instance.clone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of getTiles method, of class MahjongTileZone.
