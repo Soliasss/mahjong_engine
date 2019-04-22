@@ -292,6 +292,14 @@ public enum InternationalTiles implements AbstractTile {
     private InternationalTiles(AbstractTile abstractTile) {
         this.tile = abstractTile;
     }
+    
+    /**
+     * This method is package protected and returns the encapsulated tile (needed for type base analysis)
+     * @return 
+     */
+    AbstractTile getTile(){
+        return this.tile;
+    }
 
     @Override
     public String toNormalizedName() {
