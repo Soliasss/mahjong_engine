@@ -2,6 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
 import java.util.Map.Entry;
@@ -53,8 +54,37 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
 
     
     
-    Board getViewFromWind(Wind wind) throws ZoneException {
-        throw new UnsupportedOperationException("not implemented yet"); //TODO : implement view computing
+    Board getViewFromWind(Wind wind) throws GameException {
+        MahjongBoard  retBoard = new MahjongBoard(this.getCurrentWind());
+        String nameHand = "Hand"+wind.toString();
+        String meld1 = "Meld"+wind.toString()+"1";
+        String meld2 = "Meld"+wind.toString()+"2";
+        String meld3 = "Meld"+wind.toString()+"3";
+        String supreme = "Supreme"+wind.toString();
+        String discard = "Discard"+wind.toString();
+        for(Entry<TileZoneIdentifier,TileZone> entry : this.zones.entrySet()){
+            if(entry.getKey().toString().equals(nameHand)){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else if(entry.getKey().toString().equals(meld1)){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else if(entry.getKey().toString().equals(meld2)){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else if(entry.getKey().toString().equals(meld3)){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else if(entry.getKey().toString().equals(supreme)){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else if(entry.getKey().toString().equals(discard)){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else if(entry.getKey().toString().equals("Wall")){
+                entry.setValue(this.zones.get(entry.getKey()));
+            }else{
+                entry.setValue(this.zones.get(entry.getKey()));
+                for(GameTile tile : entry.getValue().getTiles()){
+                    tile.setTile(new CommonTile("xx"));
+                }
+            }
+        }
+        return retBoard;
     }
 
     @Override
