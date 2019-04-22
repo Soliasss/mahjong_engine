@@ -25,7 +25,7 @@ public class SillyBoardRule implements BoardRule{
 
     @Override
     public Collection<TileZone> distributeTiles(StartingWall startingWall) {
-        
+        return null;
     }
 
     @Override
