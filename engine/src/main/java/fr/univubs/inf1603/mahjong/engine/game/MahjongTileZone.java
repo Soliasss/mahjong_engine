@@ -45,6 +45,7 @@ public class MahjongTileZone implements TileZone, Persistable {
      */
     public void addTile(GameTile tile) {
         this.tiles.add(tile);
+        propertyChangeSupport.firePropertyChange("addTileInTiles", null, tile);
     }
 
     /**
@@ -54,6 +55,7 @@ public class MahjongTileZone implements TileZone, Persistable {
      */
     public void removeTile(GameTile tile) {
         this.tiles.remove(tile);
+        propertyChangeSupport.firePropertyChange("removeTileInTiles", tile, null);
     }
 
     @Override
