@@ -80,7 +80,7 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
             }else{
                 entry.setValue(this.zones.get(entry.getKey()));
                 for(GameTile tile : entry.getValue().getTiles()){
-                    tile.setTile(new CommonTile("xx"));
+                    tile.setTile(HiddenTile.HIDDENTILE);
                 }
             }
         }
