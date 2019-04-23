@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public interface Game extends Persistable {
 
-    public static final String LAST_PLAYED_MOVE = "lastplayedmove",
-            AVAILABLE_MOVES_SIZE_P0 = "availablemovessizep0",
+    public static final String LAST_PLAYED_MOVE_PROPERTY = "lastplayedmove",
+            /*AVAILABLE_MOVES_SIZE_P0 = "availablemovessizep0",
             AVAILABLE_MOVES_SIZE_P1 = "availablemovessizep1",
             AVAILABLE_MOVES_SIZE_P2 = "availablemovessizep2",
             AVAILABLE_MOVES_SIZE_P3 = "availablemovessizep3",
@@ -21,7 +21,9 @@ public interface Game extends Persistable {
             INDEXED_AVAILABLE_MOVES_P1 = "availablemovesp1",
             INDEXED_AVAILABLE_MOVES_P2 = "availablemovesp2",
             INDEXED_AVAILABLE_MOVES_P3 = "availablemovesp3",
-            CURRENT_WIND = "currentwind";
+            CURRENT_WIND = "currentwind",*/
+            POSSIBLE_MOVES_PROPERTY = "possiblemoves",
+            GAME_OVER_PROPERTY = "gameover";
 
     /**
      * Permet de récupérer la règles utilisée pour cette partie
@@ -54,6 +56,12 @@ public interface Game extends Persistable {
      * refus
      */
     public void registerMove(Move move) throws GameException;
+
+    /**
+     * Permet d'effectuer le move sur le Board
+     * @param move Le move à effectuer
+     */
+    private void applyMove(Move move) throws GameException;
 
     /**
      * @return The time a stealing phase can last up to.
@@ -134,5 +142,20 @@ public interface Game extends Persistable {
     public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException;
 
     public ArrayList<Move> getPossibleMoves(int player) throws GameException;
+
+    /**
+     * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
+     */
+    private void getAndFirePossibleMoves();
+
+    /**
+     * Permet de lancer un thread attendant que les moves soit register
+     */
+    private void waitToRegisterMoves();
+
+    /**
+     * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
+     */
+    private void chooseMoveToApply();
 
 }
