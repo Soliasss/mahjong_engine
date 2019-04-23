@@ -19,23 +19,25 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
     private final int gameID;
     private final UUID uuid;
     private boolean publiclyVisible;
-    
+    private Wind orientation;
     /**
      *
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      * @param uuid This tile's UUID
      * @param publiclyVisible
+     * @param orientation
      */
-    public GameTile(int gameID, AbstractTile tile, UUID uuid, boolean publiclyVisible) {
+    public GameTile(int gameID, AbstractTile tile, UUID uuid, boolean publiclyVisible, Wind orientation) {
         this.gameID = gameID;
         this.tile = tile;
         this.uuid = uuid;
         this.publiclyVisible=publiclyVisible;
+        this.orientation = orientation;
     }
 
     public GameTile(int gameID, AbstractTile tile) {
-        this(gameID, tile, UUID.randomUUID(),false);
+        this(gameID, tile, UUID.randomUUID(),false,Wind.EAST);
     }
 
     @Override
@@ -95,4 +97,15 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
     public PropertyChangeSupport getPropertyChangeSupport() {
         return propertyChangeSupport;
     }
+
+    void setOrientation(Wind wind){
+        this.orientation = wind;
+    }
+    
+    @Override
+    public Wind getOrientation() {
+        return this.orientation;
+    }
+    
+    
 }
