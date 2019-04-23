@@ -1,6 +1,9 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.ConstructorProperties;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
@@ -11,17 +14,16 @@ import java.util.UUID;
  *
  * @author COGOLUEGNES Charles
  */
-public class Move implements Serializable, Cloneable {
+public class Move implements Persistable,Serializable, Cloneable {
 
-    private final Side side;
+    private final Wind wind;
     private final int priority;
-    private final HashMap<Integer, MahjongTileZone> path;
+    private final HashMap<Integer, TileZoneIdentifier> path;
     private final UUID uuid;
 
     /**
      *
-     * @param side Le nombre qui représente le numéro du joueur qui effectue
-     * le Move
+     * @param wind
      * @param priority La priorité du Move par rapport à d'autre Move (0 est la
      * plus grosse priorité, n est la moins grosse priorité)
      * @param path Une Map qui contient l'information de déplacement de la ou
@@ -30,9 +32,8 @@ public class Move implements Serializable, Cloneable {
      * @param uuid
      * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
      */
-    @ConstructorProperties({"player", "priority", "path", "uuid"})
-    public Move(Side side, int priority, HashMap<Integer, MahjongTileZone> path, UUID uuid) throws MoveException {
-        this.side = side;
+    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, UUID uuid) throws MoveException {
+        this.wind = wind;
 
         if (priority < 0) {
             throw new MoveException("The priority has to be positive or O");
@@ -47,8 +48,8 @@ public class Move implements Serializable, Cloneable {
         this.uuid = uuid;
     }
 
-    public Move(Side side, int priority, HashMap<Integer, MahjongTileZone> path) throws MoveException {
-        this(side, priority, path, UUID.randomUUID());
+    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path) throws MoveException {
+        this(wind, priority, path, UUID.randomUUID());
     }
 
     /**
@@ -56,8 +57,8 @@ public class Move implements Serializable, Cloneable {
      *
      * @return side
      */
-    Side getSide() {
-        return this.side;
+    public Wind getWind() {
+        return this.wind;
     }
 
     /**
@@ -74,7 +75,20 @@ public class Move implements Serializable, Cloneable {
      *
      * @return path
      */
-    public HashMap<Integer, MahjongTileZone> getPath() {
+    public HashMap<Integer, TileZoneIdentifier> getPath() {
         return this.path;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.uuid;
+    }
+
+    
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
+    @Override
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return this.propertyChangeSupport;
     }
 }
