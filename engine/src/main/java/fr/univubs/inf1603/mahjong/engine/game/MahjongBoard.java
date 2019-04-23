@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.ArrayList;
 
 /**
  * MahjongBoard represents the mahjong board during the game.
@@ -14,10 +15,25 @@ import java.util.UUID;
  */
 public class MahjongBoard implements Board, Cloneable {
 
+    /**
+     * Le vent courrant du board
+     */
     private Wind currentWind;
+    /**
+     * L identificateur unique du board
+     */
     private final UUID uuid;
+    /**
+     * La liste des zones contenu dans le board
+     */
     private final EnumMap<TileZoneIdentifier, TileZone> zones;
+    /**
+     * Un tableau qui donne pour chaque tuile un numéro unique a chaque board
+     */
     private HashMap<Integer,GameTileInterface> indexToTile;
+    /**
+     * Un tableau contenant la tuile lié à une zone
+     */
     private HashMap<GameTileInterface,TileZone> tileToZone;
 
     /**
@@ -25,9 +41,9 @@ public class MahjongBoard implements Board, Cloneable {
      * used by a persistence framework, factories, or other constructors of this
      * class
      *
-     * @param wind
-     * @param uuid
-     * @param zones
+     * @param wind Le vent courrant du board
+     * @param uuid L identifiant unique
+     * @param zones La liste des zones
      */
     public MahjongBoard(Wind wind, UUID uuid, EnumMap<TileZoneIdentifier, TileZone> zones) {
         this.currentWind = wind;
@@ -37,6 +53,10 @@ public class MahjongBoard implements Board, Cloneable {
         tileToZone=null;
     }
 
+    /**
+     * Constructeur du board initialisant tout en ne prenant que le vent courant
+     * @param wind Le vent courrant du board
+     */
     public MahjongBoard(Wind wind) {
         this.currentWind = wind;
         this.uuid = UUID.randomUUID();
@@ -53,6 +73,10 @@ public class MahjongBoard implements Board, Cloneable {
         return this.currentWind;
     }
     
+    /**
+     * Modifie la valeur currentTile
+     * @param newWind Le nouveau vent 
+     */
     public void setWind(Wind newWind) {
         this.currentWind = newWind;
     }
@@ -89,8 +113,14 @@ public class MahjongBoard implements Board, Cloneable {
                 retBoard.zones.put(entry.getKey(), entry.getValue());
             }else{
                 retBoard.zones.put(entry.getKey(), entry.getValue());
-                for(GameTile tile : retBoard.getTileZone(tziName).getTiles()){
-                    tile.setTile(HiddenTile.HIDDENTILE);
+                for(GameTileInterface gti : retBoard.getTileZone(tziName).getTiles()){
+                    GameTile gt;
+                    if (gti instanceof GameTile){
+                        gt = (GameTile) gti;
+                        if(!gt.isPubliclyVisible()) gt.setTile(HiddenTile.HIDDENTILE);
+                    }else{
+                        throw new GameException("A GameTileInterface is not a GameTile");
+                    }
                 }
             }
         }
@@ -178,6 +208,11 @@ public class MahjongBoard implements Board, Cloneable {
         }
     }
     
+    /**
+     * Verifie si le Move passer en paramètre est correct
+     * @param move Le move dont on veut vérifier la validité
+     * @throws GameException
+     */
     private void isMoveCoherent(Move move) throws GameException{
         for(Entry<Integer, TileZoneIdentifier> t : move.getPath().entrySet()){
             if(getTileZoneOfTile(t.getKey())==null){
