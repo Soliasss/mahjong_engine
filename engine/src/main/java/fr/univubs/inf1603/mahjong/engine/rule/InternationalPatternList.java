@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.regex.*;
+
+import org.omg.CORBA.Current;
+
 import java.util.ArrayList;
 
 /**
  * Implementation of the {@link AbstractPatternList} for the international ruleset.
  * This class behaves like a singleton
- * @author Tristan Furno & Pierre Guriel
+ * @author Tristan Furno & Pierre Guriel & Anton Cosnefroy
  */
 public class InternationalPatternList implements AbstractPatternList {
 
@@ -37,8 +41,10 @@ public class InternationalPatternList implements AbstractPatternList {
      * The enumeration of all the possible patterns in the international ruleset.
      */
     private enum InternationalPatterns implements IdentifiablePattern {
-
-        BIG_FOUR_WINDS { //4 pungs of 4 winds
+        /**
+         * 4 pungs des 4 vents
+         */
+        BIG_FOUR_WINDS {
             @Override
             public int getValue() {
                 return 88;
@@ -90,7 +96,10 @@ public class InternationalPatternList implements AbstractPatternList {
             }
         },
 
-        BIG_THREE_DRAGONS { //3 pungs of the 3 dragons
+        /**
+         * 3 pungs des 3 dragons
+         */
+        BIG_THREE_DRAGONS {
             @Override
             public int getValue() {
                 return 88;
@@ -131,8 +140,10 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
-
-        FOUR_KONGS { //The name is obvious
+        /**
+         * 4 kongs
+         */
+        FOUR_KONGS {
             @Override
             public int getValue() {
                 return 88;
@@ -165,8 +176,10 @@ public class InternationalPatternList implements AbstractPatternList {
                 return result;
             }
         },
-        
-        SEVEN_SHIFTED_PAIRS { //7 pair in one family
+        /**
+         * 7 Pairs consécutives dans une famille
+         */
+        SEVEN_SHIFTED_PAIRS {
             @Override
             public int getValue() {
                 return 88;
@@ -246,6 +259,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
+        /**
+         * 3 pungs de vente et paire du 4ème
+         */
         LITTLE_FOUR_WINDS {
             @Override
             public int getValue() {
@@ -254,9 +270,47 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<GameTile> pungFound = new ArrayList<>();
+                int windFound = 0;
+                
+                for (Combination temporaryCombination: allCombinations){
+                    
+                    if(temporaryCombination.isPung() || temporaryCombination.isKong()){
+                        GameTile firstTile = temporaryCombination.getTiles()[0];
+                        if(firstTile.getTile().toNormalizedName().equals("We")){
+                            windFound++;
+                            pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
+                        }
+                        else if(firstTile.getTile().toNormalizedName().equals("Ww")){
+                            windFound++;
+                            pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
+                        }
+                        else if(firstTile.getTile().toNormalizedName().equals("Ws")){
+                            windFound++;
+                            pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
+                        }
+                        else if(firstTile.getTile().toNormalizedName().equals("Wn")){
+                            windFound++;
+                            pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
+                        }
+                    }
+                    else if(windFound == 3 && temporaryCombination.isPair()){
+                        GameTile firstTile = temporaryCombination.getTiles()[0];
+                        pattern = Pattern.compile("W(e|w|s|n)");
+                        matcher = pattern.matcher(firstTile.toNormalizedName());
+                        pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
+                        windFound++;
+                    }
+                }
+                if(windFound == 4){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, pungFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
+            
         },
         LITTLE_THREE_DRAGONS {
             @Override
@@ -294,6 +348,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
+        /**
+         * Uniquement des 1 et des 9
+         */
         ALL_TERMINALS {
             @Override
             public int getValue() {
@@ -302,13 +359,46 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
-                return toReturn;
+                ArrayList<IdentifiedPattern> result = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+                int nbOfCombination = 0;
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isAllHog = true;
+
+                for (Combination currentCombi: allCombinations) {
+                    if (currentCombi.isPung() || currentCombi.isKong()){
+                        GameTile currentTile = currentCombi.getTiles()[0];
+                            if(!currentTile.isMajor()){
+                                isAllMajor = false;
+                                break;
+                            }
+                        nbOfCombination++;
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        lastCombi = currentCombi;
+                    } else if(nbOfCombination == 4 && currentCombi.isPair()){
+                        GameTile currentTile = currentCombi.getTiles()[0];
+                            if(!currentTile.isMajor()){
+                                isAllMajor = false;
+                                break;
+                            }
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        nbOfCombination++;
+                    }
+                }
+
+                if (nbOfCombination == 5 && isAllMajor){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    result.add(pattern);
+                }
+
+                return result;
             }
         },
 
-
-        FOUR_CONCEALED_PUNGS { //Add when pung is concealed
+        /**
+         * 4 pongs cachés
+         */
+        FOUR_CONCEALED_PUNGS {
             @Override
             public int getValue() {
                 return 64;
@@ -338,8 +428,10 @@ public class InternationalPatternList implements AbstractPatternList {
                 return result;
             }
         },
-
-        QUADRUPLE_CHOW { //4 same chow
+        /**
+         * 4 chows identiques dane une famille
+         */
+        QUADRUPLE_CHOW {
             @Override
             public int getValue() {
                 return 48;
@@ -379,7 +471,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return result;
             }
         },
-
+        /**
+         * 4 Pungs consécutifs dans une famille
+         */
         FOUR_PURE_SHIFTED_PUNGS {
             @Override
             public int getValue() {
@@ -1048,6 +1142,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
+        /**
+         * Uniquement des tuiles de 2 à 8
+         */
         TITLE_HOG {
             @Override
             public int getValue() {
@@ -1056,10 +1153,54 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
-                return toReturn;
+                ArrayList<IdentifiedPattern> result = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+                int nbOfCombination = 0;
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isAllHog = true;
+
+                for (Combination currentCombi: allCombinations) {
+                    if (currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong()){
+                        GameTile[] currentTiles = currentCombi.getTiles();
+                        for(int i=0; i<currentTiles.length;i++){
+                            pattern = Pattern.compile("(b|c|d)[2-8]");
+                            matcher = pattern.matcher(currentTiles[i].toNormalizedName());
+                            if(!matcher.matches()){
+                                isAllHog = false;
+                                break;
+                            }
+                        }
+                        if(!isAllHog)break;
+                        nbOfCombination++;
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        lastCombi = currentCombi;
+                    } else if(nbOfCombination == 4 && currentCombi.isPair()){
+                        GameTile[] currentTiles = currentCombi.getTiles();
+                        for(int i=0; i<currentTiles.length;i++){
+                            pattern = Pattern.compile("(b|c|d)[2-8]");
+                            matcher = pattern.matcher(currentTiles[i].toNormalizedName());
+                            if(!matcher.matches()){
+                                isAllHog = false;
+                                break;
+                            }
+                        }
+                        if(!isAllHog)break;
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        nbOfCombination++;
+                    }
+                }
+
+                if (nbOfCombination == 5 && isAllHog){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    result.add(pattern);
+                }
+
+                return result;
             }
         },
+        /**
+         * Deux chows identiques
+         */
         PURE_DOUBLE_CHOW {
             @Override
             public int getValue() {
@@ -1098,6 +1239,9 @@ public class InternationalPatternList implements AbstractPatternList {
             
             }
         },
+        /**
+         * Deux chows identiques dans deux familles différentes
+         */
         MIXED_DOUBLE_CHOW {
             @Override
             public int getValue() {
@@ -1140,6 +1284,9 @@ public class InternationalPatternList implements AbstractPatternList {
             
             }
         },
+        /**
+         * Deux chow consécutifs dans une famille (suite de 6 tuiles)
+         */
         SHORT_STRAIGHT {
             @Override
             public int getValue() {
@@ -1177,6 +1324,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return result;
             }
         },
+        /**
+         * 1-2-3 et 7-8-9 dans une famille
+         */
         TWO_TERMINAL_CHOWS {
             @Override
             public int getValue() {
@@ -1220,6 +1370,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return result;
             }
         },
+        /**
+         * 1 pung de 1, de 9 ou de Vent
+         */
         PUNG_OF_TERMINALS_OR_HONORS {
             @Override
             public int getValue() {
@@ -1240,9 +1393,9 @@ public class InternationalPatternList implements AbstractPatternList {
                     GameTile tile = currentCombi.getTiles()[0];
                     if (currentCombi.isPung() && (
                         ((CommonTile)tile.getTile()).isMajor() ||
-                       tile.getTile().toNormalizedName().equals("Dr") ||
-                       tile.getTile().toNormalizedName().equals("Dg") ||
-                       tile.getTile().toNormalizedName().equals("Dw") ||
+                       //tile.getTile().toNormalizedName().equals("Dr") ||
+                       //tile.getTile().toNormalizedName().equals("Dg") ||
+                       //tile.getTile().toNormalizedName().equals("Dw") ||
                        tile.getTile().toNormalizedName().equals("Wn") ||
                        tile.getTile().toNormalizedName().equals("Ww") ||
                        tile.getTile().toNormalizedName().equals("We") ||
@@ -1262,6 +1415,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
+        /**
+        * 1 kong exposé
+        */
         MELDED_KONG {
             @Override
             public int getValue() {
@@ -1301,6 +1457,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
+        /**
+         * Uniquement des tuiles des familles
+         */
         NO_HONORS {
             @Override
             public int getValue() {
@@ -1309,8 +1468,38 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
-                return toReturn;
+                ArrayList<IdentifiedPattern> result = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+                int nbOfCombination = 0;
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isAllHog = true;
+
+                for (Combination currentCombi: allCombinations) {
+                    if (currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong()){
+                        GameTile[] currentTiles = currentCombi.getTiles();
+                        for(int i=0; i<currentTiles.length;i++){
+                            pattern = Pattern.compile("(b|c|d)[1-9]");
+                            matcher = pattern.matcher(currentTiles[i].toNormalizedName());
+                            if(!matcher.matches()){
+                                isAllHog = false;
+                                break;
+                            }
+                        }
+                        if(!isAllHog)break;
+                        nbOfCombination++;
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        lastCombi = currentCombi;
+                    } else if(nbOfCombination == 4 && currentCombi.isPair()){
+                        nbOfCombination++;
+                    }
+                }
+
+                if (nbOfCombination == 5 && isAllHog){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    result.add(pattern);
+                }
+
+                return result;
             }
         },
         EDGE_WAIT {
@@ -1361,6 +1550,9 @@ public class InternationalPatternList implements AbstractPatternList {
                 return toReturn;
             }
         },
+        /**
+         * Fleur ou saison
+         */
         FLOWER_TILES {
             @Override
             public int getValue() {
