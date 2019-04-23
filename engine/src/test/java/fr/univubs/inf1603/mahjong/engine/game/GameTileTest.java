@@ -44,7 +44,7 @@ public class GameTileTest {
     public void testGetUUID() {
         System.out.println("getUUID");
         UUID u = UUID.randomUUID();
-        GameTile instance = new GameTile(0, InternationalTiles.BAMBOO_1, u);
+        GameTile instance = new GameTile(0, InternationalTiles.BAMBOO_1, u,false);
         UUID expResult = u;
         UUID result = instance.getUUID();
         assertEquals(expResult, result);

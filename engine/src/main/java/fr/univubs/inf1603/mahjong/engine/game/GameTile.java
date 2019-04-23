@@ -18,21 +18,24 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
     private AbstractTile tile;
     private final int gameID;
     private final UUID uuid;
-
+    private boolean publiclyVisible;
+    
     /**
      *
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      * @param uuid This tile's UUID
+     * @param publiclyVisible
      */
-    public GameTile(int gameID, AbstractTile tile, UUID uuid) {
+    public GameTile(int gameID, AbstractTile tile, UUID uuid, boolean publiclyVisible) {
         this.gameID = gameID;
         this.tile = tile;
         this.uuid = uuid;
+        this.publiclyVisible=publiclyVisible;
     }
 
     public GameTile(int gameID, AbstractTile tile) {
-        this(gameID, tile, UUID.randomUUID());
+        this(gameID, tile, UUID.randomUUID(),false);
     }
 
     @Override
@@ -54,6 +57,16 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         return this.uuid;
     }
 
+    boolean isPubliclyVisible(){
+        return this.publiclyVisible;
+    }
+    
+    void setPubliclyVisible(boolean value){
+        //I don't see a case where you would have to rehide a tile after it has been discovered
+        //TODO : maybe log if the case above happens
+        this.publiclyVisible = value;
+    }
+    
     @Override
     public GameTile clone() {
         return new GameTile(this.gameID, this.tile);
