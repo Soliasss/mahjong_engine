@@ -1,8 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
-import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
 import java.util.Map.Entry;
@@ -13,7 +11,7 @@ import java.util.UUID;
  *
  * @author Samuel LE BERRE
  */
-public class MahjongBoard implements Board,Persistable, Cloneable {
+public class MahjongBoard implements Board, Cloneable {
 
     private Wind currentWind;
     private final UUID uuid;
@@ -53,8 +51,13 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
     }
 
     
-    
-    Board getViewFromWind(Wind wind) throws GameException {
+    /**
+     * Retourne la vision du board du point de vue d un joueur
+     * @param wind Le cote du joueur
+     * @return Un board du poiunt de vue du joueur
+     * @throws GameException Si le vent courrant est null
+     */
+    Board getViewFromWind(Wind wind) throws GameException{
         MahjongBoard  retBoard = new MahjongBoard(this.getCurrentWind());
         String nameHand = "Hand"+wind.toString();
         String meld1 = "Meld"+wind.toString()+"1";
@@ -63,23 +66,24 @@ public class MahjongBoard implements Board,Persistable, Cloneable {
         String supreme = "Supreme"+wind.toString();
         String discard = "Discard"+wind.toString();
         for(Entry<TileZoneIdentifier,TileZone> entry : this.zones.entrySet()){
-            if(entry.getKey().toString().equals(nameHand)){
-                entry.setValue(this.zones.get(entry.getKey()));
-            }else if(entry.getKey().toString().equals(meld1)){
-                entry.setValue(this.zones.get(entry.getKey()));
-            }else if(entry.getKey().toString().equals(meld2)){
-                entry.setValue(this.zones.get(entry.getKey()));
-            }else if(entry.getKey().toString().equals(meld3)){
-                entry.setValue(this.zones.get(entry.getKey()));
-            }else if(entry.getKey().toString().equals(supreme)){
-                entry.setValue(this.zones.get(entry.getKey()));
-            }else if(entry.getKey().toString().equals(discard)){
-                entry.setValue(this.zones.get(entry.getKey()));
-            }else if(entry.getKey().toString().equals("Wall")){
-                entry.setValue(this.zones.get(entry.getKey()));
+            String tziName = entry.getKey().getNormalizedName();
+            if(tziName.equals(nameHand)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals(meld1)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals(meld2)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals(meld3)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals(supreme)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals(discard)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals("Wall")){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
             }else{
-                entry.setValue(this.zones.get(entry.getKey()));
-                for(GameTile tile : entry.getValue().getTiles()){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+                for(GameTile tile : retBoard.getTileZone(tziName).getTiles()){
                     tile.setTile(HiddenTile.HIDDENTILE);
                 }
             }
