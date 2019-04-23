@@ -1,105 +1,104 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-// pblm ligne 49
-
+import fr.univubs.inf1603.mahjong.engine.game.GameException;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+import fr.univubs.inf1603.mahjong.engine.game.GameTileInterface;
+import fr.univubs.inf1603.mahjong.engine.game.MahjongBoard;
 import fr.univubs.inf1603.mahjong.engine.game.Move;
-import fr.univubs.inf1603.mahjong.engine.game.TileZone;
+import fr.univubs.inf1603.mahjong.engine.game.MoveException;
+import fr.univubs.inf1603.mahjong.engine.game.TileZoneIdentifier;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.EnumMap;
-import java.util.Random;
-import javafx.geometry.Side;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Abdelilah MOULIDA
  */
-public class SillyBoardRule {
-    
-    /**
-     * Roll the dice to find the order of the players
-     * @return an array of sides, each element is associated with a player (its index)
-     */
-    Side getPlayerOrder()
-    {
-        /* retourner un random d'un enum Side */
-        return Side.values()[new Random().nextInt(Side.values().length)];
+public class SillyBoardRule implements BoardRule {
+
+    @Override
+    public Wind[] getPlayerOrder() {
+        return Wind.values();
     }
 
-    /**
-     * Roll the dice to build a {@link StartingWall}
-     * @return a new random starting wall
-     */
-    StartingWall buildWall()
-    {
-        // Intializing an deque 
-        ArrayDeque<GameTile> cut = new ArrayDeque<GameTile>(); 
-                 
-        return new StartingWall(Wind.EAST, 10, cut); 
+    @Override
+    public StartingWall buildWall() {
+        return new StartingWall(Wind.EAST, 0, new ArrayDeque<>());
     }
 
-    /**
-     * Distribute the tiles in the right {@link TileZone}
-     * @param startingWall the starting wall we are distributing from
-     * @return the tile zones filled with the distributed tiles
-     */
-    Collection<TileZone> distributeTiles(StartingWall startingWall)
-    {
-        /*
+    @Override
+    public MahjongBoard distributeTiles(StartingWall startingWall) {
+        MahjongBoard board = new MahjongBoard(Wind.WEST);
+        ArrayList<GameTileInterface> allTile = new ArrayList();
+        int gameIndex = 0;
+        for (InternationalTiles a : InternationalTiles.values()) {
+            if (a.getTile() instanceof CommonTile) {
+                for(int i = 0;i<6;i++,gameIndex++){ // yes silly rules have 6 of every common tile
+                    allTile.add(new GameTile(gameIndex, a.getTile()));
+                }
+            }            
+        }
+        try {
+            board.getTileZone(TileZoneIdentifier.Wall).getTiles().addAll(allTile);
+        } catch (GameException ex) {
+            Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        */
-        return null;
+        for(int i = 0;i<4;i++){//This is the draw moves they draw 13 tiles for each player in one swipe
+            HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
+            for(int j = 0;j<13;j++){
+                try {
+                    path.put(i*j, TileZoneIdentifier.getIdentifierFromNormalizedName("hand"+Wind.values()[i].name()));
+                    Move drawMove=null;
+                    try {
+                        drawMove = new Move(Wind.values()[i], 0, path);
+                    } catch (MoveException ex) {
+                        Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    board.applyMove(drawMove);
+                } catch (GameException ex) {
+                    Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return board;
     }
 
-    /**
-     * Check if a move is valid according to the rules in the given game state
-     * @param tileArrangement how the tiles are on the board, part of the game state
-     * @param lastMove the last move played, part of the game state
-     * @param move the move we need to check for validity
-     * @return true if the move is valid, false otherwise
-     */
-    boolean isMoveValid(Collection<TileZone> tileArrangement, Move lastMove, Move move)
-    {
-        Random random = new Random();
-        return random.nextBoolean();
-    }
-    /**
-     * Give all the valid move for each {@link Side} according to the rules in the given game state
-     * @param tileArrangement how the tiles are on the board, part of the game state
-     * @param lastMove the last move played, part of the game state
-     * @return the moves for each side
-     */
-    EnumMap<Wind, Move> findValidMoves(Collection<TileZone> tileArrangement, Move lastMove)
-    {
-        // Create an EnumMap to attribute for each Wind valid moves
-        EnumMap<Wind, Move> ValidMoves = new EnumMap<>(Wind.class);
-        
-        // for the player in WEST Side
-        ValidMoves.put(Wind.WEST, lastMove);
-        
-        // for the player in EAST Side
-        ValidMoves.put(Wind.EAST, lastMove);
-        
-        // for the player in NORTH Side
-        ValidMoves.put(Wind.NORTH, lastMove);
-        
-        // for the player in SOUTH Side
-        ValidMoves.put(Wind.SOUTH, lastMove);
-        
-        return ValidMoves;
+    @Override
+    public boolean isMoveValid(MahjongBoard board, Move lastMove, Move move) {
+        return findValidMoves(board, lastMove).get(move.getWind()).contains(move);
     }
 
-    /**
-     * Check from a given game state if the game can/should end.
-     * @param tileArrangement the "game state", how the tiles are on the board
-     * @param lastMove the last move played, part of the game state
-     * @return true if the game can/should end.
-     */
-    boolean isGameFinished(Collection<TileZone> tileArrangement, Move lastMove)
-    {
-        // I choice that the Game never finishe
+    @Override
+    public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
+        EnumMap<Wind, Collection<Move>> moves = new EnumMap<>(Wind.class);
+
+        Wind nextWindToPlay = Wind.values()[(lastMove.getWind().ordinal() + 1) % Wind.values().length];
+        moves.put(nextWindToPlay, new ArrayList<>());
+        HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
+        try {
+            path.put(board.getTileZone("hand" + nextWindToPlay.name()).getTiles().get(0).getGameID(), //Spaghetti code
+                    board.getTileZone("discard" + nextWindToPlay.name()).getIdentifier());            //Spaghetti code
+        } catch (GameException ex) {
+            Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            Move discard = new Move(nextWindToPlay, 0, path);
+            moves.get(nextWindToPlay).add(discard);
+        } catch (MoveException ex) {
+            Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return moves;
+    }
+
+    @Override
+    public boolean isGameFinished(MahjongBoard board, Move lastMove) {
         return false;
     }
+
 }
