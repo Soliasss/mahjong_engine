@@ -23,24 +23,30 @@ public class MahjongGame implements Game {
     private Duration playingTime;
 
     private ArrayList<Move> registeredMoves;
+    private ArrayList<Move> possiblesMoves;
     private UUID uuid;
+
+    private boolean ableToRegisterMoves;
 
     public MahjongGame(GameRule rule) throws GameException {
         this.rule = rule;
         this.board = null;
         this.uuid = UUID.randomUUID();
+        this.ableToRegisterMoves = false;
     }
 
     @Override
     public void launchGame() {
-        throw new UnsupportedOperationException("not implemented yet");
-//        this.playerWind = this.rule.getPlayersOrder();
-        //      this.board = this.rule.initBoard();
+        //this.playerWind = this.rule.getPlayersOrder();
+        //this.board = this.rule.initBoard();
+        this.getAndFirePossibleMoves();
     }
 
     @Override
     public void registerMove(Move move) throws GameException {
-        throw new UnsupportedOperationException("not immplemented yes");
+        if(this.ableToRegisterMoves){
+          this.registeredMoves.add(move);
+        }
     }
 
     @Override
@@ -146,4 +152,48 @@ public class MahjongGame implements Game {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    private void applyMove(Move move) throws GameException{
+      //Appliquer le move au Board
+      boolean leMoveACorrectementEteApplique = true; //temporaire
+      if(leMoveACorrectementEteApplique){
+        this.lastPlayedMove = move;
+        this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
+        this.getAndFirePossibleMoves();
+      }
+      else throw new GameException("Le Move n'a pas été appliqué au Board.") // A étoffer
+    }
+
+    @Override
+    private void getAndFirePossibleMoves(){
+      //Demander à Rule la liste Possible des Moves
+      if(this.possiblesMoves.isEmpty()){
+        this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, null);
+      }
+      else{
+        this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
+        this.waitToRegisterMoves();
+      }
+    }
+
+    @Override
+    private void waitToRegisterMoves(){
+      Thread thread = new Thread(new Runnable(){
+        public void run(){
+          registeredMoves = new ArrayList<Move>();
+          ableToRegisterMoves = true;
+          Thread.sleep((int)this.playingTime.getSeconds()*1000);
+          ableToRegisterMoves = false;
+          chooseMoveToApply();
+        }
+      });
+      thread.start();
+    }
+
+    @Override
+    private void chooseMoveToApply(){
+      //Choisir le move à effectuer
+      Move moveAEffectuer = null; //temporaire
+      this.applyMove(moveAEffectuer);
+    }
 }
