@@ -12,18 +12,9 @@ import java.util.ArrayList;
  */
 public interface Game extends Persistable {
 
-    public static final String LAST_PLAYED_MOVE_PROPERTY = "lastplayedmove",
-            /*AVAILABLE_MOVES_SIZE_P0 = "availablemovessizep0",
-            AVAILABLE_MOVES_SIZE_P1 = "availablemovessizep1",
-            AVAILABLE_MOVES_SIZE_P2 = "availablemovessizep2",
-            AVAILABLE_MOVES_SIZE_P3 = "availablemovessizep3",
-            INDEXED_AVAILABLE_MOVES_P0 = "availablemovesp0",
-            INDEXED_AVAILABLE_MOVES_P1 = "availablemovesp1",
-            INDEXED_AVAILABLE_MOVES_P2 = "availablemovesp2",
-            INDEXED_AVAILABLE_MOVES_P3 = "availablemovesp3",
-            CURRENT_WIND = "currentwind",*/
-            POSSIBLE_MOVES_PROPERTY = "possiblemoves",
-            GAME_OVER_PROPERTY = "gameover";
+    public static final String LAST_PLAYED_MOVE_PROPERTY = "Lastplayedmove",
+                               POSSIBLE_MOVES_PROPERTY = "Possiblemoves",
+                               GAME_OVER_PROPERTY = "Gameover";
 
     /**
      * Permet de récupérer la règles utilisée pour cette partie
