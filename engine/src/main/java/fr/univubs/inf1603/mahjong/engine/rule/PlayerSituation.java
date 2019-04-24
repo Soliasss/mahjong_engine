@@ -16,7 +16,7 @@ public class PlayerSituation {
     private Collection<GameTile> hand;
     private Collection<Combination> concealed;
     private Collection<Combination> melds;
-    private Collection<SupremeHonor> supremeHonors;
+    private Collection<GameTile> supremeHonors;
     private boolean drawnFromWall;
     private boolean takenFromDiscard;
     private Wind roundWind;
@@ -34,13 +34,13 @@ public class PlayerSituation {
      * @param roundWind Wind of the round, it's influencing the scoring
      * @param playerWind Wind of a player, it's influencing the scoring
      */
-    public PlayerSituation(GameTile winningTile, Collection<GameTile> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<SupremeHonor> supremeHonors,
+    public PlayerSituation(GameTile winningTile, Collection<GameTile> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<GameTile> supremeHonors,
                            boolean drawnFromWall, boolean takenFromDiscard, Wind roundWind, Wind playerWind){
         this.winningTile = winningTile;
         this.hand = new ArrayList<GameTile>(hand);
         this.concealed = new ArrayList<Combination>(concealed);
         this.melds = new ArrayList<Combination>(melds);
-        this.supremeHonors = new ArrayList<SupremeHonor>(supremeHonors);
+        this.supremeHonors = new ArrayList<GameTile>(supremeHonors);
         this.drawnFromWall = drawnFromWall;
         this.takenFromDiscard = takenFromDiscard;
         this.roundWind = roundWind;
@@ -83,7 +83,7 @@ public class PlayerSituation {
      *
      * @return It's a list of supremeHonors set down
      */
-    public Collection<SupremeHonor> getSupremeHonors(){
+    public Collection<GameTile> getSupremeHonors(){
         return this.supremeHonors;
     }
     
