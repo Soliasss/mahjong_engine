@@ -2,13 +2,11 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.regex.*;
 
-import org.omg.CORBA.Current;
+import java.util.regex.*;
 
 import java.util.ArrayList;
 
@@ -110,6 +108,7 @@ public class InternationalPatternList implements AbstractPatternList {
                 Collection<Combination> allCombinations = set.getAllCombinations();
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 Collection<GameTile> pungFound = new ArrayList<>();
+                int nbCombination = 0;
                 boolean isRed = false;
                 boolean isWhite = false;
                 boolean isGreen = false;
@@ -127,7 +126,7 @@ public class InternationalPatternList implements AbstractPatternList {
                             isGreen = true;
                         }
                         pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
-                        nbCombination ++;
+                        nbCombination++;
                     } else if (nbCombination == 4 && temporaryCombination.isPair()){
                         pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
                         nbCombination ++;
@@ -243,7 +242,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -255,7 +254,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -298,8 +297,8 @@ public class InternationalPatternList implements AbstractPatternList {
                     }
                     else if(windFound == 3 && temporaryCombination.isPair()){
                         GameTile firstTile = temporaryCombination.getTiles()[0];
-                        pattern = Pattern.compile("W(e|w|s|n)");
-                        matcher = pattern.matcher(firstTile.toNormalizedName());
+                        Pattern pattern = Pattern.compile("W(e|w|s|n)");
+                        Matcher matcher = pattern.matcher(firstTile.getTile().toNormalizedName());
                         pungFound.addAll(Arrays.asList(temporaryCombination.getTiles()));
                         windFound++;
                     }
@@ -320,7 +319,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -332,7 +331,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -344,7 +343,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -364,11 +363,13 @@ public class InternationalPatternList implements AbstractPatternList {
                 int nbOfCombination = 0;
                 Collection<GameTile> tilesFound = new ArrayList<>();
                 boolean isAllHog = true;
-
+                boolean isAllMajor = true;//Ajout
+                Combination lastCombi;
+                
                 for (Combination currentCombi: allCombinations) {
                     if (currentCombi.isPung() || currentCombi.isKong()){
                         GameTile currentTile = currentCombi.getTiles()[0];
-                            if(!currentTile.isMajor()){
+                            if( ! ((CommonTile)currentTile.getTile()).isMajor()){ //Fix
                                 isAllMajor = false;
                                 break;
                             }
@@ -377,7 +378,7 @@ public class InternationalPatternList implements AbstractPatternList {
                         lastCombi = currentCombi;
                     } else if(nbOfCombination == 4 && currentCombi.isPair()){
                         GameTile currentTile = currentCombi.getTiles()[0];
-                            if(!currentTile.isMajor()){
+                            if( ! ((CommonTile)currentTile.getTile()).isMajor()){ //Fix
                                 isAllMajor = false;
                                 break;
                             }
@@ -523,7 +524,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -535,7 +536,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -547,7 +548,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -560,7 +561,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -572,7 +573,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -584,7 +585,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -596,7 +597,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -608,7 +609,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -620,7 +621,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -632,7 +633,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -644,7 +645,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -656,7 +657,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -668,7 +669,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -680,7 +681,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -692,7 +693,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -704,7 +705,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -716,7 +717,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -728,7 +729,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -741,7 +742,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -753,7 +754,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -765,7 +766,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -777,7 +778,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -789,7 +790,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -801,7 +802,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -813,7 +814,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -825,7 +826,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -837,7 +838,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -849,7 +850,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -861,7 +862,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -873,7 +874,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -885,7 +886,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -897,7 +898,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -909,7 +910,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -921,7 +922,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -933,7 +934,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -945,7 +946,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -957,7 +958,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -969,7 +970,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -981,7 +982,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -994,7 +995,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1006,7 +1007,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1018,7 +1019,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1030,7 +1031,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1042,7 +1043,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1054,7 +1055,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1066,7 +1067,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1078,7 +1079,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1090,7 +1091,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1102,7 +1103,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1114,7 +1115,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1126,7 +1127,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1138,7 +1139,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -1158,13 +1159,14 @@ public class InternationalPatternList implements AbstractPatternList {
                 int nbOfCombination = 0;
                 Collection<GameTile> tilesFound = new ArrayList<>();
                 boolean isAllHog = true;
-
+                Combination lastCombi;
+                
                 for (Combination currentCombi: allCombinations) {
                     if (currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong()){
                         GameTile[] currentTiles = currentCombi.getTiles();
                         for(int i=0; i<currentTiles.length;i++){
-                            pattern = Pattern.compile("(b|c|d)[2-8]");
-                            matcher = pattern.matcher(currentTiles[i].toNormalizedName());
+                            Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
+                            Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());//Fix
                             if(!matcher.matches()){
                                 isAllHog = false;
                                 break;
@@ -1177,8 +1179,8 @@ public class InternationalPatternList implements AbstractPatternList {
                     } else if(nbOfCombination == 4 && currentCombi.isPair()){
                         GameTile[] currentTiles = currentCombi.getTiles();
                         for(int i=0; i<currentTiles.length;i++){
-                            pattern = Pattern.compile("(b|c|d)[2-8]");
-                            matcher = pattern.matcher(currentTiles[i].toNormalizedName());
+                            Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
+                            Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());//Fix
                             if(!matcher.matches()){
                                 isAllHog = false;
                                 break;
@@ -1344,13 +1346,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
                 for (Combination currentCombi: allCombinations) {
                     if (currentCombi.isChow()){
-                        if(nbOfCombination = 0){
+                        if(nbOfCombination == 0){
                             if(((CommonTile)currentCombi.getTiles()[0].getTile()).isMajor()){
                                 nbOfCombination++;
                                 lastCombi = currentCombi;
                                 chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
                             }
-                        } else if(nbOfCombination = 1){
+                        } else if(nbOfCombination == 1){
                             if(((CommonTile)currentCombi.getTiles()[2].getTile()).isMajor()
                             && ((CommonTile)currentCombi.getTiles()[0].getTile()).getFamily().equals(
                                 ((CommonTile)lastCombi.getTiles()[0].getTile()).getFamily())){
@@ -1426,8 +1428,8 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                ArrayList<IdentifiedPattern> result = new ArrayList<>();
-                Collection<Combination> allCombinations = set.getAllCombinations();
+                ArrayList<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getMelds(); //Fix
                 Collection<GameTile> kongFound = new ArrayList<>();
                 boolean isFind = false;
                 for (Combination currentCombi: allCombinations) {
@@ -1442,9 +1444,12 @@ public class InternationalPatternList implements AbstractPatternList {
                     toReturn.add(pattern);
                 }
                 
-                return result;
+                return toReturn;
             }
         },
+        /**
+         * 1 famille absente, seulement des tuiles de 2 des 3 familles
+         */
         ONE_VOIDED_SUIT {
             @Override
             public int getValue() {
@@ -1452,8 +1457,17 @@ public class InternationalPatternList implements AbstractPatternList {
             }
 
             @Override
-            public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+            public Collection<IdentifiedPattern> identify(PlayerSet set) { //Ajout
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> allHand = set.getHand();
+                Collection<GameTile> tilesFound = new ArrayList();
+                
+                for (Combination currentCombi : allHand ){
+                    if( currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong() ){
+                        
+                    }
+                }
+                
                 return toReturn;
             }
         },
@@ -1469,32 +1483,35 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 ArrayList<IdentifiedPattern> result = new ArrayList<>();
-                Collection<Combination> allCombinations = set.getAllCombinations();
+                //Changement
+                Collection<Combination> allCombinations = set.getHand();
                 int nbOfCombination = 0;
                 Collection<GameTile> tilesFound = new ArrayList<>();
                 boolean isAllHog = true;
-
+                Combination lastCombi;
+                
                 for (Combination currentCombi: allCombinations) {
+                    
                     if (currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong()){
                         GameTile[] currentTiles = currentCombi.getTiles();
                         for(int i=0; i<currentTiles.length;i++){
-                            pattern = Pattern.compile("(b|c|d)[1-9]");
-                            matcher = pattern.matcher(currentTiles[i].toNormalizedName());
+                            //Changement
+                            Pattern pattern = Pattern.compile("(b|c|d)[1-9]");
+                            Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
                             if(!matcher.matches()){
                                 isAllHog = false;
                                 break;
                             }
                         }
+                        
                         if(!isAllHog)break;
                         nbOfCombination++;
                         tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
                         lastCombi = currentCombi;
-                    } else if(nbOfCombination == 4 && currentCombi.isPair()){
-                        nbOfCombination++;
-                    }
+                    }//Suppr condition
                 }
 
-                if (nbOfCombination == 5 && isAllHog){
+                if (nbOfCombination == 4 && isAllHog){
                     IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
                     result.add(pattern);
                 }
@@ -1510,10 +1527,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir sur la tuile du milieu d'un Chow
+         */
         CLOSED_WAIT {
             @Override
             public int getValue() {
@@ -1522,10 +1542,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir en complétant la paire
+         */
         SINGLE_WAIT {
             @Override
             public int getValue() {
@@ -1534,7 +1557,19 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                GameTile lastTile = set.getWinningTile();
+                ArrayList<Combination> allHand = (ArrayList)set.getHand();
+                int listSize = allHand.size();
+                Combination lastCombi = allHand.get(listSize-1);
+                if(lastTile != null){
+                    if(lastCombi.isPair() && lastTile.equals(lastCombi.getTiles()[1])){
+                        Collection<GameTile> handTiles = new ArrayList();                
+                        handTiles.addAll(Arrays.asList(allHand));
+                        IdentifiedPattern pattern = new IdentifiedPattern(this, handTiles);
+                        toReturn.add(pattern);
+                    }
+                }
                 return toReturn;
             }
         },
@@ -1546,7 +1581,16 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                //Ajout
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> allHand = set.getHand();
+                
+                if( set.isDrawnForWall() ){
+                    Collection<GameTile> handTiles = new ArrayList();                
+                    handTiles.addAll(Arrays.asList(allHand));
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, handTiles);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1563,8 +1607,11 @@ public class InternationalPatternList implements AbstractPatternList {
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 Collection<SupremeHonor> honorCollection = set.getSupremeHonors();
+                //Changement
+                Collection<GameTile> flowerTiles = new ArrayList();                
+                flowerTiles.addAll(Arrays.asList(honorCollection));
                 
-                IdentifiedPattern pattern = new IdentifiedPattern(this, honorCollection);
+                IdentifiedPattern pattern = new IdentifiedPattern(this, flowerTiles);
                 toReturn.add(pattern);
                 return toReturn;
             }
