@@ -200,14 +200,15 @@ public class MahjongGame implements Game {
      * @param move Le move à effectuer
      */
     private void applyMove(Move move) throws GameException{
-      //Appliquer le move au Board
-      boolean leMoveACorrectementEteApplique = true; //temporaire
-      if(leMoveACorrectementEteApplique){
+      try{
+        this.board.applyMove(move);
         this.lastPlayedMove = move;
         this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
         this.getAndFirePossibleMoves();
       }
-      else throw new GameException("Le Move n'a pas été appliqué au Board."); // A étoffer
+      catch (GameException ge){
+        throw new GameException(ge.getMessage());
+      }
     }
 
     /**
@@ -222,19 +223,23 @@ public class MahjongGame implements Game {
           }
       }
       if(this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)){
-        this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, null);
-        this.endGame();
+        this.exitGame(0,"Fin de la partie.");
       }
       else{
         this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
-        this.waitToRegisterMoves();
+        try{
+            this.waitToRegisterMoves();
+        }
+        catch(GameException ge){
+            this.exitGame(1, ge.getMessage());
+        }
       }
     }
 
     /**
      * Permet de lancer un thread attendant que les moves soit register
      */
-    private synchronized void waitToRegisterMoves(){
+    private synchronized void waitToRegisterMoves() throws GameException{
       Thread thread = new Thread(new Runnable(){
         public void run(){
           registeredMoves = new ArrayList<Move>();
@@ -248,6 +253,9 @@ public class MahjongGame implements Game {
               ableToRegisterMoves = false;
               ie.printStackTrace();
           }
+          catch(GameException ge){
+              
+          }
         }
       });
       thread.start();
@@ -256,7 +264,7 @@ public class MahjongGame implements Game {
     /**
      * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
      */
-    private void chooseMoveToApply(){
+    private void chooseMoveToApply() throws GameException{
       Move moveToApply = this.possiblesMoves.get(0);
       if(this.registeredMoves.isEmpty()){
           for(Move move : this.possiblesMoves){
@@ -273,14 +281,25 @@ public class MahjongGame implements Game {
         this.applyMove(moveToApply);
       }
       catch (GameException ge){
-          ge.printStackTrace();
+          throw new GameException(ge.getMessage());
       }
     }
     
     /**
-     * Les actions à effectuer en fin de partie
+     * Les actions à effectuer lors d'une interruption de partie
+     * @param state L'état de sortie (0 = sortie sans erreur, 1 = sortie avec erreur)
+     * @param msg Le message à afficher
      */
-    private void endGame(){
-        System.out.println("Fin de partie !");
+    private void exitGame(int state, String msg){
+        switch (state) {
+            case 0:
+                this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, msg);
+                break;
+            case 1:
+                System.err.println(msg);
+                break;
+            default:
+                System.err.println("L'état envoyé n'est pas supporté.");
+        }
     }
 }
