@@ -68,8 +68,8 @@ public class GameRuleList {
      * Enumeration of GameRule
      */
     public enum Rule implements GameRule{
-        SILLY_RULE(new SillyBoardRule(),new InternationalScoringSystem(InternationalPatternList.DEFAULT),"SILLY_RULE"),
-        INTERNATIONAL_RULE(new InternationalBoardRule(),new InternationalScoringSystem(InternationalPatternList.DEFAULT),"INTERNATIONAL_RULE");
+        SILLY(new SillyBoardRule(),new InternationalScoringSystem(InternationalPatternList.DEFAULT),"SILLY"),
+        INTERNATIONAL(new InternationalBoardRule(),new InternationalScoringSystem(InternationalPatternList.DEFAULT),"INTERNATIONAL");
         
         private BoardRule boardRule;
         private ScoringSystem scoringSystem;
