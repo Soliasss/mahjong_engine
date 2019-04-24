@@ -97,22 +97,9 @@ public class MahjongBoard implements Board, Cloneable {
         String discard = "Discard"+wind.getName();
         for(Entry<TileZoneIdentifier,TileZone> entry : this.zones.entrySet()){
             String tziName = entry.getKey().getNormalizedName();
-            if(tziName.equals(nameHand)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals(meld0)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals(meld1)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals(meld2)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals(meld3)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals(supreme)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals(discard)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else{
-                retBoard.zones.put(entry.getKey(), entry.getValue());
+            retBoard.zones.put(entry.getKey(), entry.getValue());
+            if(!(tziName.equals(nameHand) || tziName.equals(meld0) || tziName.equals(meld1) || tziName.equals(meld2) || 
+                    tziName.equals(meld3)|| tziName.equals(supreme) || tziName.equals(discard))){
                 for(GameTileInterface gti : retBoard.getTileZone(tziName).getTiles()){
                     GameTile gt;
                     if (gti instanceof GameTile){
