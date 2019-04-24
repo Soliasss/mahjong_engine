@@ -59,7 +59,7 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         return this.uuid;
     }
 
-    boolean isPubliclyVisible(){
+    public boolean isPubliclyVisible(){
         return this.publiclyVisible;
     }
     
