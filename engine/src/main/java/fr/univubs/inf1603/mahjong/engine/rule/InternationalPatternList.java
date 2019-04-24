@@ -2,16 +2,11 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.regex.*;
 
-import org.omg.CORBA.Current;
-
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Implementation of the {@link AbstractPatternList} for the international ruleset.
@@ -29,6 +24,7 @@ public class InternationalPatternList implements AbstractPatternList {
     }
 
     @Override
+    
     public IdentifiablePattern[] getPatterns() {
         return this.patterns;
     }
@@ -245,7 +241,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -257,7 +253,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -322,7 +318,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -334,7 +330,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -346,7 +342,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -527,7 +523,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -539,7 +535,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -551,7 +547,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -564,7 +560,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -576,7 +572,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -588,7 +584,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -600,7 +596,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -612,7 +608,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -624,7 +620,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -636,7 +632,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -648,7 +644,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -660,7 +656,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -672,7 +668,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -684,7 +680,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -696,7 +692,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -708,7 +704,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -720,7 +716,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -732,7 +728,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -745,7 +741,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -757,7 +753,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -769,7 +765,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -781,7 +777,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
@@ -793,10 +789,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * 3 Chows avec la même séquence numérique dans 3 familles.
+         * ( 3-4-5 dans les 3 familles )
+         */
         MIXED_TRIPLE_CHOWS {
             @Override
             public int getValue() {
@@ -805,10 +805,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une suite (les tuiles de 1 à 9) composée de Chows dansles3 familles.
+         * ( 1-2-3 / 4-5-6 / 7-8-9 => dans les 3 familles )
+         */
         MIXED_STRAIGHT {
             @Override
             public int getValue() {
@@ -817,10 +821,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * 3 Pungs (ou Kongs) dans 3 familles, dont les chiffres forment une séquence croissante de 1
+         * ( b1b1b1 - c2c2c2 - d3d3d3 )
+         */
         MIXED_SHIFTED_PUNGS {
             @Override
             public int getValue() {
@@ -829,10 +837,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main qui inclut 2 Kongs cachés.
+         */
         TWO_CONCEALED_KONGS {
             @Override
             public int getValue() {
@@ -841,10 +852,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir (faire Mah-Jong) en piochant la dernière tuile du mur. 
+         * (Non-cumulable avec le fan «Tirer Soi-même».)
+         */
         LAST_TILE_DRAW {
             @Override
             public int getValue() {
@@ -853,10 +868,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir (faire Mah-Jong) sur la dernière tuile défaussée de la partie.
+         */
         LAST_TILE_CLAIM {
             @Override
             public int getValue() {
@@ -865,10 +883,15 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir (faire Mah-Jong) grâce à la tuile de remplacement d'un Kong (la tuile de remplacement d’une fleur en est exclue). 
+         * Si lors du remplacement après un Kong une fleur est piochée, et le remplacement de cette fleur donne la tuile gagnante, on peut compter le Fan «Tirer Soi-même» 
+         * (mais pas le «Finir sur Kong»).
+         */
         OUT_WITH_REPLACEMENT_TILE {
             @Override
             public int getValue() {
@@ -877,10 +900,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir avec la tuile, qu’un autre joueur rajoute à son Pung (pour le transformer en Kong). 
+         * (Non-cumulable avec le fan «Dernière Tuile Existante»).
+         */
         ROBBING_THE_KONG {
             @Override
             public int getValue() {
@@ -889,10 +916,15 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main composée uniquement des tuiles de symétrie centrale, i.e. 
+         * les gravures restent inchangées quand on inverse ces tuiles. 
+         * Ce sont les tuiles des 1,2,3,4,5,8 et 9 Cercles, des 2,4,5,6,8 et 9 Bambous et Dragon Blanc.
+         */
         REVERSIBLE_TILES {
             @Override
             public int getValue() {
@@ -901,10 +933,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main qui ferait 0 point.
+         */
         CHICKEN_HAND {
             @Override
             public int getValue() {
@@ -913,10 +948,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * 2 pungs ou kong de dragons.
+         */
         TWO_DRAGON_PUNGS {
             @Override
             public int getValue() {
@@ -925,10 +963,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * 3 Chows dans les 3 familles, avec leurs séquences numériques en décalage égale au précédentde 1.
+         * (1-2-3 / 2-3-4 / 3-4-5)
+         */
         MIXED_SHIFTED_CHOWS {
             @Override
             public int getValue() {
@@ -937,10 +979,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main composée de 4 pungs (ou Kong)
+         */
         ALL_PUNGS {
             @Override
             public int getValue() {
@@ -949,10 +994,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main composée uniquement de tuiles d’une des 3 familles avec des Honneurs.
+         * 1 seule combinaison avec des honneurs.
+         */
         HALF_FLUSH {
             @Override
             public int getValue() {
@@ -961,10 +1010,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main dans laquelle chaque combinaison est issue de tuiles de types différents.
+         * (Caractères, Bambous, Cercles, Vents, Dragons)
+         */
         ALL_TYPES {
             @Override
             public int getValue() {
@@ -973,10 +1026,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Tous les éléments de la main (Chows, Pungs, Kongs et la Paire) doivent tous avoir été achevés en intégrant des tuiles défaussées par les autres joueurs. 
+         * Tous les éléments doivent être exposés, et le joueur finit sur la défausse d’un autre joueur en composant La Paire.
+         */
         MELDED_HAND {
             @Override
             public int getValue() {
@@ -985,11 +1042,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
-
+        /**
+         * Finir avec 2 Kongs exposés.
+         */
         TWO_MELDED_KONGS {
             @Override
             public int getValue() {
@@ -998,10 +1057,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main qui comporte des tuiles terminales ou des honneurs dans chaque élément, y compris dans la pair.
+         */
         OUTSIDE_HAND {
             @Override
             public int getValue() {
@@ -1010,10 +1072,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main entièrement cachée, finie avec une tuile du mur.
+         */
         FULLY_CONCEALED_HAND {
             @Override
             public int getValue() {
@@ -1022,10 +1087,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir avec la 4ième tuile quand les 3 autres sont visibles
+         * (dans la défausse ou dans les expositions) aux autres joueurs.
+         */
         LAST_TILE {
             @Override
             public int getValue() {
@@ -1034,10 +1103,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Un pung de dragon. Peut être exposé ou caché.
+         */
         DRAGON_PUNG {
             @Override
             public int getValue() {
@@ -1046,10 +1118,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Un pung de vent du tour. Peut être exposé ou caché.
+         */
         PREVALENT_WIND {
             @Override
             public int getValue() {
@@ -1058,10 +1133,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Un pung de vent du joueur. Peut être exposé ou caché.
+         */
         SEAT_WIND {
             @Override
             public int getValue() {
@@ -1070,10 +1148,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Une main composée uniquement de Chows et d'1 pair, sans honneur
+         */
         ALL_CHOWS {
             @Override
             public int getValue() {
@@ -1082,10 +1163,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * 2 Pungs composés des mêmes nombres dans deux familles différentes.
+         */
         DOUBLE_PUNG {
             @Override
             public int getValue() {
@@ -1094,10 +1178,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * 2 Pungs composés à partir des tuiles du mur et cachés.
+         */
         TWO_CONCEALED_PUNGS {
             @Override
             public int getValue() {
@@ -1106,10 +1193,13 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Composé des 4 tuiles d’un chiffre ou d’un symbole, toutes piochées et déclaré en Kong
+         */
         CONCEALED_KONG {
             @Override
             public int getValue() {
@@ -1118,38 +1208,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
-                return toReturn;
-            }
-        },
-        ALL_SIMPLES {
-            @Override
-            public int getValue() {
-                return 2;
-            }
-
-            @Override
-            public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
-                return toReturn;
-            }
-        },
-        CONCEALED_HAND {
-            @Override
-            public int getValue() {
-                return 2;
-            }
-
-            @Override
-            public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
         /**
-         * Uniquement des tuiles de 2 à 8
+         * Une main composée sans Extrémités et sans Honneurs.
          */
-        TITLE_HOG {
+        ALL_SIMPLES {
             @Override
             public int getValue() {
                 return 2;
@@ -1161,7 +1227,7 @@ public class InternationalPatternList implements AbstractPatternList {
                 Collection<Combination> allCombinations = set.getAllCombinations();
                 int nbOfCombination = 0;
                 Collection<GameTile> tilesFound = new ArrayList<>();
-                boolean isAllHog = true;
+                boolean isAllSimple = true;
                 Combination lastCombi;
                 
                 for (Combination currentCombi: allCombinations) {
@@ -1171,11 +1237,11 @@ public class InternationalPatternList implements AbstractPatternList {
                             Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
                             Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());//Fix
                             if(!matcher.matches()){
-                                isAllHog = false;
+                                isAllSimple = false;
                                 break;
                             }
                         }
-                        if(!isAllHog)break;
+                        if(!isAllSimple)break;
                         nbOfCombination++;
                         tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
                         lastCombi = currentCombi;
@@ -1185,20 +1251,51 @@ public class InternationalPatternList implements AbstractPatternList {
                             Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
                             Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());//Fix
                             if(!matcher.matches()){
-                                isAllHog = false;
+                                isAllSimple = false;
                                 break;
                             }
                         }
-                        if(!isAllHog)break;
+                        if(!isAllSimple)break;
                         tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
                         nbOfCombination++;
                     }
                 }
 
-                if (nbOfCombination == 5 && isAllHog){
+                if (nbOfCombination == 5 && isAllSimple){
                     IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
                     result.add(pattern);
                 }
+
+                return result;
+            }
+        },
+        /**
+         * Avoir une main cachée (pas de combinaisons exposées) et sortir sur l'écart d'un joueur
+         */
+        CONCEALED_HAND {
+            @Override
+            public int getValue() {
+                return 2;
+            }
+
+            @Override
+            public Collection<IdentifiedPattern> identify(PlayerSet set) {
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                return toReturn;
+            }
+        },
+        /**
+         * Une main qui inclut les 4 tuiles d’un chiffre ou d’un symbole, sans former un Kong.
+         */
+        TITLE_HOG {
+            @Override
+            public int getValue() {
+                return 2;
+            }
+
+            @Override
+            public Collection<IdentifiedPattern> identify(PlayerSet set) {
+                ArrayList<IdentifiedPattern> result = new ArrayList<>();
 
                 return result;
             }
@@ -1519,6 +1616,10 @@ public class InternationalPatternList implements AbstractPatternList {
                 return result;
             }
         },
+        /**
+         * Finir sur le 3 pour former 1-2-3 ousur le7 pour former 7-8-9. 
+         * Ne peut pas être compté si l’attente s’avère multiple ou si ce Fan est combiné avec d’autres attentes.
+         */
         EDGE_WAIT {
             @Override
             public int getValue() {
@@ -1527,10 +1628,14 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Finir sur la tuiledont le chiffre est au milieu duChowqui reste à compléter. 
+         * Ne peut pas être compté si l’attente s’avère multiple ou si ce Fan est combiné avec d’autres attentes.
+         */
         CLOSED_WAIT {
             @Override
             public int getValue() {
@@ -1539,10 +1644,15 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
                 return toReturn;
             }
         },
+        /**
+         * Attendre uniquement sur la tuile quicomplète la Paire. 
+         * Ne peut pas être compté si l’attente s’avère multiple 
+         * (par ex. la main contient 1-2-3-4 et le 1 et le 4 permettent de finir).
+         */
         SINGLE_WAIT {
             @Override
             public int getValue() {
@@ -1551,10 +1661,25 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new Vector<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                GameTile lastTile = set.getWinningTile();
+                ArrayList<Combination> allHand = (ArrayList)set.getHand();
+                int listSize = allHand.size();
+                Combination lastCombi = allHand.get(listSize-1);
+                if(lastTile != null){
+                    if(lastCombi.isPair() && lastTile.equals(lastCombi.getTiles()[1])){
+                        Collection<GameTile> handTiles = new ArrayList();                
+                        handTiles.addAll(Arrays.asList(allHand));
+                        IdentifiedPattern pattern = new IdentifiedPattern(this, handTiles);
+                        toReturn.add(pattern);
+                    }
+                }
                 return toReturn;
             }
         },
+        /**
+         * Sortir avec une tuile poichée du mur
+         */
         SELF_DRAW {
             @Override
             public int getValue() {
@@ -1588,12 +1713,9 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
-                Collection<SupremeHonor> honorCollection = set.getSupremeHonors();
-                //Changement
-                Collection<GameTile> flowerTiles = new ArrayList();                
-                flowerTiles.addAll(Arrays.asList(honorCollection));
+                Collection<GameTile> honorCollection = set.getSupremeHonors();
                 
-                IdentifiedPattern pattern = new IdentifiedPattern(this, flowerTiles);
+                IdentifiedPattern pattern = new IdentifiedPattern(this, honorCollection);
                 toReturn.add(pattern);
                 return toReturn;
             }

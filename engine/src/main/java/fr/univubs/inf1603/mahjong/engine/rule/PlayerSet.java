@@ -17,7 +17,7 @@ public class PlayerSet {
     private Collection<Combination> hand;
     private Collection<Combination> concealed;
     private Collection<Combination> melds;
-    private Collection<SupremeHonor> supremeHonors;
+    private Collection<GameTile> supremeHonors;
     private boolean drawnFromWall;
     private boolean takenFromDiscard;
     private Wind roundWind;
@@ -34,13 +34,13 @@ public class PlayerSet {
      * @param roundWind Wind of the round, it's influencing the scoring
      * @param playerWind Wind of a player, it's influencing the scoring
      */
-    public PlayerSet(GameTile winningTile, Collection<Combination> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<SupremeHonor> supremeHonors,
+    public PlayerSet(GameTile winningTile, Collection<Combination> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<GameTile> supremeHonors,
                      boolean drawnFromWall, boolean takenFromDiscard, Wind roundWind, Wind playerWind){
         this.winningTile = winningTile;
         this.hand = new ArrayList<Combination>(hand);
         this.concealed = new ArrayList<Combination>(concealed);
         this.melds = new ArrayList<Combination>(melds);
-        this.supremeHonors = new ArrayList<SupremeHonor>(supremeHonors);
+        this.supremeHonors = new ArrayList<GameTile>(supremeHonors);
         this.drawnFromWall = drawnFromWall;
         this.takenFromDiscard = takenFromDiscard;
         this.roundWind = roundWind;
@@ -57,7 +57,7 @@ public class PlayerSet {
         this.hand = new ArrayList<Combination>(hand);
         this.concealed = new ArrayList<Combination>(situation.getConcealed());
         this.melds = new ArrayList<Combination>(situation.getMelds());
-        this.supremeHonors = new ArrayList<SupremeHonor>(situation.getSupremeHonors());
+        this.supremeHonors = new ArrayList<GameTile>(situation.getSupremeHonors());
         this.drawnFromWall = situation.isDrawnForWall();
         this.takenFromDiscard = situation.isTakenFromDiscard();
         this.roundWind = situation.getRoundWind();
@@ -95,7 +95,7 @@ public class PlayerSet {
     /**
      * @return It's a list of supremeHonors set down
      */
-    public Collection<SupremeHonor> getSupremeHonors(){
+    public Collection<GameTile> getSupremeHonors(){
         return this.supremeHonors;
     }
     
