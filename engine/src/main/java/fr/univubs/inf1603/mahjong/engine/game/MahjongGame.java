@@ -41,9 +41,10 @@ public class MahjongGame implements Game {
      * @param stealingTime The time players have to decide if they can steal a discarded tile
      * @param playingTime This players have to decide what to discard
      * @param uuid This game's UUID
+     * @param playerWind The wind according to the player
      * @throws GameException
      */
-    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,int[] playerPoints,UUID uuid) throws GameException{
+    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,int[] playerPoints,UUID uuid, Wind[] playerWind) throws GameException{
         this.rule = rule;
         this.board = board;
         this.lastPlayedMove = lastPlayedMove;
@@ -51,6 +52,7 @@ public class MahjongGame implements Game {
         this.playingTime = playingTime;
         this.uuid = uuid;
         this.playerPoints = playerPoints;
+        this.playerWind = playerWind;
     }
     
     /**
@@ -215,6 +217,7 @@ public class MahjongGame implements Game {
     /**
      * Permet d'effectuer le move sur le Board
      * @param move Le move à effectuer
+     * @throws GameException quand throw GameException dans board.applyMove
      */
     private void applyMove(Move move) throws GameException{
       try{
@@ -244,19 +247,14 @@ public class MahjongGame implements Game {
       }
       else{
         this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
-        try{
-            this.waitToRegisterMoves();
-        }
-        catch(GameException ge){
-            this.exitGame(1, ge.getMessage());
-        }
+        this.waitToRegisterMoves();
       }
     }
 
     /**
      * Permet de lancer un thread attendant que les moves soit register
      */
-    private synchronized void waitToRegisterMoves() throws GameException{
+    private synchronized void waitToRegisterMoves(){
       Thread thread = new Thread(new Runnable(){
         public void run(){
           registeredMoves = new ArrayList<Move>();
@@ -271,7 +269,7 @@ public class MahjongGame implements Game {
               ie.printStackTrace();
           }
           catch(GameException ge){
-              
+              exitGame(1, ge.getMessage());
           }
         }
       });
@@ -280,6 +278,7 @@ public class MahjongGame implements Game {
 
     /**
      * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
+     * @throws GameException quand applyMove throw une GameException
      */
     private void chooseMoveToApply() throws GameException{
       Move moveToApply = this.possiblesMoves.get(0);
