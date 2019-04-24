@@ -143,19 +143,4 @@ public interface Game extends Persistable {
 
     public ArrayList<Move> getPossibleMoves(int player) throws GameException;
 
-    /**
-     * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
-     */
-    private void getAndFirePossibleMoves();
-
-    /**
-     * Permet de lancer un thread attendant que les moves soit register
-     */
-    private void waitToRegisterMoves();
-
-    /**
-     * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
-     */
-    private void chooseMoveToApply();
-
 }
