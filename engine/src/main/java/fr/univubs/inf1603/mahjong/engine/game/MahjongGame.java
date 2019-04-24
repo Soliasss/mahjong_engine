@@ -5,6 +5,8 @@ import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
 import java.util.UUID;
 
 /**
@@ -27,6 +29,7 @@ public class MahjongGame implements Game {
     private UUID uuid;
     private boolean ableToRegisterMoves;
     
+    private int[] playerPoints;
     
     /**
      * This is the full constructor of MahjongGame, allowing to initialize all of its fields
@@ -38,13 +41,14 @@ public class MahjongGame implements Game {
      * @param uuid This game's UUID
      * @throws GameException
      */
-    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,UUID uuid) throws GameException{
+    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,int[] playerPoints,UUID uuid) throws GameException{
         this.rule = rule;
         this.board = board;
         this.lastPlayedMove = lastPlayedMove;
         this.stealingTime = stealingTime;
         this.playingTime = playingTime;
         this.uuid = uuid;
+        this.playerPoints = playerPoints;
     }
     
     @Deprecated
@@ -74,19 +78,27 @@ public class MahjongGame implements Game {
 
     @Override
     public Board getBoard(Wind wind) throws GameException {
-        throw new UnsupportedOperationException("not implemented yet");
+        if(wind == null){
+            return this.board;
+        }
+        return this.board.getViewFromWind(wind);
     }
+    
+    public Board getBoard(){
+        return this.board;
+    }
+    
+    
 
-    @Override
-    public int getPlayerPoints(int player) {
-        return 0;
-    }
 
     @Override
     public ArrayList<Move> getPossibleMoves() {
-        throw new UnsupportedOperationException("not implemented yet");
-        //ArrayList ret = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
-        //return ret;
+        EnumMap<Wind, Collection<Move>> res = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
+        ArrayList<Move> ret = new ArrayList<>();
+        for(Collection c : res.values()){
+            ret.addAll(c);
+        }
+        return ret;
     }
 
     @Override
@@ -132,14 +144,25 @@ public class MahjongGame implements Game {
         return this.board.getCurrentWind();
     }
 
+    
+    @Override
+    public int getPlayerPoints(int player) {
+        return this.playerPoints[player];
+    }
+
+    
     @Override
     public int getPlayerPoints(Wind wind) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int indexOfWind=0;
+        do{
+          indexOfWind++;  
+        }while(this.playerWind[indexOfWind] != wind);
+        return this.playerPoints[indexOfWind];
     }
 
     @Override
     public int[] getAllPlayerPoints() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.playerPoints;
     }
 
     @Override
@@ -167,12 +190,12 @@ public class MahjongGame implements Game {
 
     @Override
     public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove).get(wind));
     }
 
     @Override
     public ArrayList<Move> getPossibleMoves(int player) throws GameException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getPossibleMoves(playerWind[player]);
     }
 
     /**
