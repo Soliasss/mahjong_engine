@@ -152,7 +152,10 @@ public class MahjongGame implements Game {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    /**
+     * Permet d'effectuer le move sur le Board
+     * @param move Le move à effectuer
+     */
     private void applyMove(Move move) throws GameException{
       //Appliquer le move au Board
       boolean leMoveACorrectementEteApplique = true; //temporaire
