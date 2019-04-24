@@ -164,7 +164,9 @@ public class MahjongGame implements Game {
       else throw new GameException("Le Move n'a pas été appliqué au Board.") // A étoffer
     }
 
-    @Override
+    /**
+     * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
+     */
     private void getAndFirePossibleMoves(){
       //Demander à Rule la liste Possible des Moves
       if(this.possiblesMoves.isEmpty()){
@@ -176,7 +178,9 @@ public class MahjongGame implements Game {
       }
     }
 
-    @Override
+    /**
+     * Permet de lancer un thread attendant que les moves soit register
+     */
     private void waitToRegisterMoves(){
       Thread thread = new Thread(new Runnable(){
         public void run(){
@@ -190,7 +194,9 @@ public class MahjongGame implements Game {
       thread.start();
     }
 
-    @Override
+    /**
+     * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
+     */
     private void chooseMoveToApply(){
       //Choisir le move à effectuer
       Move moveAEffectuer = null; //temporaire
