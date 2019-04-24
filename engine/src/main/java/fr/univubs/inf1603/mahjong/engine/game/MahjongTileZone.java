@@ -86,5 +86,4 @@ public class MahjongTileZone implements TileZone, Persistable {
     public TileZoneIdentifier getIdentifier() {
         return this.identifier;
     }
-
 }
