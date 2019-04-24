@@ -211,6 +211,10 @@ public class MahjongBoard implements Board, Cloneable {
         }
     }
     
+
+    /**
+    * @return L'enummap de tilezones
+    */
     public EnumMap<TileZoneIdentifier, TileZone> getZones(){
         return this.zones;
     }
