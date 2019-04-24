@@ -131,10 +131,27 @@ public interface Game extends Persistable {
      */
     public Wind[] getPlayerWinds() throws GameException;
 
+    /**
+     * Retourne la liste des mouvements possibles
+     * @return Les mouvement possible
+     * @throws GameException
+     */
     public ArrayList<Move> getPossibleMoves() throws GameException;
 
+    /**
+     * Retourn les mouvement possible pour un jour possèdant le vent passer en parametre
+     * @param wind Le vent du joueur
+     * @return Les movements possibles du joueur
+     * @throws GameException
+     */
     public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException;
 
+    /**
+     * Retourn les mouvement possible pour un jour possèdant le numero passer en parametre
+     * @param player Le numero du joueur
+     * @return Les movements possibles du joueur
+     * @throws GameException
+     */
     public ArrayList<Move> getPossibleMoves(int player) throws GameException;
 
 }

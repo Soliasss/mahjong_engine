@@ -16,8 +16,8 @@ public class MahjongGame implements Game {
 
     private Wind[] playerWind;
     private GameRule rule;
-    private Move lastPlayedMove;
     private MahjongBoard board;
+    private Move lastPlayedMove;
 
     private Duration stealingTime;
     private Duration playingTime;
@@ -25,9 +25,29 @@ public class MahjongGame implements Game {
     private ArrayList<Move> registeredMoves;
     private ArrayList<Move> possiblesMoves;
     private UUID uuid;
-
     private boolean ableToRegisterMoves;
-
+    
+    
+    /**
+     * This is the full constructor of MahjongGame, allowing to initialize all of its fields
+     * @param rule Rules of this game
+     * @param board Current state of the board
+     * @param lastPlayedMove The last played move of this game
+     * @param stealingTime The time players have to decide if they can steal a discarded tile
+     * @param playingTime This players have to decide what to discard
+     * @param uuid This game's UUID
+     * @throws GameException
+     */
+    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,UUID uuid) throws GameException{
+        this.rule = rule;
+        this.board = board;
+        this.lastPlayedMove = lastPlayedMove;
+        this.stealingTime = stealingTime;
+        this.playingTime = playingTime;
+        this.uuid = uuid;
+    }
+    
+    @Deprecated
     public MahjongGame(GameRule rule) throws GameException {
         this.rule = rule;
         this.board = null;

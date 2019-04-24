@@ -46,6 +46,10 @@ public interface Board extends Persistable {
      */
     public TileZone getTileZone(String normalizedName) throws GameException;
     
+    /**
+     * Retourne le vent courrant du board
+     * @return Le vent courant
+     */
     public Wind getCurrentWind() throws GameException;
     
 }

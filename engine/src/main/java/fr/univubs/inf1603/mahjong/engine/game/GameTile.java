@@ -18,21 +18,26 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
     private AbstractTile tile;
     private final int gameID;
     private final UUID uuid;
-
+    private boolean publiclyVisible;
+    private Wind orientation;
     /**
      *
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      * @param uuid This tile's UUID
+     * @param publiclyVisible
+     * @param orientation
      */
-    public GameTile(int gameID, AbstractTile tile, UUID uuid) {
+    public GameTile(int gameID, AbstractTile tile, UUID uuid, boolean publiclyVisible, Wind orientation) {
         this.gameID = gameID;
         this.tile = tile;
         this.uuid = uuid;
+        this.publiclyVisible=publiclyVisible;
+        this.orientation = orientation;
     }
 
     public GameTile(int gameID, AbstractTile tile) {
-        this(gameID, tile, UUID.randomUUID());
+        this(gameID, tile, UUID.randomUUID(),false,Wind.EAST);
     }
 
     @Override
@@ -54,6 +59,16 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         return this.uuid;
     }
 
+    boolean isPubliclyVisible(){
+        return this.publiclyVisible;
+    }
+    
+    void setPubliclyVisible(boolean value){
+        //I don't see a case where you would have to rehide a tile after it has been discovered
+        //TODO : maybe log if the case above happens
+        this.publiclyVisible = value;
+    }
+    
     @Override
     public GameTile clone() {
         return new GameTile(this.gameID, this.tile);
@@ -82,4 +97,15 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
     public PropertyChangeSupport getPropertyChangeSupport() {
         return propertyChangeSupport;
     }
+
+    void setOrientation(Wind wind){
+        this.orientation = wind;
+    }
+    
+    @Override
+    public Wind getOrientation() {
+        return this.orientation;
+    }
+    
+    
 }
