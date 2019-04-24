@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public interface Game extends Persistable {
 
-    public static final String LAST_PLAYED_MOVE = "lastplayedmove",
-            AVAILABLE_MOVES_SIZE_P0 = "availablemovessizep0",
+    public static final String LAST_PLAYED_MOVE_PROPERTY = "lastplayedmove",
+            /*AVAILABLE_MOVES_SIZE_P0 = "availablemovessizep0",
             AVAILABLE_MOVES_SIZE_P1 = "availablemovessizep1",
             AVAILABLE_MOVES_SIZE_P2 = "availablemovessizep2",
             AVAILABLE_MOVES_SIZE_P3 = "availablemovessizep3",
@@ -21,7 +21,9 @@ public interface Game extends Persistable {
             INDEXED_AVAILABLE_MOVES_P1 = "availablemovesp1",
             INDEXED_AVAILABLE_MOVES_P2 = "availablemovesp2",
             INDEXED_AVAILABLE_MOVES_P3 = "availablemovesp3",
-            CURRENT_WIND = "currentwind";
+            CURRENT_WIND = "currentwind",*/
+            POSSIBLE_MOVES_PROPERTY = "possiblemoves",
+            GAME_OVER_PROPERTY = "gameover";
 
     /**
      * Permet de récupérer la règles utilisée pour cette partie
@@ -129,10 +131,27 @@ public interface Game extends Persistable {
      */
     public Wind[] getPlayerWinds() throws GameException;
 
+    /**
+     * Retourne la liste des mouvements possibles
+     * @return Les mouvement possible
+     * @throws GameException
+     */
     public ArrayList<Move> getPossibleMoves() throws GameException;
 
+    /**
+     * Retourn les mouvement possible pour un jour possèdant le vent passer en parametre
+     * @param wind Le vent du joueur
+     * @return Les movements possibles du joueur
+     * @throws GameException
+     */
     public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException;
 
+    /**
+     * Retourn les mouvement possible pour un jour possèdant le numero passer en parametre
+     * @param player Le numero du joueur
+     * @return Les movements possibles du joueur
+     * @throws GameException
+     */
     public ArrayList<Move> getPossibleMoves(int player) throws GameException;
 
 }

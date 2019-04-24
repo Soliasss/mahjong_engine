@@ -2,6 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 import fr.univubs.inf1603.mahjong.engine.rule.InternationalTiles;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
 import java.util.UUID;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class GameTileTest {
     public void testGetUUID() {
         System.out.println("getUUID");
         UUID u = UUID.randomUUID();
-        GameTile instance = new GameTile(0, InternationalTiles.BAMBOO_1, u);
+        GameTile instance = new GameTile(0, InternationalTiles.BAMBOO_1, u,false,Wind.EAST);
         UUID expResult = u;
         UUID result = instance.getUUID();
         assertEquals(expResult, result);

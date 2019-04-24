@@ -1,12 +1,14 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 
 /**
  *
  * @author purpl
  */
-public interface GameTileInterface {
+public interface GameTileInterface extends Persistable {
 
     public static final String TILE = "tile";
 
@@ -20,4 +22,6 @@ public interface GameTileInterface {
      * @return This GameTileInterface's id (order in the deck after shuffle) in the current game.
      */
     public int getGameID();
+    
+    public Wind getOrientation();
 }
