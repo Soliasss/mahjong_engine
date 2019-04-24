@@ -1661,7 +1661,7 @@ public class InternationalPatternList implements AbstractPatternList {
 
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
-                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<IdentifiedPattern>();
                 GameTile lastTile = set.getWinningTile();
                 ArrayList<Combination> allHand = (ArrayList)set.getHand();
                 int listSize = allHand.size();
