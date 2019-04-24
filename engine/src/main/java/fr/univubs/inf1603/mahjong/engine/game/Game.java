@@ -58,12 +58,6 @@ public interface Game extends Persistable {
     public void registerMove(Move move) throws GameException;
 
     /**
-     * Permet d'effectuer le move sur le Board
-     * @param move Le move à effectuer
-     */
-    private void applyMove(Move move) throws GameException;
-
-    /**
      * @return The time a stealing phase can last up to.
      */
     public Duration getStealingTime();
