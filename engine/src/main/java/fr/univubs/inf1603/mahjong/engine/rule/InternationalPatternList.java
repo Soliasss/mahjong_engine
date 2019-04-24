@@ -1663,17 +1663,17 @@ public class InternationalPatternList implements AbstractPatternList {
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<IdentifiedPattern>();
                 GameTile lastTile = set.getWinningTile();
-                ArrayList<Combination> allHand = (ArrayList)set.getHand();
-                int listSize = allHand.size();
-                Combination lastCombi = allHand.get(listSize-1);
+                Collection <Combination> allHand = set.getHand();
+                
                 if(lastTile != null){
-                    if(lastCombi.isPair() && lastTile.equals(lastCombi.getTiles()[1])){
-                        Collection<GameTile> handTiles = new ArrayList();                
-                        handTiles.addAll(Arrays.asList(allHand));
-                        IdentifiedPattern pattern = new IdentifiedPattern(this, handTiles);
-                        toReturn.add(pattern);
+                    for (Combination combination : allHand) {
+                        if(combination.isPair() && Arrays.asList(combination.getTiles()).contains(lastTile)){
+                            Collection<GameTile> pair = new ArrayList<>(Arrays.asList(combination.getTiles())); 
+                            IdentifiedPattern pattern = new IdentifiedPattern(this, pair);
+                            toReturn.add(pattern);
+                        }
                     }
-                }
+                } //error: incompatible types: inferred type does not conform to upper bound(s)
                 return toReturn;
             }
         },
@@ -1689,13 +1689,13 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 //Ajout
-                Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<IdentifiedPattern> toReturn = new ArrayList<IdentifiedPattern>();
                 Collection<Combination> allHand = set.getHand();
                 
                 if( set.isDrawnForWall() ){
-                    Collection<GameTile> handTiles = new ArrayList();                
-                    handTiles.addAll(Arrays.asList(allHand));
-                    IdentifiedPattern pattern = new IdentifiedPattern(this, handTiles);
+                    ArrayList<GameTile> winTile = new ArrayList();
+                    winTile.add(set.getWinningTile());
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, winTile);
                     toReturn.add(pattern);
                 }
                 return toReturn;
