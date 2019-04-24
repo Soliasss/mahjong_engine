@@ -55,23 +55,7 @@ public class MahjongGame implements Game {
         this.playerWind = playerWind;
     }
     
-    /**
-     * This is a constructor of MahjongGame
-     * @param rule Rules of this game
-     * @param stealingTime The time players have to decide if they can steal a discarded tile
-     * @param playingTime This players have to decide what to discard
-     */
-    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime){
-        this.rule = rule;
-        this.stealingTime = stealingTime;
-        this.playingTime = playingTime;    
-
-        this.board = new MahjongBoard(Wind.WEST);
-        this.lastPlayedMove = null;
-        this.uuid = UUID.randomUUID();
-        this.playerPoints = new int[4];        
-    }
-    
+   
     /**
      * This is a constructor of MahjongGame
      * @param rule Rules of this game
