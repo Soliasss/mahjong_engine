@@ -41,9 +41,10 @@ public class MahjongGame implements Game {
      * @param stealingTime The time players have to decide if they can steal a discarded tile
      * @param playingTime This players have to decide what to discard
      * @param uuid This game's UUID
+     * @param playerWind The wind according to the player
      * @throws GameException
      */
-    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,int[] playerPoints,UUID uuid) throws GameException{
+    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,int[] playerPoints,UUID uuid, Wind[] playerWind) throws GameException{
         this.rule = rule;
         this.board = board;
         this.lastPlayedMove = lastPlayedMove;
@@ -51,6 +52,24 @@ public class MahjongGame implements Game {
         this.playingTime = playingTime;
         this.uuid = uuid;
         this.playerPoints = playerPoints;
+        this.playerWind = playerWind;
+    }
+    
+    /**
+     * This is a constructor of MahjongGame
+     * @param rule Rules of this game
+     * @param stealingTime The time players have to decide if they can steal a discarded tile
+     * @param playingTime This players have to decide what to discard
+     */
+    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime){
+        this.rule = rule;
+        this.stealingTime = stealingTime;
+        this.playingTime = playingTime;    
+
+        this.board = new MahjongBoard(Wind.WEST);
+        this.lastPlayedMove = null;
+        this.uuid = UUID.randomUUID();
+        this.playerPoints = new int[4];        
     }
     
     /**
@@ -215,16 +234,18 @@ public class MahjongGame implements Game {
     /**
      * Permet d'effectuer le move sur le Board
      * @param move Le move à effectuer
+     * @throws GameException quand throw GameException dans board.applyMove
      */
     private void applyMove(Move move) throws GameException{
-      //Appliquer le move au Board
-      boolean leMoveACorrectementEteApplique = true; //temporaire
-      if(leMoveACorrectementEteApplique){
+      try{
+        this.board.applyMove(move);
         this.lastPlayedMove = move;
         this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
         this.getAndFirePossibleMoves();
       }
-      else throw new GameException("Le Move n'a pas été appliqué au Board."); // A étoffer
+      catch (GameException ge){
+        throw new GameException(ge.getMessage());
+      }
     }
 
     /**
@@ -239,8 +260,7 @@ public class MahjongGame implements Game {
           }
       }
       if(this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)){
-        this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, null);
-        this.endGame();
+        this.exitGame(0,"Fin de la partie.");
       }
       else{
         this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
@@ -265,6 +285,9 @@ public class MahjongGame implements Game {
               ableToRegisterMoves = false;
               ie.printStackTrace();
           }
+          catch(GameException ge){
+              exitGame(1, ge.getMessage());
+          }
         }
       });
       thread.start();
@@ -272,8 +295,9 @@ public class MahjongGame implements Game {
 
     /**
      * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
+     * @throws GameException quand applyMove throw une GameException
      */
-    private void chooseMoveToApply(){
+    private void chooseMoveToApply() throws GameException{
       Move moveToApply = this.possiblesMoves.get(0);
       if(this.registeredMoves.isEmpty()){
           for(Move move : this.possiblesMoves){
@@ -290,14 +314,25 @@ public class MahjongGame implements Game {
         this.applyMove(moveToApply);
       }
       catch (GameException ge){
-          ge.printStackTrace();
+          throw new GameException(ge.getMessage());
       }
     }
     
     /**
-     * Les actions à effectuer en fin de partie
+     * Les actions à effectuer lors d'une interruption de partie
+     * @param state L'état de sortie (0 = sortie sans erreur, 1 = sortie avec erreur)
+     * @param msg Le message à afficher
      */
-    private void endGame(){
-        System.out.println("Fin de partie !");
+    private void exitGame(int state, String msg){
+        switch (state) {
+            case 0:
+                this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, msg);
+                break;
+            case 1:
+                System.err.println(msg);
+                break;
+            default:
+                System.err.println("L'état envoyé n'est pas supporté.");
+        }
     }
 }
