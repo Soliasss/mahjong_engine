@@ -31,6 +31,8 @@ public class MahjongGame implements Game {
     
     private int[] playerPoints;
     
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    
     /**
      * This is the full constructor of MahjongGame, allowing to initialize all of its fields
      * @param rule Rules of this game
@@ -61,8 +63,8 @@ public class MahjongGame implements Game {
 
     @Override
     public void launchGame() {
-        //this.playerWind = this.rule.getPlayersOrder();
-        //this.board = this.rule.initBoard();
+        if(this.playerWind == null) this.playerWind = this.rule.getBoardRule().getPlayerOrder();
+        if(this.board == null) this.board = this.rule.getBoardRule().distributeTiles(this.rule.getBoardRule().buildWall());
         this.getAndFirePossibleMoves();
     }
 
@@ -88,9 +90,6 @@ public class MahjongGame implements Game {
         return this.board;
     }
     
-    
-
-
     @Override
     public ArrayList<Move> getPossibleMoves() {
         EnumMap<Wind, Collection<Move>> res = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
@@ -126,8 +125,6 @@ public class MahjongGame implements Game {
     public UUID getUUID() {
         return this.uuid;
     }
-
-    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     @Override
     public PropertyChangeSupport getPropertyChangeSupport() {
@@ -217,9 +214,16 @@ public class MahjongGame implements Game {
      * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
      */
     private void getAndFirePossibleMoves(){
-      //Demander à Rule la liste Possible des Moves
-      if(this.possiblesMoves.isEmpty()){
+      this.possiblesMoves = new ArrayList<Move>();
+      EnumMap<Wind, Collection<Move>> validMoves = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
+      for(Wind w : validMoves.keySet()){
+          for(Move m : validMoves.get(w)){
+              this.possiblesMoves.add(m);
+          }
+      }
+      if(this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)){
         this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, null);
+        this.endGame();
       }
       else{
         this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
@@ -253,13 +257,30 @@ public class MahjongGame implements Game {
      * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
      */
     private void chooseMoveToApply(){
-      //Choisir le move à effectuer
-      Move moveAEffectuer = null; //temporaire
+      Move moveToApply = this.possiblesMoves.get(0);
+      if(this.registeredMoves.isEmpty()){
+          for(Move move : this.possiblesMoves){
+              if(move.getPriority() < moveToApply.getPriority()) moveToApply = move;
+          }
+      }
+      else{
+        moveToApply = this.registeredMoves.get(0);
+        for(Move move : this.registeredMoves){
+            if(move.getPriority() < moveToApply.getPriority()) moveToApply = move;
+        }
+      }
       try{
-        this.applyMove(moveAEffectuer);
+        this.applyMove(moveToApply);
       }
       catch (GameException ge){
           ge.printStackTrace();
       }
+    }
+    
+    /**
+     * Les actions à effectuer en fin de partie
+     */
+    private void endGame(){
+        System.out.println("Fin de partie !");
     }
 }
