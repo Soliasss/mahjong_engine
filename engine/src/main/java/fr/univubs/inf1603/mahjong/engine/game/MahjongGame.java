@@ -43,9 +43,12 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public void registerMove(Move move) throws GameException {
+    public synchronized void registerMove(Move move) throws GameException {
         if(this.ableToRegisterMoves){
           this.registeredMoves.add(move);
+        }
+        else{
+            throw new GameException("Impossible de register le move hors du temps imparti.");
         }
     }
 
@@ -164,7 +167,7 @@ public class MahjongGame implements Game {
         this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
         this.getAndFirePossibleMoves();
       }
-      else throw new GameException("Le Move n'a pas été appliqué au Board.") // A étoffer
+      else throw new GameException("Le Move n'a pas été appliqué au Board."); // A étoffer
     }
 
     /**
@@ -184,14 +187,20 @@ public class MahjongGame implements Game {
     /**
      * Permet de lancer un thread attendant que les moves soit register
      */
-    private void waitToRegisterMoves(){
+    private synchronized void waitToRegisterMoves(){
       Thread thread = new Thread(new Runnable(){
         public void run(){
           registeredMoves = new ArrayList<Move>();
           ableToRegisterMoves = true;
-          Thread.sleep((int)this.playingTime.getSeconds()*1000);
-          ableToRegisterMoves = false;
-          chooseMoveToApply();
+          try{
+              Thread.sleep((int)playingTime.getSeconds()*1000);
+              ableToRegisterMoves = false;
+              chooseMoveToApply();
+          }
+          catch (InterruptedException ie){
+              ableToRegisterMoves = false;
+              ie.printStackTrace();
+          }
         }
       });
       thread.start();
@@ -203,6 +212,11 @@ public class MahjongGame implements Game {
     private void chooseMoveToApply(){
       //Choisir le move à effectuer
       Move moveAEffectuer = null; //temporaire
-      this.applyMove(moveAEffectuer);
+      try{
+        this.applyMove(moveAEffectuer);
+      }
+      catch (GameException ge){
+          ge.printStackTrace();
+      }
     }
 }
