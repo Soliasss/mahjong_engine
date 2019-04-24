@@ -6,7 +6,6 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.ArrayList;
 
 /**
  * MahjongBoard represents the mahjong board during the game.
@@ -89,15 +88,18 @@ public class MahjongBoard implements Board, Cloneable {
      */
     Board getViewFromWind(Wind wind) throws GameException{
         MahjongBoard  retBoard = new MahjongBoard(this.getCurrentWind());
-        String nameHand = "Hand"+wind.toString();
-        String meld1 = "Meld"+wind.toString()+"1";
-        String meld2 = "Meld"+wind.toString()+"2";
-        String meld3 = "Meld"+wind.toString()+"3";
-        String supreme = "Supreme"+wind.toString();
-        String discard = "Discard"+wind.toString();
+        String nameHand = "Hand"+wind.getName();
+        String meld0 = "Meld"+wind.getName()+"0";
+        String meld1 = "Meld"+wind.getName()+"1";
+        String meld2 = "Meld"+wind.getName()+"2";
+        String meld3 = "Meld"+wind.getName()+"3";
+        String supreme = "Supreme"+wind.getName();
+        String discard = "Discard"+wind.getName();
         for(Entry<TileZoneIdentifier,TileZone> entry : this.zones.entrySet()){
             String tziName = entry.getKey().getNormalizedName();
             if(tziName.equals(nameHand)){
+                retBoard.zones.put(entry.getKey(), entry.getValue());
+            }else if(tziName.equals(meld0)){
                 retBoard.zones.put(entry.getKey(), entry.getValue());
             }else if(tziName.equals(meld1)){
                 retBoard.zones.put(entry.getKey(), entry.getValue());
@@ -108,8 +110,6 @@ public class MahjongBoard implements Board, Cloneable {
             }else if(tziName.equals(supreme)){
                 retBoard.zones.put(entry.getKey(), entry.getValue());
             }else if(tziName.equals(discard)){
-                retBoard.zones.put(entry.getKey(), entry.getValue());
-            }else if(tziName.equals("Wall")){
                 retBoard.zones.put(entry.getKey(), entry.getValue());
             }else{
                 retBoard.zones.put(entry.getKey(), entry.getValue());
