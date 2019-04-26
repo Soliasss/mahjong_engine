@@ -109,4 +109,47 @@ public class Move implements Persistable,Serializable, Cloneable {
     public PropertyChangeSupport getPropertyChangeSupport() {
         return this.propertyChangeSupport;
     }
+    
+    /**
+     * Retourne vrai si le move passé en argument est égal à ce move
+     * @param move le move à tester 
+     * @return true si les deux moves sont égaux false sinon
+     */
+    public boolean isEqual(Move move){
+        boolean ret=false;
+        if(move.getWind().compareTo(this.wind)==0){
+            if(move.getPriority()==this.priority){
+                System.out.println("test");
+                if(moveMapEqual(this.path,move.path)){
+                    if(moveMapEqual(this.publiclyVisible, move.publiclyVisible)){
+                        ret=true;
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+    
+    /**
+     * Retourne vrai si les deux map passé en arguments son égaux faux sinon
+     * @param map1 la premièere map
+     * @param map2 la deuxieme map
+     * @return true si les moves sont égaux, false sinon
+     */
+    private boolean moveMapEqual(HashMap map1, HashMap map2){
+        
+        for (Object k : map2.keySet())
+        {
+            if (!map1.get(k).equals(map2.get(k))) {
+                return false;
+            }
+        } 
+        for (Object y : map1.keySet())
+        {
+            if (!map2.containsKey(y)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
