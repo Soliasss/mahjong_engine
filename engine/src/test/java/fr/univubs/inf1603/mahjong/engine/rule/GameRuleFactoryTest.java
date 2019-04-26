@@ -59,8 +59,8 @@ public class GameRuleFactoryTest {
     @Test
     public void testCreate_BoardRule_ScoringSystem() throws Exception {
         System.out.println("create");
-        GameRule expResult = Rule.INTERNATIONAL_RULE;
-        String expName = "INTERNATIONAL_RULE";
+        GameRule expResult = Rule.INTERNATIONAL;
+        String expName = "INTERNATIONAL";
         BoardRule boardRule = expResult.getBoardRule() ;
         ScoringSystem scoringSystem = expResult.getScoringSystem();
         GameRuleFactory instance = new GameRuleFactory();
