@@ -2,7 +2,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * AbstractTile represents the concept of tile in mahjong rules.
- * @author Malléjac Clément
  */
 public interface AbstractTile {
     /**

@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * Represents common tiles (i.e bamboo,characters,dots) of a mahjong game.
  */
 

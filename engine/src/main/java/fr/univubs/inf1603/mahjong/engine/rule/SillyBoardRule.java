@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Abdelilah MOULIDA
  */
 public class SillyBoardRule implements BoardRule {
 

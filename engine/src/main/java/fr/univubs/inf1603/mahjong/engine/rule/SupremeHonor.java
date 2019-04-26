@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * Abstract class about a supremeHonor
  */
 public abstract class SupremeHonor extends WindHonor{

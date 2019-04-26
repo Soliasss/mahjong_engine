@@ -7,14 +7,11 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author purpl
  */
 public class MoveTest{
     /**
@@ -132,13 +129,13 @@ public class MoveTest{
         path.put(0, TileZoneIdentifier.Wall);
         HashMap publiclyVisible = new HashMap<>();
         publiclyVisible.put(0, true);
-        HashMap path2 = new HashMap<>();
-        path2.put(0, TileZoneIdentifier.DiscardEast);
+        HashMap publiclyVisible2 = new HashMap<>();
+        publiclyVisible2.put(0, false);
         Move instance1=null;
         Move instance2=null;
         try {
             instance1 = new Move(Wind.EAST, priority, path,publiclyVisible);
-            instance2 = new Move(Wind.EAST, priority, path2,publiclyVisible);
+            instance2 = new Move(Wind.EAST, priority, path,publiclyVisible2);
         } catch (MoveException ex) {
             fail("Move threw an exception: "+ex);
         }

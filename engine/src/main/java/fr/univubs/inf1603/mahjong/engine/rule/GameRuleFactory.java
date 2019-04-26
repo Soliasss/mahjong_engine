@@ -7,7 +7,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * Implementation of AbstractGameRuleFactory
- * @author maxime
  */
 public class GameRuleFactory implements AbstractGameRuleFactory{
 

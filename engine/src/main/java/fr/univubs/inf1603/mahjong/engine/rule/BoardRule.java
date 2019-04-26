@@ -10,7 +10,6 @@ import java.util.EnumMap;
 /**
  * BoardRule : interface to manage rules for the board
  *
- * @author Abdelilah MOULIDA
  */
 public interface BoardRule {
     /**

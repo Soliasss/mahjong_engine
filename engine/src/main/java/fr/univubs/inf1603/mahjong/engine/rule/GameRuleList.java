@@ -7,7 +7,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * Class used to represent the multiple GameRule
- * @author maxime
  */
 public class GameRuleList {
     

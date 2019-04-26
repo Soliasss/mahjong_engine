@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * WindHonor represents tiles which are associated to a wind.
  */
 public abstract class WindHonor extends HonorTile{

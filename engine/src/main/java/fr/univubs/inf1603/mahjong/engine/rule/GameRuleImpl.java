@@ -7,7 +7,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * Implemantation of GameRule
- * @author maxime
  */
 public class GameRuleImpl implements GameRule {
 

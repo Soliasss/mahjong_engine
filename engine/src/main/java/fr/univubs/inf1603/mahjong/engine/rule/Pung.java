@@ -3,7 +3,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
 /**
- * @author anton
  */
 public class Pung implements Combination {
 

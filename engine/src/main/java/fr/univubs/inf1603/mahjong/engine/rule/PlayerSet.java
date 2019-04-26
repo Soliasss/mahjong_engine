@@ -4,7 +4,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  * PlayerSet represents the state of all tiles a player has; including the player's hand, tiles set down, winds from the round 
  * and from the player, conditions about a tile drawn or stolen. 
  * Using to create different set from a situation.
- * @author Pierre Guriel--Fardel, Anton Cosnefroy
  */
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;

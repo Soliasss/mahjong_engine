@@ -11,7 +11,6 @@ import java.util.ArrayList;
 /**
  * Implementation of the {@link AbstractPatternList} for the international ruleset.
  * This class behaves like a singleton
- * @author Tristan Furno & Pierre Guriel & Anton Cosnefroy
  */
 public class InternationalPatternList implements AbstractPatternList {
 
