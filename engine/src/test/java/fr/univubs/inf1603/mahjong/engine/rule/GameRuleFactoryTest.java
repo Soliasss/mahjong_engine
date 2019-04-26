@@ -28,7 +28,7 @@ public class GameRuleFactoryTest {
     @Test
     public void testCreate_String_Search() throws Exception {
         System.out.println("create");
-        String name = "SILLY_RULE";
+        String name = "SILLY";
         GameRuleFactory instance = new GameRuleFactory();
         GameRule expResult = Rule.SILLY_RULE;
         GameRule result = instance.create(name);
