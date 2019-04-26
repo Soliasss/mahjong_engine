@@ -30,7 +30,7 @@ public class GameRuleFactoryTest {
         System.out.println("create");
         String name = "SILLY";
         GameRuleFactory instance = new GameRuleFactory();
-        GameRule expResult = Rule.SILLY_RULE;
+        GameRule expResult = Rule.SILLY;
         GameRule result = instance.create(name);
         assertEquals(expResult, result);
     }
