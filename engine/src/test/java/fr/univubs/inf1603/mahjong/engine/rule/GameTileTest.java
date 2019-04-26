@@ -1,14 +1,11 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.rule.CommonTile;
-import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Malléjac Clément
  */
 public class GameTileTest {
     /**

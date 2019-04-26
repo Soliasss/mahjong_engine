@@ -9,8 +9,6 @@ import fr.univubs.inf1603.mahjong.engine.rule.RulesException;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.time.Duration;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,7 +18,6 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author purpl
  */
 public class maintest {
     public static void main(String[] args) throws GameException{

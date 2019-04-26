@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * Flower tiles are bonus tiles used in some rules, they are associated to winds.
  */
 public class FlowerTile extends SupremeHonor{

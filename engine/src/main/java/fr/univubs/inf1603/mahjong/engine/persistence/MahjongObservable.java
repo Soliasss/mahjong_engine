@@ -5,7 +5,6 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * This interface provides methods to listen for properties of an object
- * @author purpl
  */
 public interface MahjongObservable {
     

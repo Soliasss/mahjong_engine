@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 /**
  *
- * @author purpl
  */
 public interface Game extends Persistable {
 

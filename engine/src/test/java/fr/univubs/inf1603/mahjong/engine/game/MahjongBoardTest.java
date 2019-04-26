@@ -15,12 +15,12 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author purpl
  */
 public class MahjongBoardTest {
 
     /**
      * Test of getCurrentWind method, of class MahjongBoard.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetCurrentWind() throws Exception {

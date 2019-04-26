@@ -5,7 +5,6 @@ import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 /**
  * This class validates if we have a kong in the player's hand and of he's valid
  *
- * @author anton
  */
 public class Kong implements Combination {
 

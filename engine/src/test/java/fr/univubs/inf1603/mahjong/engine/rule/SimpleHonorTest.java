@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Malléjac Clément
  */
 public class SimpleHonorTest {
     /**

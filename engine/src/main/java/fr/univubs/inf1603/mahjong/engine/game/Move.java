@@ -11,8 +11,6 @@ import java.util.UUID;
 /**
  * Cette classe permet de représenter le déplacement d'une ou plusieurs tuiles
  * d'un joueur
- *
- * @author COGOLUEGNES Charles
  */
 public class Move implements Persistable,Serializable, Cloneable {
 

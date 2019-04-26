@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author maxime
  */
 public class GameRuleFactoryTest {
     
