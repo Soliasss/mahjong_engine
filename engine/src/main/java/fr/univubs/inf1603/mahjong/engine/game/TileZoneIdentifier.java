@@ -34,7 +34,7 @@ public enum TileZoneIdentifier {
     MeldNorth2,
     MeldNorth3;
     
-    String getNormalizedName(){
+    public String getNormalizedName(){
         return this.name();
     }
     public static String getNormalizedNameFromIdentifier(TileZoneIdentifier identifier){

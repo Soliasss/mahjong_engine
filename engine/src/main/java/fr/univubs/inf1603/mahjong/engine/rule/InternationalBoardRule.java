@@ -128,7 +128,7 @@ public class InternationalBoardRule implements BoardRule{
                     path.put(i*j, TileZoneIdentifier.getIdentifierFromNormalizedName("hand"+Wind.values()[i].name()));
                     Move drawMove=null;
                     try {
-                        drawMove = new Move(Wind.values()[i], 0, path);
+                        drawMove = new Move(Wind.values()[i], 0, path,new HashMap<Integer, Boolean>());
                     } catch (MoveException ex) {
                         Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -168,7 +168,7 @@ public class InternationalBoardRule implements BoardRule{
         for(GameTileInterface gti : board.getTileZone("hand" + wind.name()).getTiles()){
             HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
             path.put(gti.getGameID(), tziDiscard);
-            moves.add( new Move(wind, 0, path));
+            moves.add( new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
         }
         return moves;
     }
@@ -191,7 +191,7 @@ public class InternationalBoardRule implements BoardRule{
                                 path.put(tiles.get(i).getGameID(), tzi);
                                 path.put(tiles.get(j).getGameID(), tzi);
                                 path.put(tiles.get(k).getGameID(), tzi);
-                                move.add(new Move(wind, 0, path));
+                                move.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
                             }
                         } catch (RulesException ex) {
                             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,7 +223,7 @@ public class InternationalBoardRule implements BoardRule{
                                     path.put(tiles.get(j).getGameID(), tzi);
                                     path.put(tiles.get(k).getGameID(), tzi);
                                     path.put(tiles.get(l).getGameID(), tzi);
-                                    move.add(new Move(wind, 0, path));
+                                    move.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
                                 }
                             } catch (RulesException ex) {
                                 Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
@@ -278,8 +278,12 @@ public class InternationalBoardRule implements BoardRule{
             }
             moves.get(nextWindToPlay).addAll(this.possibleMoveDiscard(board, nextWindToPlay));
             if(lastMove.getPath().get(0).getNormalizedName().charAt(0) == 'd'){
-                
-                //moves.get(nextWindToPlay).addAll(this.possibleSteal(board, nextWindToPlay,lastMove.getPath().keySet()) ,gtArray));
+                for(GameTileInterface gti : gtiArray){
+                    GameTile gt = null;
+                    if(gti instanceof GameTile) gt = (GameTile) gti;
+                    //moves.get(nextWindToPlay).addAll(this.possibleSteal(board, nextWindToPlay,lastMove.getPath().keySet()) ,gtArray));
+            
+                }
             }   
         } catch (GameException ex) {
             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
