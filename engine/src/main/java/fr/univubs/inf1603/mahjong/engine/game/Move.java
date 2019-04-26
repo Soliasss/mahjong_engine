@@ -19,7 +19,7 @@ public class Move implements Persistable,Serializable, Cloneable {
     private final Wind wind;
     private final int priority;
     private final HashMap<Integer, TileZoneIdentifier> path;
-    private final HashMap<Integer, Boolean> publicyVisible;
+    private final HashMap<Integer, Boolean> publiclyVisible;
     private final UUID uuid;
 
     /**
@@ -30,13 +30,13 @@ public class Move implements Persistable,Serializable, Cloneable {
      * @param path Une Map qui contient l'information de déplacement de la ou
  des tuile(s). Le numéro reprente l'ID de la tuile, la MahjongTileZone est la
  zone de jeu dans laquelle la tuile va être ajoutée
-     * @param publicyVisible Une map qui contient la visibilité de la ou des 
+     * @param publiclyVisible Une map qui contient la visibilité de la ou des 
      * tuile(s). Le numéro représente l'ID de la tuile, le boolean représente
      * la visibilité de la tuile : true = tuile visible
      * @param uuid
      * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
      */
-    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publicyVisible, UUID uuid) throws MoveException {
+    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publiclyVisible, UUID uuid) throws MoveException {
         this.wind = wind;
 
         if (priority < 0) {
@@ -49,16 +49,16 @@ public class Move implements Persistable,Serializable, Cloneable {
         }
         this.path = path;
         
-        if (publicyVisible==null){
+        if (publiclyVisible==null){
             throw new MoveException("The publiclyVisible can not be null");
         }
-        this.publicyVisible = publicyVisible;
+        this.publiclyVisible = publiclyVisible;
 
         this.uuid = uuid;
     }
 
-    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publicyVisible) throws MoveException {
-        this(wind, priority, path, publicyVisible, UUID.randomUUID());
+    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publiclyVisible) throws MoveException {
+        this(wind, priority, path, publiclyVisible, UUID.randomUUID());
     }
 
     /**
@@ -91,10 +91,10 @@ public class Move implements Persistable,Serializable, Cloneable {
     /**
      * Retourne la map qui represente la visibilité des tuiles
      *
-     * @return publicyVisible
+     * @return publiclyVisible
      */
-    public HashMap<Integer, Boolean> getPublicyVisible() {
-        return this.publicyVisible;
+    public HashMap<Integer, Boolean> getPubliclyVisible() {
+        return this.publiclyVisible;
     }
 
     @Override
