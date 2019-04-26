@@ -31,7 +31,7 @@ public class Move implements Persistable,Serializable, Cloneable {
  des tuile(s). Le numéro reprente l'ID de la tuile, la MahjongTileZone est la
  zone de jeu dans laquelle la tuile va être ajoutée
      * @param publiclyVisible Une map qui contient la visibilité de la ou des 
-     * tuile(s). Le numéro représente l'ID de la tuile, le boolean représente
+     * tuile(s) concernés par le Move. Le numéro représente l'ID de la tuile, le boolean représente
      * la visibilité de la tuile : true = tuile visible
      * @param uuid
      * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
@@ -117,9 +117,8 @@ public class Move implements Persistable,Serializable, Cloneable {
      */
     public boolean isEqual(Move move){
         boolean ret=false;
-        if(move.getWind().compareTo(this.wind)==0){
+        if(move.getWind() == this.wind){
             if(move.getPriority()==this.priority){
-                System.out.println("test");
                 if(moveMapEqual(this.path,move.path)){
                     if(moveMapEqual(this.publiclyVisible, move.publiclyVisible)){
                         ret=true;
