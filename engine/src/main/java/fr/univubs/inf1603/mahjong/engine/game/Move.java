@@ -60,7 +60,7 @@ public class Move implements Persistable,Serializable, Cloneable {
 
     /**
      * Retourne le coté du joueur associé au Move
-     *
+     * 
      * @return side
      */
     public Wind getWind() {
