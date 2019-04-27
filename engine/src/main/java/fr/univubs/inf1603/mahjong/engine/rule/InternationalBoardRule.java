@@ -128,20 +128,22 @@ public class InternationalBoardRule implements BoardRule{
         } 
         for(int i = 0;i<4;i++){//This is the draw moves they draw 13 tiles for each player in one swipe
             HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
+            Move drawMove = null;
             for(int j = 0;j<13;j++){
                 try {
                     Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID();
-                    path.put(idGameTile, TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+Wind.values()[i].getName()));
-                    Move drawMove=null;
-                    try {
-                        drawMove = new Move(Wind.values()[i], 0, path,new HashMap<Integer, Boolean>());
-                    } catch (MoveException ex) {
-                        Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    board.applyMove(drawMove);
+                    path.put(idGameTile, TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+Wind.values()[i].getName()));                   
                 } catch (GameException ex) {
                     Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            try {
+                drawMove = new Move(Wind.values()[i], 0, path, new HashMap<Integer, Boolean>());
+                board.applyMove(drawMove);
+            } catch (MoveException e){
+                Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, e);
+            } catch (GameException ex) {
+                Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         //Pioche la 14 tuile du joueur placer a l EST
@@ -321,8 +323,7 @@ public class InternationalBoardRule implements BoardRule{
         EnumMap<Wind, Collection<Move>> moves = new EnumMap<>(Wind.class);
         Wind nextWindToPlay = null;
         char lastMoveTZIFirstLetter = lastMove.getPath().get(0).getNormalizedName().charAt(0);
-        try {
-            
+        try {            
             
             //Si le dernier movement est une pioche ou un kong.
             //Si l'on vient de mettre un honneur.
@@ -407,8 +408,8 @@ public class InternationalBoardRule implements BoardRule{
         }
         if(!finished){
             
-            CombinationFactory factory = new CombinationFactory(); //noMeldFree = true;
-            //if(lastMove.getPath().keySet().size() == 2 && noMeldFree) finished = true;
+            CombinationFactory factory = new CombinationFactory();
+            
             for(Wind wind : Wind.values()){
                 try {
                     //WINNINGTILE
@@ -461,10 +462,9 @@ public class InternationalBoardRule implements BoardRule{
                     PlayerSet set = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors,
                             drawnFromWall, takenFromDiscard, board.getCurrentWind(), wind);
                     
-                    /*InternationalScoringSystem scoring = InternationalScoringSystem.DEFAULT;
-                    scoring.getPatternList().getPatterns()[0].identify(set);
-                    IdentifiedPattern ip = ip.identify(set);
-                    ip.getValue();*/
+                    InternationalScoringSystem scoring = InternationalScoringSystem.DEFAULT;
+                    if(scoring.computeScore(scoring.identifyPatterns(set))>=8) finished=true;
+                    
                 } catch (GameException ex) {
                     Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (RulesException ex) {
