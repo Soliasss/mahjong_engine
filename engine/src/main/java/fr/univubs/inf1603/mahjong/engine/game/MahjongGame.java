@@ -5,6 +5,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 /**
@@ -85,33 +87,7 @@ public class MahjongGame implements Game {
         this.ableToRegisterMoves = false;
     }
 
-    @Override
-    public void launchGame() {
-        if(this.playerWind == null){
-            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-        }
-        StartingWall wall = this.rule.getBoardRule().buildWall();
-        
-        if(this.board == null){
-            if(wall !=null){
-                this.board = this.rule.getBoardRule().distributeTiles(wall);
-            }else{
-                System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
-            }
-        }
-        
-        getAndFirePossibleMoves();
-    }
-
-    @Override
-    public void registerMove(Move move) throws GameException {
-        if(this.ableToRegisterMoves){
-          this.registeredMoves.add(move);
-        }
-        else{
-            throw new GameException("Impossible de register le move hors du temps imparti.");
-        }
-    }
+    
 
     @Override
     public Board getBoard(Wind wind) throws GameException {
@@ -134,11 +110,10 @@ public class MahjongGame implements Game {
         }
         return ret;
     }
-
     @Override
     public MahjongGame clone() {
         throw new UnsupportedOperationException("not implemented yet");
-//        return new MahjongGameGame();
+        //        return new MahjongGameGame();
     }
 
     @Override
@@ -220,15 +195,7 @@ public class MahjongGame implements Game {
         return this.playerWind;
     }
 
-    @Override
-    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
-        return new ArrayList<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove).get(wind));
-    }
-
-    @Override
-    public ArrayList<Move> getPossibleMoves(int player) throws GameException {
-        return getPossibleMoves(playerWind[player]);
-    }
+ 
 
     /**
      * Permet d'effectuer le move sur le Board
@@ -246,35 +213,90 @@ public class MahjongGame implements Game {
         throw new GameException(ge.getMessage());
       }
     }
+    
+    @Override
+    public void launchGame() {
+        if(this.playerWind == null){
+            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
+        }
+        StartingWall wall = this.rule.getBoardRule().buildWall();
+        
+        if(this.board == null){
+            if(wall !=null){
+                this.board = this.rule.getBoardRule().distributeTiles(wall);
+            }else{
+                System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
+            }
+        }
+        
+        getAndFirePossibleMoves();
+    }
+
+    @Override
+    public void registerMove(Move move) throws GameException {
+        if(this.ableToRegisterMoves){
+          this.registeredMoves.add(move);
+        }
+        else{
+            throw new GameException("Impossible de register le move hors du temps imparti.");
+        }
+    }
+    
+    
 
     /**
      * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
      */
     private void getAndFirePossibleMoves(){
-      this.possiblesMoves = new ArrayList<Move>();
+      this.possiblesMoves = new ArrayList<>();
       EnumMap<Wind, Collection<Move>> validMoves = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
       for(Wind w : validMoves.keySet()){
           for(Move m : validMoves.get(w)){
               this.possiblesMoves.add(m);
           }
       }
+
       if(this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)){
         this.computeScore();
         this.exitGame(0,"Fin de la partie.");
       }
       else{
         this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
-        this.waitToRegisterMoves();
       }
-    }
-
-    /**
-     * Permet de lancer un thread attendant que les moves soit register
-     */
-    private void waitToRegisterMoves(){
+      
+      TimerTask recalculateMoves = new TimerTask() {
+          @Override
+          public void run() {
+              
+          }
+      };
+      
+      Timer timer = new Timer();
+      timer.schedule(recalculateMoves, playingTime.toSeconds());
       
     }
 
+    @Override
+    public ArrayList<Move> getPossibleMoves() {
+        return this.possiblesMoves;
+    }
+    
+    @Override
+    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
+        ArrayList<Move> mlist = new ArrayList<>();
+        for(Move m : this.possiblesMoves){
+            if(m.getWind()==wind){
+                mlist.add(m);
+            }
+        }
+        return mlist;
+    }
+
+    @Override
+    public ArrayList<Move> getPossibleMoves(int player) throws GameException {
+        return getPossibleMoves(playerWind[player]);
+    }
+    
     /**
      * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
      * @throws GameException quand applyMove throw une GameException
