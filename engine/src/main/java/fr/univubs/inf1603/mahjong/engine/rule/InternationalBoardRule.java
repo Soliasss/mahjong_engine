@@ -209,7 +209,7 @@ public class InternationalBoardRule implements BoardRule{
         int size = tiles.size();
         Combination combi;
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
-        ArrayList<Move> move = null;
+        ArrayList<Move> move = new ArrayList<Move>();
         TileZoneIdentifier tzi = getMeldAvailable(board,wind);
         for(int i=0; i<size; i++){
             for(int j=i+1; j<size; j++){
@@ -247,7 +247,7 @@ public class InternationalBoardRule implements BoardRule{
         int size = tiles.size();
         Combination combi;
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
-        ArrayList<Move> move = null;
+        ArrayList<Move> move = new ArrayList<Move>();
         TileZoneIdentifier tzi = getMeldAvailable(board,wind);
         for(int i=0; i<size; i++){
             for(int j=i+1; j<size; j++){
@@ -315,7 +315,26 @@ public class InternationalBoardRule implements BoardRule{
     public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
         EnumMap<Wind, Collection<Move>> moves = new EnumMap<>(Wind.class);
         Wind nextWindToPlay = null;
-        char lastMoveTZIFirstLetter = lastMove.getPath().get(0).getNormalizedName().charAt(0);
+        try{
+            if(lastMove == null){
+                HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
+                path.put(null, TileZoneIdentifier.HandEast);
+                lastMove = new Move(Wind.EAST, 0, path,new HashMap<Integer, Boolean>());
+            }
+        } catch (MoveException ex) {
+            Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        char lastMoveTZIFirstLetter='n';
+        for(TileZoneIdentifier tziTest : lastMove.getPath().values()){
+            lastMoveTZIFirstLetter = tziTest.getNormalizedName().charAt(0);
+            break;
+        }
+        try{
+         
+            if(lastMoveTZIFirstLetter == 'n') throw RulesException("Erreur d 'acces au lastMove");   
+        } catch (Exception ex) {
+            Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {            
             
             //Si le dernier movement est une pioche ou un kong.
@@ -380,9 +399,11 @@ public class InternationalBoardRule implements BoardRule{
                         if(gti instanceof GameTile) gt = (GameTile) gti;
                         if(gt != null) gtArray.add(gt);
                     }
-                    moves.get(nextWindToPlay).addAll(this.possibleMove3Tiles(board, nextWindToPlay, gtArray));
+                    ArrayList<Move> PCMove = this.possibleMove3Tiles(board, nextWindToPlay, gtArray);
+                    if(!PCMove.isEmpty())moves.get(nextWindToPlay).addAll(PCMove);
                     //KONG
-                    moves.get(nextWindToPlay).addAll(this.possibleMove4Tiles(board, nextWindToPlay, gtArray)); 
+                    ArrayList<Move> PKove = this.possibleMove3Tiles(board, nextWindToPlay, gtArray);
+                    if(!PKove.isEmpty())moves.get(nextWindToPlay).addAll(PKove);
                 }
             }   
         } catch (GameException ex) {
@@ -464,6 +485,10 @@ public class InternationalBoardRule implements BoardRule{
             }
         }
         return finished;
+    }
+
+    private Exception RulesException(String erreur_d_acces_au_lastMove) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
