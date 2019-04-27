@@ -226,7 +226,7 @@ public class InternationalBoardRule implements BoardRule{
                                 move.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
                             }
                         } catch (RulesException ex) {
-                            Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+
                         }
                     }
                 }
@@ -268,7 +268,7 @@ public class InternationalBoardRule implements BoardRule{
                                     move.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
                                 }
                             } catch (RulesException ex) {
-                                Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+                               
                             }
                         }
                     }
@@ -443,7 +443,11 @@ public class InternationalBoardRule implements BoardRule{
                         if(gt != null) tab[j] = gt;
                         j++;
                     }
-                    hand.add(factory.newCombination(tab));
+                    try{
+                        hand.add(factory.newCombination(tab));
+                    }catch(RulesException ex){
+                        
+                    }
                     
                     ArrayList<Combination> concealed = new ArrayList<Combination>();
                     
@@ -458,7 +462,11 @@ public class InternationalBoardRule implements BoardRule{
                             if(gt != null) tab[k] = gt;
                             k++;
                         }
-                        melds.add(factory.newCombination(tab));
+                        try{
+                            melds.add(factory.newCombination(tab));
+                        }catch(RulesException ex){
+
+                        }
                     }
                     
                     //SUPREMEHONORS
@@ -478,8 +486,6 @@ public class InternationalBoardRule implements BoardRule{
                     if(scoring.computeScore(scoring.identifyPatterns(set))>=8) finished=true;
                     
                 } catch (GameException ex) {
-                    Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (RulesException ex) {
                     Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
