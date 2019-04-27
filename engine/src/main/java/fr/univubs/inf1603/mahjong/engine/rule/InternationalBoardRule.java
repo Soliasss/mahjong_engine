@@ -402,8 +402,8 @@ public class InternationalBoardRule implements BoardRule{
                     ArrayList<Move> PCMove = this.possibleMove3Tiles(board, nextWindToPlay, gtArray);
                     if(!PCMove.isEmpty())moves.get(nextWindToPlay).addAll(PCMove);
                     //KONG
-                    ArrayList<Move> PKove = this.possibleMove3Tiles(board, nextWindToPlay, gtArray);
-                    if(!PKove.isEmpty())moves.get(nextWindToPlay).addAll(PKove);
+                    ArrayList<Move> KMove = this.possibleMove3Tiles(board, nextWindToPlay, gtArray);
+                    if(!KMove.isEmpty())moves.get(nextWindToPlay).addAll(KMove);
                 }
             }   
         } catch (GameException ex) {
@@ -414,6 +414,7 @@ public class InternationalBoardRule implements BoardRule{
 
     @Override
     public boolean isGameFinished(MahjongBoard board, Move lastMove){
+        if(lastMove == null)return false;
         boolean finished = false;
         try {
             finished = board.getTileZone(TileZoneIdentifier.Wall).getTiles().isEmpty();
