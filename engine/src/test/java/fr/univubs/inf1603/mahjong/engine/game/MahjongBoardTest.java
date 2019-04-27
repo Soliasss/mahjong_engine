@@ -203,6 +203,9 @@ public class MahjongBoardTest {
         assertEquals(expResult, result);
     }
     
+    /**
+     * Test of getZones method, of class MahjongBoard.
+     */
     public void testGetZones(){
         System.out.println("getZone");
         UUID u  = UUID.randomUUID();
