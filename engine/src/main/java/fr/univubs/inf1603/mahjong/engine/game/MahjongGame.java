@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
+import fr.univubs.inf1603.mahjong.engine.rule.StartingWall;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
@@ -90,9 +91,18 @@ public class MahjongGame implements Game {
 
     @Override
     public void launchGame() {
-        if(this.playerWind == null) this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-        if(this.board == null) this.board = this.rule.getBoardRule().distributeTiles(this.rule.getBoardRule().buildWall());
-        this.getAndFirePossibleMoves();
+        if(this.playerWind == null){
+            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
+        }
+        StartingWall wall = this.rule.getBoardRule().buildWall();
+        
+        if(this.board == null){
+            if(wall !=null){
+                this.board = this.rule.getBoardRule().distributeTiles(wall);
+            }else{
+                System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
+            }
+        }
     }
 
     @Override
