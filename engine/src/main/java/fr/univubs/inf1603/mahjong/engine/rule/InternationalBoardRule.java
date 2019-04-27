@@ -88,7 +88,7 @@ public class InternationalBoardRule implements BoardRule{
         ArrayList<AbstractTile> allTiles = new ArrayList<AbstractTile> ();
         
         for (InternationalTiles a : InternationalTiles.values()) {
-            if (a.getTile() instanceof CommonTile) {
+            if (!(a.getTile() instanceof SupremeHonor)) {
                 for(int i = 0; i<4; i++){
                     allTiles.add(a.getTile());
                 }
@@ -103,6 +103,11 @@ public class InternationalBoardRule implements BoardRule{
             listTile.add(new GameTile(i,allTiles.get(random)));
             allTiles.remove(random);
             i++;
+        }
+        try {
+            if(i!=143) throw new RulesException("All the tiles are not defined");
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return new StartingWall(this.chooseWindWall(),this.chooseStartingHeap(),listTile);
