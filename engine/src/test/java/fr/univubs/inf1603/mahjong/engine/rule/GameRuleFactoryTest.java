@@ -23,6 +23,7 @@ public class GameRuleFactoryTest {
 
     /**
      * Test of create method, of class GameRuleFactory.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate_String_Search() throws Exception {
@@ -36,6 +37,7 @@ public class GameRuleFactoryTest {
     
     /**
      * Test of create method, of class GameRuleFactory.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate_String_Create() throws Exception {
@@ -54,6 +56,7 @@ public class GameRuleFactoryTest {
 
     /**
      * Test of create method, of class GameRuleFactory.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate_BoardRule_ScoringSystem() throws Exception {
@@ -70,6 +73,7 @@ public class GameRuleFactoryTest {
     
     /**
      * Test of create method, of class GameRuleFactory.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate_BoardRule_ScoringSystem_Create() throws Exception {
