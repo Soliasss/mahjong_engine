@@ -10,13 +10,14 @@ import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class PlayerSet {
     private GameTile winningTile;
-    private Collection<Combination> hand;
-    private Collection<Combination> concealed;
-    private Collection<Combination> melds;
-    private Collection<GameTile> supremeHonors;
+    private Collection<Combination> hand = new HashSet<>();
+    private Collection<Combination> concealed = new HashSet<>();
+    private Collection<Combination> melds = new HashSet<>();
+    private Collection<GameTile> supremeHonors = new HashSet<>();
     private boolean drawnFromWall;
     private boolean takenFromDiscard;
     private Wind roundWind;
@@ -36,10 +37,10 @@ public class PlayerSet {
     public PlayerSet(GameTile winningTile, Collection<Combination> hand, Collection<Combination> concealed, Collection<Combination> melds, Collection<GameTile> supremeHonors,
                      boolean drawnFromWall, boolean takenFromDiscard, Wind roundWind, Wind playerWind){
         this.winningTile = winningTile;
-        this.hand = new ArrayList<Combination>(hand);
-        this.concealed = new ArrayList<Combination>(concealed);
-        this.melds = new ArrayList<Combination>(melds);
-        this.supremeHonors = new ArrayList<GameTile>(supremeHonors);
+        this.hand.addAll(hand);
+        this.concealed.addAll(concealed);
+        this.melds.addAll(melds);
+        this.supremeHonors.addAll(supremeHonors);
         this.drawnFromWall = drawnFromWall;
         this.takenFromDiscard = takenFromDiscard;
         this.roundWind = roundWind;
@@ -53,10 +54,10 @@ public class PlayerSet {
      */
     public PlayerSet(PlayerSituation situation, Collection<Combination> hand) {
         this.winningTile = situation.getWinningTile();
-        this.hand = new ArrayList<Combination>(hand);
-        this.concealed = new ArrayList<Combination>(situation.getConcealed());
-        this.melds = new ArrayList<Combination>(situation.getMelds());
-        this.supremeHonors = new ArrayList<GameTile>(situation.getSupremeHonors());
+        this.hand.addAll(hand);
+        this.concealed.addAll(situation.getConcealed());
+        this.melds.addAll(situation.getMelds());
+        this.supremeHonors.addAll(situation.getSupremeHonors());
         this.drawnFromWall = situation.isDrawnForWall();
         this.takenFromDiscard = situation.isTakenFromDiscard();
         this.roundWind = situation.getRoundWind();

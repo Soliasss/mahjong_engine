@@ -10,10 +10,4 @@ public interface AbstractPatternList{
      * @return the patterns of the list
      */
     IdentifiablePattern[] getPatterns();
-
-    /**
-     * @param name the name of the pattern we need
-     * @return a reference to the needed pattern
-     */
-    IdentifiablePattern getPattern(String name);
 }

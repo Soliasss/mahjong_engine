@@ -11,4 +11,5 @@ public abstract class SupremeHonor extends WindHonor{
     public SupremeHonor(Wind windTile) {
         super(windTile);
     }
+    
 }

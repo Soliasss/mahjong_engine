@@ -1,11 +1,15 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Number;
+
 public enum InternationalTiles implements AbstractTile {
     BAMBOO_1(new CommonTile(CommonTile.Family.BAMBOO, CommonTile.Number.ONE)){
         @Override
         public AbstractTile getNext() {
             return BAMBOO_2;
         }
+
     },
     BAMBOO_2(new CommonTile(CommonTile.Family.BAMBOO, CommonTile.Number.TWO)){
         @Override
@@ -289,7 +293,7 @@ public enum InternationalTiles implements AbstractTile {
     
     private AbstractTile tile;
     
-    private InternationalTiles(AbstractTile abstractTile) {
+    InternationalTiles(AbstractTile abstractTile) {
         this.tile = abstractTile;
     }
     
@@ -305,4 +309,20 @@ public enum InternationalTiles implements AbstractTile {
     public String toNormalizedName() {
         return this.tile.toNormalizedName();
     }
+    
+    @Override
+    public boolean isMajor(){
+        return this.tile.isMajor();
+    }
+    
+    @Override
+    public Family getFamily(){
+        return this.tile.getFamily();
+    }
+    
+    @Override
+    public Number getNumber(){
+        return this.tile.getNumber();
+    }
+    
 }

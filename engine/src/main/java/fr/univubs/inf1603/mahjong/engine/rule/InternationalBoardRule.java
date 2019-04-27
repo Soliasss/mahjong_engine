@@ -1,18 +1,8 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.engine.game.GameException;
-import fr.univubs.inf1603.mahjong.engine.game.GameTile;
-import fr.univubs.inf1603.mahjong.engine.game.GameTileInterface;
-import fr.univubs.inf1603.mahjong.engine.game.MahjongBoard;
-import fr.univubs.inf1603.mahjong.engine.game.Move;
-import fr.univubs.inf1603.mahjong.engine.game.MoveException;
-import fr.univubs.inf1603.mahjong.engine.game.TileZoneIdentifier;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Random;
+import fr.univubs.inf1603.mahjong.engine.game.*;
+
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -213,7 +203,7 @@ public class InternationalBoardRule implements BoardRule{
     public ArrayList<Move> possibleMove3Tiles(MahjongBoard board, Wind wind, ArrayList<GameTile> tiles) throws GameException{        
         int size = tiles.size();
         Combination combi;
-        CombinationFactory factory = new CombinationFactory();
+        AbstractCombinationFactory factory = new InternationalCombinationFactory();
         ArrayList<Move> move = null;
         TileZoneIdentifier tzi = getMeldAvailable(board,wind);
         for(int i=0; i<size; i++){
@@ -251,7 +241,7 @@ public class InternationalBoardRule implements BoardRule{
     public ArrayList<Move> possibleMove4Tiles(MahjongBoard board, Wind wind, ArrayList<GameTile> tiles) throws GameException{        
         int size = tiles.size();
         Combination combi;
-        CombinationFactory factory = new CombinationFactory();
+        AbstractCombinationFactory factory = new InternationalCombinationFactory();
         ArrayList<Move> move = null;
         TileZoneIdentifier tzi = getMeldAvailable(board,wind);
         for(int i=0; i<size; i++){
@@ -406,7 +396,7 @@ public class InternationalBoardRule implements BoardRule{
         }
         if(!finished){
             
-            CombinationFactory factory = new CombinationFactory();
+            AbstractCombinationFactory factory = new InternationalCombinationFactory();
             
             for(Wind wind : Wind.values()){
                 try {
