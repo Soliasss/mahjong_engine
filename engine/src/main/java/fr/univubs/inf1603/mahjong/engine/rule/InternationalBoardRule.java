@@ -126,20 +126,18 @@ public class InternationalBoardRule implements BoardRule{
         } catch (GameException ex) {
             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        for(int i = 0;i<4;i++){//This is the draw moves they draw 13 tiles for each player in one swipe
-            HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
-            Move drawMove = null;
-            for(int j = 0;j<13;j++){
+        for(Wind wind : Wind.values()){//This is the draw moves they draw 13 tiles for each player in one swipe
+            HashMap<Integer,TileZoneIdentifier> path = new HashMap<Integer,TileZoneIdentifier>();
+            for(int j = 0; j<13; j++){
                 try {
                     Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID();
-                    path.put(idGameTile, TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+Wind.values()[i].getName()));                   
+                    path.put(idGameTile, board.getTileZone("Hand"+wind.getName()).getIdentifier()); //TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+wind.getName()));                   
                 } catch (GameException ex) {
                     Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             try {
-                drawMove = new Move(Wind.values()[i], 0, path, new HashMap<Integer, Boolean>());
-                board.applyMove(drawMove);
+                board.applyMove(new Move(wind, 0, path, new HashMap<Integer, Boolean>()));
             } catch (MoveException e){
                 Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, e);
             } catch (GameException ex) {
