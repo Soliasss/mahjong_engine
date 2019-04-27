@@ -123,9 +123,9 @@ public class InternationalBoardRule implements BoardRule{
         } 
         for(Wind wind : Wind.values()){//This is the draw moves they draw 13 tiles for each player in one swipe
             HashMap<Integer,TileZoneIdentifier> path = new HashMap<Integer,TileZoneIdentifier>();
-            for(int j = 0; j<13; j++){
+            for(int j = 0; j< 13; j++){
                 try {
-                    Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID();
+                    Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(j).getGameID();
                     path.put(idGameTile, board.getTileZone("Hand"+wind.getName()).getIdentifier()); //TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+wind.getName()));                   
                 } catch (GameException ex) {
                     Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
