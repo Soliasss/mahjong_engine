@@ -80,6 +80,10 @@ public class InternationalBoardRule implements BoardRule{
         return ret;
     }
     
+    /**
+     * Retourne l'index ou se trouve la breche
+     * @return L'index ou se trouve la breche
+     */
     public int chooseStartingHeap(){
         Random randomGenerator = new Random();
 	int random = randomGenerator.nextInt(11)+2;
@@ -148,6 +152,13 @@ public class InternationalBoardRule implements BoardRule{
         return findValidMoves(board, lastMove).get(move.getWind()).contains(move);
     }
 
+    /**
+     * Recherche la premiere zone de meld disponible d'un joueur
+     * @param board Le board du jeu
+     * @param wind Le vent du joueur dont on veut vérifier les zones de meld disponible
+     * @return Un TileZoneIdentifier representant la zone disponible
+     * @throws GameException 
+     */
     public TileZoneIdentifier getMeldAvailable(MahjongBoard board, Wind wind) throws GameException{
         TileZoneIdentifier tzi = null;
         if(board.getTileZone("Meld"+wind.getName()+"0").getTiles().isEmpty()){
@@ -163,7 +174,14 @@ public class InternationalBoardRule implements BoardRule{
         }
         return tzi;
     }
-    
+    /**
+     * Renvoie tous les mouvements de defausse possible
+     * @param board Le board de la partie
+     * @param wind Le vent du joueur dont on veut trouver les defausse possibles
+     * @return Une liste vide si pas de tuile dans la main ou contenant les mouvements de defausse possible
+     * @throws GameException 
+     */
+
     public ArrayList<Move> possibleMoveDiscard(MahjongBoard board, Wind wind) throws GameException{
         ArrayList<Move> moves = new ArrayList<Move>();
         TileZoneIdentifier tziDiscard = board.getTileZone("Discard" + wind.getName()).getIdentifier();
@@ -174,7 +192,14 @@ public class InternationalBoardRule implements BoardRule{
         }
         return moves;
     }
-    
+    /**
+     * Verifie si un joueur peut faire une combinaison de 3 tuiles
+     * @param board Le board de la partie
+     * @param wind Le vent du joueur dont on veut verifier les moves possibles
+     * @param tiles La main du joueur
+     * @return Une liste vide si pas de movements ou contenant les Move possibles
+     * @throws GameException 
+     */
     public ArrayList<Move> possibleMove3Tiles(MahjongBoard board, Wind wind, ArrayList<GameTile> tiles) throws GameException{        
         int size = tiles.size();
         Combination combi;
@@ -205,6 +230,14 @@ public class InternationalBoardRule implements BoardRule{
         return move;
     }
     
+    /**
+     * Verifie si un joueur peut faire une combinaison de 4 tuiles
+     * @param board Le board de la partie
+     * @param wind Le vent du joueur dont on veut verifier les moves possibles
+     * @param tiles La main du joueur
+     * @return Une liste vide si pas de movements ou contenant les Move possibles
+     * @throws GameException 
+     */
     public ArrayList<Move> possibleMove4Tiles(MahjongBoard board, Wind wind, ArrayList<GameTile> tiles) throws GameException{        
         int size = tiles.size();
         Combination combi;
@@ -238,26 +271,33 @@ public class InternationalBoardRule implements BoardRule{
         return move;
     }
     
+    /**
+     * Recherche les vols de la derniere tuile qui a été deffausser
+     * @param board Le board du game
+     * @param wind Le vent du joueur dont on veut verifier les vols possibles
+     * @param gameTile La tuile defausser
+     * @param tiles La main du joueur dont on veut verifier les vols possibles
+     * @return Une liste de Move vide si pas de mouvement ou contenant les moves de vols possibles
+     * @throws GameException 
+     */
     public ArrayList<Move> possibleSteal(MahjongBoard board, Wind wind, GameTile gameTile, ArrayList<GameTile> tiles) throws GameException{
         ArrayList<Move> moveSteal = new ArrayList<Move>();
         int size = tiles.size();
         ArrayList<GameTile> gtArray = null;
-        for(Wind windOthers : Wind.values()){
-            for(int i=0; i<size; i++){
-                for(int j=i+1; j<size; j++){
+        for(int i=0; i<size; i++){
+            for(int j=i+1; j<size; j++){
+                gtArray = new ArrayList<GameTile>();
+                gtArray.add(tiles.get(i));
+                gtArray.add(tiles.get(j));
+                gtArray.add(gameTile);
+                moveSteal.addAll(this.possibleMove3Tiles(board, wind, tiles));
+                for(int k=j+1; k<size; k++){
                     gtArray = new ArrayList<GameTile>();
                     gtArray.add(tiles.get(i));
                     gtArray.add(tiles.get(j));
+                    gtArray.add(tiles.get(k));
                     gtArray.add(gameTile);
-                    moveSteal.addAll(this.possibleMove3Tiles(board, wind, tiles));
-                    for(int k=j+1; k<size; k++){
-                        gtArray = new ArrayList<GameTile>();
-                        gtArray.add(tiles.get(i));
-                        gtArray.add(tiles.get(j));
-                        gtArray.add(tiles.get(k));
-                        gtArray.add(gameTile);
-                        moveSteal.addAll(this.possibleMove4Tiles(board, wind, tiles));
-                    }
+                    moveSteal.addAll(this.possibleMove4Tiles(board, wind, tiles));
                 }
             }
         }
