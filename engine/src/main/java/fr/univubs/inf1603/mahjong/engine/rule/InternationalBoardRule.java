@@ -7,7 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ * International Board Rule Manage The Board
+ * Les règles international de plateau sont inscrites ici.
  */
 public class InternationalBoardRule implements BoardRule{
     
@@ -122,16 +123,12 @@ public class InternationalBoardRule implements BoardRule{
             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         } 
         for(Wind wind : Wind.values()){//This is the draw moves they draw 13 tiles for each player in one swipe
-            HashMap<Integer,TileZoneIdentifier> path = new HashMap<Integer,TileZoneIdentifier>();
-            for(int j = 0; j< 13; j++){
-                try {
-                    Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(j).getGameID();
-                    path.put(idGameTile, board.getTileZone("Hand"+wind.getName()).getIdentifier()); //TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+wind.getName()));                   
-                } catch (GameException ex) {
-                    Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             try {
+                HashMap<Integer,TileZoneIdentifier> path = new HashMap<Integer,TileZoneIdentifier>();
+                for(int j = 0; j< 13; j++){
+                    Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(j).getGameID();
+                    path.put(idGameTile, board.getTileZone("Hand"+wind.getName()).getIdentifier());
+                }
                 board.applyMove(new Move(wind, 0, path, new HashMap<Integer, Boolean>()));
             } catch (MoveException e){
                 Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, e);
@@ -208,21 +205,20 @@ public class InternationalBoardRule implements BoardRule{
     public ArrayList<Move> possibleMove3Tiles(MahjongBoard board, Wind wind, ArrayList<GameTile> tiles) throws GameException{        
         int size = tiles.size();
         Combination combi;
-        AbstractCombinationFactory factory = new InternationalCombinationFactory();
+        InternationalCombinationFactory factory = new InternationalCombinationFactory();
         ArrayList<Move> move = new ArrayList<Move>();
         TileZoneIdentifier tzi = getMeldAvailable(board,wind);
-        for(int i=0; i<size; i++){
-            for(int j=i+1; j<size; j++){
-                combi = null;
-                for(int k=j+1; k<size; k++){
-                    if(i!=j && j!=k){
+        for(GameTile tile1 : tiles){
+            for(GameTile tile2 : tiles){
+                for(GameTile tile3 : tiles){
+                    if(tile1 != tile2 && tile2 != tile3 && tile1 != tile3){
                         try{
-                            combi = factory.newCombination(tiles.get(i),tiles.get(j),tiles.get(k));
+                            combi = factory.newCombination(tile1,tile2,tile3);
                             if(combi.isPung() || combi.isChow()){
                                 HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
-                                path.put(tiles.get(i).getGameID(), tzi);
-                                path.put(tiles.get(j).getGameID(), tzi);
-                                path.put(tiles.get(k).getGameID(), tzi);
+                                path.put(tile1.getGameID(), tzi);
+                                path.put(tile2.getGameID(), tzi);
+                                path.put(tile3.getGameID(), tzi);
                                 move.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
                             }
                         } catch (RulesException ex) {
@@ -244,31 +240,28 @@ public class InternationalBoardRule implements BoardRule{
      * @throws GameException 
      */
     public ArrayList<Move> possibleMove4Tiles(MahjongBoard board, Wind wind, ArrayList<GameTile> tiles) throws GameException{        
-        int size = tiles.size();
         Combination combi;
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
         ArrayList<Move> move = new ArrayList<Move>();
         TileZoneIdentifier tzi = getMeldAvailable(board,wind);
-        for(int i=0; i<size; i++){
-            for(int j=i+1; j<size; j++){
-                for(int k=j+1; k<size; k++){
-                    combi = null;
-                    for(int l=k+1; l<size; l++){
-                        if(i!=j && j!=k){
+        for(GameTile tile1 : tiles){
+            for(GameTile tile2 : tiles){
+                for(GameTile tile3 : tiles){
+                    for(GameTile tile4 : tiles){
+                        if(tile1 != tile2 && tile2 != tile3 && tile3 != tile4){
                             try{
-                                combi = factory.newCombination(tiles.get(i), tiles.get(j), tiles.get(k), tiles.get(l));
+                                combi = factory.newCombination(tile1,tile2,tile3,tile4);
                                 if(combi.isKong()){
                                     HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
-                                    path.put(tiles.get(i).getGameID(), tzi);
-                                    path.put(tiles.get(j).getGameID(), tzi);
-                                    path.put(tiles.get(k).getGameID(), tzi);
-                                    path.put(tiles.get(l).getGameID(), tzi);
+                                    path.put(tile1.getGameID(), tzi);
+                                    path.put(tile2.getGameID(), tzi);
+                                    path.put(tile3.getGameID(), tzi);
+                                    path.put(tile4.getGameID(), tzi);
                                     path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), board.getTileZone("Hand"+wind.getName()).getIdentifier());
-                                    
                                     move.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
                                 }
                             } catch (RulesException ex) {
-                               
+
                             }
                         }
                     }
@@ -288,23 +281,43 @@ public class InternationalBoardRule implements BoardRule{
      * @throws GameException 
      */
     public ArrayList<Move> possibleSteal(MahjongBoard board, Wind wind, GameTile gameTile, ArrayList<GameTile> tiles) throws GameException{
+        Combination combi;
+        AbstractCombinationFactory factory = new InternationalCombinationFactory();
+        TileZoneIdentifier tzi = getMeldAvailable(board,wind);
         ArrayList<Move> moveSteal = new ArrayList<Move>();
-        int size = tiles.size();
-        ArrayList<GameTile> gtArray = null;
-        for(int i=0; i<size; i++){
-            for(int j=i+1; j<size; j++){
-                gtArray = new ArrayList<GameTile>();
-                gtArray.add(tiles.get(i));
-                gtArray.add(tiles.get(j));
-                gtArray.add(gameTile);
-                moveSteal.addAll(this.possibleMove3Tiles(board, wind, tiles));
-                for(int k=j+1; k<size; k++){
-                    gtArray = new ArrayList<GameTile>();
-                    gtArray.add(tiles.get(i));
-                    gtArray.add(tiles.get(j));
-                    gtArray.add(tiles.get(k));
-                    gtArray.add(gameTile);
-                    moveSteal.addAll(this.possibleMove4Tiles(board, wind, tiles));
+        for(GameTile tile1 : tiles){
+            for(GameTile tile2 : tiles){
+                if(tile1 != tile2){
+                    try{
+                        combi = factory.newCombination(tile1,tile2,gameTile);
+                        if(combi.isPung() || combi.isChow()){
+                            HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
+                            path.put(tile1.getGameID(), tzi);
+                            path.put(tile2.getGameID(), tzi);
+                            path.put(gameTile.getGameID(), tzi);
+                            moveSteal.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
+                        }
+                    } catch (RulesException ex) {
+
+                    }
+                    for(GameTile tile3 : tiles){
+                        if(tile2 != tile3 && tile1 != tile3){
+                            try{
+                                combi = factory.newCombination(tile1,tile2,tile3,gameTile);
+                                if(combi.isKong()){
+                                    HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
+                                    path.put(tile1.getGameID(), tzi);
+                                    path.put(tile2.getGameID(), tzi);
+                                    path.put(tile3.getGameID(), tzi);
+                                    path.put(gameTile.getGameID(), tzi);
+                                    path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), board.getTileZone("Hand"+wind.getName()).getIdentifier());
+                                    moveSteal.add(new Move(wind, 0, path,new HashMap<Integer, Boolean>()));
+                                }
+                            } catch (RulesException ex) {
+
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -330,7 +343,6 @@ public class InternationalBoardRule implements BoardRule{
             break;
         }
         try{
-         
             if(lastMoveTZIFirstLetter == 'n') throw RulesException("Erreur d 'acces au lastMove");   
         } catch (Exception ex) {
             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
@@ -358,29 +370,28 @@ public class InternationalBoardRule implements BoardRule{
                     HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
                     TileZoneIdentifier tzi = board.getTileZone("Hand" + nextWindToPlay.getName()).getIdentifier();
                     path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), tzi);                    
-                    moves.get(nextWindToPlay).add(new Move(nextWindToPlay, 0, path,new HashMap<Integer, Boolean>()));
+                    moves.get(nextWindToPlay).add(new Move(nextWindToPlay, 2, path,new HashMap<Integer, Boolean>()));
 
                     //Gere le vol de tuile pour faire des combinaisons            
                     if(lastMoveTZIFirstLetter == 'D'){
-                        ArrayList<GameTileInterface> gtiArray = board.getTileZone("Discard" + lastMove.getWind().getName()).getTiles();
-                        ArrayList<GameTile> gtArray = new ArrayList<GameTile>();
-                        for(GameTileInterface gti : gtiArray){
-                            GameTile gt = null;
-                            if(gti instanceof GameTile) gt = (GameTile) gti;
-                            if(gt != null) gtArray.add(gt);
-                        }
-                        for(Integer id : lastMove.getPath().keySet()){
-                            GameTileInterface gti = board.getTile(id);
-                            GameTile gt = null;
-                            if(gti instanceof GameTile) gt = (GameTile) gti;
-                            if(gt!=null){
-                                for(Wind windSteal : Wind.values()){
-                                    if(!windSteal.getName().equals(lastMove.getWind().getName())){
-                                        ArrayList<Move> moveSteal = this.possibleSteal(board, windSteal,gt,gtArray);
-                                        if(!moveSteal.isEmpty())moves.put(windSteal,moveSteal);
-                                    }
+                        for(Wind windOtherPlayer : Wind.values()){
+                            if(!windOtherPlayer.getName().equals(lastMove.getWind().getName())){
+                                GameTile tileSteal = null;
+                                for(Integer id : lastMove.getPath().keySet()){
+                                    GameTileInterface gti = board.getTile(id);
+                                    tileSteal = null;
+                                    if(gti instanceof GameTile) tileSteal = (GameTile) gti;
                                 }
-                            } 
+                                ArrayList<GameTileInterface> gtiArray = board.getTileZone("Hand" + windOtherPlayer.getName()).getTiles();
+                                ArrayList<GameTile> gtArray = new ArrayList<GameTile>();
+                                for(GameTileInterface gti : gtiArray){
+                                    GameTile gt = null;
+                                    if(gti instanceof GameTile) gt = (GameTile) gti;
+                                    if(gt != null) gtArray.add(gt);
+                                }
+                                ArrayList<Move> moveSteal = this.possibleSteal(board, windOtherPlayer,tileSteal,gtArray);
+                                if(!moveSteal.isEmpty())moves.put(windOtherPlayer,moveSteal);
+                            }
                         }
                     }
                         
