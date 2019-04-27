@@ -1,7 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.game;
-import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
-import fr.univubs.inf1603.mahjong.engine.rule.StartingWall;
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.engine.rule.*;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -341,10 +339,10 @@ public class MahjongGame implements Game {
       PlayerSituation ps = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors, drawnFromWall, takenFromDiscard, roundWind, playerWind);
 
       int score = 0;
-      Collection<PlayerSet> playerSets =  ss.createSetsFromSituation(PlayerSituation situation);
-      for(PlayerSet ps : playerSets){
-        Collection<IdentifiedPattern> patterns = ss.identifyPatterns(PlayerSet set);
-        Collection<Collection<IdentifiedPattern>> patternsCollections = ss.splitIncompatiblePatterns(Collection<IdentifiedPattern> patterns);
+      Collection<PlayerSet> playerSets =  ss.createSetsFromSituation(ps);
+      for(PlayerSet pset : playerSets){
+        Collection<IdentifiedPattern> patterns = ss.identifyPatterns(pset);
+        Collection<Collection<IdentifiedPattern>> patternsCollections = ss.splitIncompatiblePatterns(patterns);
         for(Collection<IdentifiedPattern> c : patternsCollections){
           score = ss.computeScore(c);
           if(score > highScore) highScore = score;
