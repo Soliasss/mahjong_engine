@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 public class InternationalBoardRule implements BoardRule{
     
     private int firstDieRoll = 0;
+    private int previousLastMoveIsKong = 0;
     
     public InternationalBoardRule(){
         this.firstDieRoll = 0;
@@ -102,7 +103,7 @@ public class InternationalBoardRule implements BoardRule{
                 for(int i = 0; i<4; i++){
                     allTiles.add(a.getTile());
                 }
-            }else {
+            }else{
                 allTiles.add(a.getTile());
             }
         }
@@ -121,7 +122,6 @@ public class InternationalBoardRule implements BoardRule{
     @Override
     public MahjongBoard distributeTiles(StartingWall startingWall) {
         MahjongBoard board = new MahjongBoard(startingWall.getStartingSide());
-        
         try {
             board.getTileZone(TileZoneIdentifier.Wall).getTiles().addAll(startingWall.getCut());
         } catch (GameException ex) {
@@ -131,7 +131,8 @@ public class InternationalBoardRule implements BoardRule{
             HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
             for(int j = 0;j<13;j++){
                 try {
-                    path.put(i*j, TileZoneIdentifier.getIdentifierFromNormalizedName("hand"+Wind.values()[i].name()));
+                    Integer idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID();
+                    path.put(idGameTile, TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+Wind.values()[i].getName()));
                     Move drawMove=null;
                     try {
                         drawMove = new Move(Wind.values()[i], 0, path,new HashMap<Integer, Boolean>());
@@ -143,6 +144,16 @@ public class InternationalBoardRule implements BoardRule{
                     Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        }
+        //Pioche la 14 tuile du joueur placer a l EST
+        try {
+            HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
+            Integer idGameTile;
+            idGameTile = board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID();
+            path.put(idGameTile, TileZoneIdentifier.HandEast);
+            board.applyMove(new Move(Wind.EAST, 0, path,new HashMap<Integer, Boolean>()));
+        } catch (GameException ex) {
+            Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         }
         return board;
     }
@@ -303,16 +314,31 @@ public class InternationalBoardRule implements BoardRule{
         }
         return moveSteal;
     }
+    
+    public boolean nbOfTileInHandAcceptable(MahjongBoard board, Wind wind) throws GameException{
+        boolean ret = false;
+        int nbTile = board.getTileZone("Meld"+wind.getName()+"0").getTiles().size();
+        nbTile += board.getTileZone("Meld"+wind.getName()+"1").getTiles().size();
+        nbTile += board.getTileZone("Meld"+wind.getName()+"2").getTiles().size();
+        nbTile += board.getTileZone("Meld"+wind.getName()+"3").getTiles().size();        
+        if(nbTile == 13) ret = true;
+        return ret;
+    }
             
     @Override
     public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
         EnumMap<Wind, Collection<Move>> moves = new EnumMap<>(Wind.class);
         Wind nextWindToPlay = null;
+        char lastMoveTZIFirstLetter = lastMove.getPath().get(0).getNormalizedName().charAt(0);
         try {
-            //Choose the next player by is wind
-            if(lastMove == null){
-                nextWindToPlay = Wind.EAST;
-            }else if(lastMove.getPath().get(0).getNormalizedName().charAt(0) == 'H' || board.getTileZone("Hand"+lastMove.getWind().getName()).getTiles().size() == 13 ){
+            
+            if(lastMove.getPath().keySet().size() == 4 ) previousLastMoveIsKong = 2;
+            
+            //Si le dernier movement est une pioche ou un kong.
+            //Si l'on vient de mettre un honneur.
+            //Marche aussi pour le premier Movement grace a la pioche automatique de la tuile pour l'Est
+            if( (lastMoveTZIFirstLetter == 'H' && previousLastMoveIsKong!=1) || lastMove.getPath().keySet().size() == 4  
+                    || lastMoveTZIFirstLetter == 'S' ){
                 nextWindToPlay = lastMove.getWind();
             }else{
                 int index = (lastMove.getWind().ordinal()+1)% Wind.values().length;
@@ -320,35 +346,64 @@ public class InternationalBoardRule implements BoardRule{
             }
             moves.put(nextWindToPlay, new ArrayList<>());
             
-            //Ajoute les elements defaussable etle fait de piocher
-            moves.get(nextWindToPlay).addAll(this.possibleMoveDiscard(board, nextWindToPlay));
-            HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
-            path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), TileZoneIdentifier.Wall);
-            moves.get(nextWindToPlay).add(new Move(nextWindToPlay, 0, path,new HashMap<Integer, Boolean>()));
-            
-            //Gere le vol de tuile
-            ArrayList<GameTileInterface> gtiArray = board.getTileZone("Discard" + nextWindToPlay.name()).getTiles();
-            ArrayList<GameTile> gtArray = new ArrayList<GameTile>();
-            for(GameTileInterface gti : gtiArray){
-                GameTile gt = null;
-                if(gti instanceof GameTile) gt = (GameTile) gti;
-                if(gt != null) gtArray.add(gt);
-            }
-            if(lastMove.getPath().get(0).getNormalizedName().charAt(0) == 'D'){
-                for(Integer id : lastMove.getPath().keySet()){
-                    GameTileInterface gti = board.getTile(id);
-                    GameTile gt = null;
-                    if(gti instanceof GameTile) gt = (GameTile) gti;
-                    if(gt!=null){
-                        for(Wind windSteal : Wind.values()){
-                            if(!windSteal.getName().equals(lastMove.getWind().getName())){
-                                ArrayList<Move> moveSteal = this.possibleSteal(board, windSteal,gt,gtArray);
-                                if(!moveSteal.isEmpty())moves.put(windSteal,moveSteal);
-                            }
+            //Ajoute les elements defaussable, le fait de piocher, de voler et de faire des melds
+            if(lastMove != null){
+                
+                //Si le dernier Mouvement n'est le fait d'avoir piocher
+                if(lastMoveTZIFirstLetter != 'H' || previousLastMoveIsKong==1){
+                    
+                    //Gere la pioche
+                    HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
+                    TileZoneIdentifier tzi = board.getTileZone("Hand" + nextWindToPlay.getName()).getIdentifier();
+                    path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), tzi);                    
+                    moves.get(nextWindToPlay).add(new Move(nextWindToPlay, 0, path,new HashMap<Integer, Boolean>()));
+                    
+                    if(previousLastMoveIsKong>0) previousLastMoveIsKong--;//Important a la suite d'un KONG
+
+                    //Gere le vol de tuile pour faire des combinaisons            
+                    if(lastMoveTZIFirstLetter == 'D'){
+                        ArrayList<GameTileInterface> gtiArray = board.getTileZone("Discard" + lastMove.getWind().getName()).getTiles();
+                        ArrayList<GameTile> gtArray = new ArrayList<GameTile>();
+                        for(GameTileInterface gti : gtiArray){
+                            GameTile gt = null;
+                            if(gti instanceof GameTile) gt = (GameTile) gti;
+                            if(gt != null) gtArray.add(gt);
                         }
-                    }   
+                        for(Integer id : lastMove.getPath().keySet()){
+                            GameTileInterface gti = board.getTile(id);
+                            GameTile gt = null;
+                            if(gti instanceof GameTile) gt = (GameTile) gti;
+                            if(gt!=null){
+                                for(Wind windSteal : Wind.values()){
+                                    if(!windSteal.getName().equals(lastMove.getWind().getName())){
+                                        ArrayList<Move> moveSteal = this.possibleSteal(board, windSteal,gt,gtArray);
+                                        if(!moveSteal.isEmpty())moves.put(windSteal,moveSteal);
+                                    }
+                                }
+                            } 
+                        }
+                    }
+                        
+                //Gere la defausse et les melds possibles dans la main apres une pioche
+                } else {
+                    //Discard
+                    moves.get(nextWindToPlay).addAll(this.possibleMoveDiscard(board, nextWindToPlay));
+                    HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
+                    path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), board.getTileZone("Discard"+nextWindToPlay.getName()).getIdentifier());
+                    moves.get(nextWindToPlay).add(new Move(nextWindToPlay, 0, path,new HashMap<Integer, Boolean>()));
+                    //PUNG et CHOW
+                    ArrayList<GameTileInterface> gtiArray = board.getTileZone("Hand"+nextWindToPlay.getName()).getTiles();
+                    ArrayList<GameTile> gtArray = new ArrayList<GameTile>();
+                    for(GameTileInterface gti : gtiArray){
+                        GameTile gt = null;
+                        if(gti instanceof GameTile) gt = (GameTile) gti;
+                        if(gt != null) gtArray.add(gt);
+                    }
+                    moves.get(nextWindToPlay).addAll(this.possibleMove3Tiles(board, nextWindToPlay, gtArray));
+                    //KONG
+                    moves.get(nextWindToPlay).addAll(this.possibleMove4Tiles(board, nextWindToPlay, gtArray)); 
                 }
-            }
+            }   
         } catch (GameException ex) {
             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         }      

@@ -52,7 +52,7 @@ public class SillyBoardRule implements BoardRule {
             HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
             for(int j = 0;j<13;j++){
                 try {
-                    path.put(i*j, TileZoneIdentifier.getIdentifierFromNormalizedName("hand"+Wind.values()[i].name()));
+                    path.put(i*j, TileZoneIdentifier.getIdentifierFromNormalizedName("hand"+Wind.values()[i].getName()));
                     Move drawMove=null;
                     try {
                         drawMove = new Move(Wind.values()[i], 0, path, new HashMap<>());
@@ -81,8 +81,8 @@ public class SillyBoardRule implements BoardRule {
         moves.put(nextWindToPlay, new ArrayList<>());
         HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
         try {
-            path.put(board.getTileZone("hand" + nextWindToPlay.name()).getTiles().get(0).getGameID(), //Spaghetti code
-                    board.getTileZone("discard" + nextWindToPlay.name()).getIdentifier());            //Spaghetti code
+            path.put(board.getTileZone("hand" + nextWindToPlay.getName()).getTiles().get(0).getGameID(), //Spaghetti code
+                    board.getTileZone("discard" + nextWindToPlay.getName()).getIdentifier());            //Spaghetti code
         } catch (GameException ex) {
             Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         }
