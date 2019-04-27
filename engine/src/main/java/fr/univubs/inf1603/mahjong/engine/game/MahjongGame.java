@@ -53,7 +53,7 @@ public class MahjongGame implements Game {
         this.uuid = uuid;
         this.playerPoints = playerPoints;
         this.playerWind = playerWind;
-        
+
         this.ableToRegisterMoves=false;
     }
     /**
@@ -66,15 +66,15 @@ public class MahjongGame implements Game {
         this.rule = rule;
         this.stealingTime = stealingTime;
 
-        this.playingTime = playingTime;    
-        
-        
+        this.playingTime = playingTime;
+
+
         this.lastPlayedMove = null;
         this.board = null;
         this.uuid = UUID.randomUUID();
-        this.playerPoints = new int[4];        
-        this.playerWind = null;        
-        
+        this.playerPoints = new int[4];
+        this.playerWind = null;
+
         this.ableToRegisterMoves=false;
     }
 
@@ -87,7 +87,7 @@ public class MahjongGame implements Game {
         this.ableToRegisterMoves = false;
     }
 
-    
+
 
     @Override
     public Board getBoard(Wind wind) throws GameException {
@@ -195,7 +195,7 @@ public class MahjongGame implements Game {
         return this.playerWind;
     }
 
- 
+
 
     /**
      * Permet d'effectuer le move sur le Board
@@ -213,14 +213,14 @@ public class MahjongGame implements Game {
         throw new GameException(ge.getMessage());
       }
     }
-    
+
     @Override
     public void launchGame() {
         if(this.playerWind == null){
             this.playerWind = this.rule.getBoardRule().getPlayerOrder();
         }
         StartingWall wall = this.rule.getBoardRule().buildWall();
-        
+
         if(this.board == null){
             if(wall !=null){
                 this.board = this.rule.getBoardRule().distributeTiles(wall);
@@ -228,7 +228,7 @@ public class MahjongGame implements Game {
                 System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
             }
         }
-        
+
         getAndFirePossibleMoves();
     }
 
@@ -241,8 +241,8 @@ public class MahjongGame implements Game {
             throw new GameException("Impossible de register le move hors du temps imparti.");
         }
     }
-    
-    
+
+
 
     /**
      * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
@@ -263,24 +263,24 @@ public class MahjongGame implements Game {
       else{
         this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
       }
-      
+
       TimerTask recalculateMoves = new TimerTask() {
           @Override
           public void run() {
-              
+
           }
       };
-      
+
       Timer timer = new Timer();
       timer.schedule(recalculateMoves, playingTime.toSeconds());
-      
+
     }
 
     @Override
     public ArrayList<Move> getPossibleMoves() {
         return this.possiblesMoves;
     }
-    
+
     @Override
     public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
         ArrayList<Move> mlist = new ArrayList<>();
@@ -296,7 +296,7 @@ public class MahjongGame implements Game {
     public ArrayList<Move> getPossibleMoves(int player) throws GameException {
         return getPossibleMoves(playerWind[player]);
     }
-    
+
     /**
      * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
      * @throws GameException quand applyMove throw une GameException
@@ -349,14 +349,53 @@ public class MahjongGame implements Game {
       Wind playerWind = this.lastPlayedMove.getWind();
       int highScore = 0;
 
-      GameTile winningTile = null; //Récupérer dans lastPlayedMove
-      Collection<GameTile> hand = null; //Récupérer dans le Board
-      Collection<Combination> concealed = null; //Récupérer dans le Board
-      Collection<Combination> melds = null; //Récupérer dans le Board
-      Collection<GameTile> supremeHonors = null; //Récupérer dans le Board
-      boolean drawnFromWall = false; //En déduire par rapport au lastPlayedMove
-      boolean takenFromDiscard = false; //En déduire par rapport au lastPlayedMove
-      Wind roundWind = null; // A définir ???
+      Integer idLastTile = 0;
+      for(Integer inte : this.lastPlayedMove.getPath().keySet()) idLastTile = inte;
+      GameTileInterface winningTileInterface = this.board.getTile(idLastTile);
+      GameTile winningTile = null;
+      if(winningTileInterface instanceof GameTile) winningTile = (GameTile) winningTileInterface;
+
+      ArrayList<Combination> hand = new ArrayList<Combination>();
+      GameTile[] tab = new GameTile[board.getTileZone("Hand"+wind.getName()).getTiles().size()];
+      int j=0;
+      for(GameTileInterface gti : board.getTileZone("Hand"+wind.getName()).getTiles()){
+          GameTile gt = null;
+          if(gti instanceof GameTile) gt = (GameTile) gti;
+          if(gt != null) tab[j] = gt;
+          j++;
+      }
+      try{
+          hand.add(factory.newCombination(tab));
+      }catch(RulesException ex){
+
+      }
+      ArrayList<Combination> concealed = new ArrayList<Combination>();
+
+      ArrayList<Combination> melds = new ArrayList<Combination>();
+      for(int i=0; i<4; i++){
+          tab = new GameTile[board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles().size()];
+          int k = 0;
+          for(GameTileInterface gti : board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles()){
+              GameTile gt = null;
+              if(gti instanceof GameTile) gt = (GameTile) gti;
+              if(gt != null) tab[k] = gt;
+              k++;
+          }
+          try{
+              melds.add(factory.newCombination(tab));
+          }catch(RulesException ex){
+
+          }
+      }
+      ArrayList<GameTileInterface> supremeHonorsInterface = board.getTileZone("Supreme"+wind.getName()).getTiles();
+      ArrayList<GameTile> supremeHonors = new ArrayList<GameTile>();
+      for(GameTileInterface gti : supremeHonorsInterface){
+          GameTile gt = null;
+          if(gti instanceof GameTile) gt = (GameTile) gti;
+          if(gt != null) supremeHonors.add(gt);
+      }
+      boolean drawnFromWall = false;
+      boolean takenFromDiscard = false;
 
       PlayerSituation ps = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors, drawnFromWall, takenFromDiscard, roundWind, playerWind);
 
