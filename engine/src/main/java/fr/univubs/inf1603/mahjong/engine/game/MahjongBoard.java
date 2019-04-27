@@ -10,7 +10,6 @@ import java.util.UUID;
 /**
  * MahjongBoard represents the mahjong board during the game.
  *
- * @author Samuel LE BERRE
  */
 public class MahjongBoard implements Board, Cloneable {
 

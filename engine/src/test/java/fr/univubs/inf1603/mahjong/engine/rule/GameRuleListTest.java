@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author maxime
  */
 public class GameRuleListTest {
     
@@ -25,7 +24,7 @@ public class GameRuleListTest {
     public void testGetRuleArray() {
         System.out.println("getRuleArray");
         GameRuleList instance = new GameRuleList();
-        GameRule[] expResult = {Rule.SILLY_RULE,Rule.INTERNATIONAL_RULE};
+        GameRule[] expResult = {Rule.SILLY,Rule.INTERNATIONAL};
         GameRule[] result = instance.getRuleArray();
         assertArrayEquals(expResult, result);
     }
@@ -36,8 +35,8 @@ public class GameRuleListTest {
     @Test
     public void testGetRule_String() {
         System.out.println("getRule");
-        GameRule expResult = Rule.SILLY_RULE;
-        String name = "SILLY_RULE";
+        GameRule expResult = Rule.SILLY;
+        String name = "SILLY";
         GameRuleList instance = new GameRuleList();
         GameRule result = instance.getRule(name);
         assertEquals(expResult, result);
@@ -49,7 +48,7 @@ public class GameRuleListTest {
     @Test
     public void testGetRule_BoardRule_ScoringSystem() {
         System.out.println("getRule");
-        GameRule expResult = Rule.INTERNATIONAL_RULE;
+        GameRule expResult = Rule.INTERNATIONAL;
         BoardRule boardRule = expResult.getBoardRule();
         ScoringSystem scoringSystem = expResult.getScoringSystem();
         GameRuleList instance = new GameRuleList();

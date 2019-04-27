@@ -12,7 +12,6 @@ import java.util.UUID;
 /**
  * Cette classe permet de représenter une partie de Mahjong
  *
- * @author COGOLUEGNES Charles
  */
 public class MahjongGame implements Game {
 
@@ -40,6 +39,7 @@ public class MahjongGame implements Game {
      * @param lastPlayedMove The last played move of this game
      * @param stealingTime The time players have to decide if they can steal a discarded tile
      * @param playingTime This players have to decide what to discard
+     * @param playerPoints The points's number of the player
      * @param uuid This game's UUID
      * @param playerWind The wind according to the player
      * @throws GameException
@@ -53,6 +53,8 @@ public class MahjongGame implements Game {
         this.uuid = uuid;
         this.playerPoints = playerPoints;
         this.playerWind = playerWind;
+        
+        this.ableToRegisterMoves=false;
     }
     
    
@@ -66,11 +68,15 @@ public class MahjongGame implements Game {
         this.rule = rule;
         this.stealingTime = stealingTime;
         this.playingTime = playingTime;    
-
-        this.board = new MahjongBoard(Wind.WEST);
+        
+        
         this.lastPlayedMove = null;
+        this.board = null;
         this.uuid = UUID.randomUUID();
         this.playerPoints = new int[4];        
+        this.playerWind = null;        
+        
+        this.ableToRegisterMoves=false;
     }
     
     @Deprecated
@@ -78,6 +84,7 @@ public class MahjongGame implements Game {
         this.rule = rule;
         this.board = null;
         this.uuid = UUID.randomUUID();
+        this.playingTime = Duration.ofSeconds(5);
         this.ableToRegisterMoves = false;
     }
 

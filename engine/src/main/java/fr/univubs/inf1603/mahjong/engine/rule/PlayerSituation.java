@@ -3,7 +3,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  * PlayerSituation represents the situation a player could have with all tiles; including the player's hand, tiles set down, winds from the round 
  * and from the player, conditions about a tile drawn or stolen. 
  * It could be a fictive situation.
- * @author Piere Guriel--Fardel, Anton Cosnefroy
  */
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;

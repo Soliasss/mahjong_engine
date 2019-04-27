@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * This represents all superior honors (a.k.a dragon tiles)
  */
 

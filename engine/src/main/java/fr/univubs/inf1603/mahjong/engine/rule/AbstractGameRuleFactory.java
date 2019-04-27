@@ -2,7 +2,6 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
  * This interface represent the ability of its implementations to create or to give a reference of a GameRule
- * @author purpl
  */
 public interface AbstractGameRuleFactory {
     /**

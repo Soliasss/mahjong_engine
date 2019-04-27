@@ -11,8 +11,6 @@ import java.util.UUID;
 /**
  * Cette classe permet de représenter le déplacement d'une ou plusieurs tuiles
  * d'un joueur
- *
- * @author COGOLUEGNES Charles
  */
 public class Move implements Persistable,Serializable, Cloneable {
 
@@ -31,7 +29,7 @@ public class Move implements Persistable,Serializable, Cloneable {
  des tuile(s). Le numéro reprente l'ID de la tuile, la MahjongTileZone est la
  zone de jeu dans laquelle la tuile va être ajoutée
      * @param publiclyVisible Une map qui contient la visibilité de la ou des 
-     * tuile(s). Le numéro représente l'ID de la tuile, le boolean représente
+     * tuile(s) concernés par le Move. Le numéro représente l'ID de la tuile, le boolean représente
      * la visibilité de la tuile : true = tuile visible
      * @param uuid
      * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
@@ -108,5 +106,47 @@ public class Move implements Persistable,Serializable, Cloneable {
     @Override
     public PropertyChangeSupport getPropertyChangeSupport() {
         return this.propertyChangeSupport;
+    }
+    
+    /**
+     * Retourne vrai si le move passé en argument est égal à ce move
+     * @param move le move à tester 
+     * @return true si les deux moves sont égaux false sinon
+     */
+    public boolean isEqual(Move move){
+        boolean ret=false;
+        if(move.getWind() == this.wind){
+            if(move.getPriority()==this.priority){
+                if(moveMapEqual(this.path,move.path)){
+                    if(moveMapEqual(this.publiclyVisible, move.publiclyVisible)){
+                        ret=true;
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+    
+    /**
+     * Retourne vrai si les deux map passé en arguments son égaux faux sinon
+     * @param map1 la premièere map
+     * @param map2 la deuxieme map
+     * @return true si les moves sont égaux, false sinon
+     */
+    private boolean moveMapEqual(HashMap map1, HashMap map2){
+        
+        for (Object k : map2.keySet())
+        {
+            if (!map1.get(k).equals(map2.get(k))) {
+                return false;
+            }
+        } 
+        for (Object y : map1.keySet())
+        {
+            if (!map2.containsKey(y)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

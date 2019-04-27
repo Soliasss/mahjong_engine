@@ -5,7 +5,6 @@ import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 
 /**
  *
- * @author purpl
  */
 public interface Board extends Persistable {
 
@@ -49,6 +48,7 @@ public interface Board extends Persistable {
     /**
      * Retourne le vent courrant du board
      * @return Le vent courant
+     * @throws fr.univubs.inf1603.mahjong.engine.game.GameException
      */
     public Wind getCurrentWind() throws GameException;
     

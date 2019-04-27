@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author purpl
  */
 public class TileZoneIdentifierTest {
 
