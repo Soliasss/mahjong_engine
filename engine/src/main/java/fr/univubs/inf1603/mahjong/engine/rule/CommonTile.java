@@ -38,8 +38,8 @@ public class CommonTile extends ComplexTile{
         }
     }
     
-    public final Family family;
-    public final Number number;
+    private final Family family;
+    private final Number number;
     
     /**
      * Constructs a new CommonTile with its specified Family and Number

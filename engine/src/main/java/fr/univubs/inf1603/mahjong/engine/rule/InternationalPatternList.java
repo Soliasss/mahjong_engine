@@ -1515,27 +1515,32 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 ArrayList<IdentifiedPattern> result = new ArrayList<>();
-                Collection<Combination> allCombinations = set.getAllCombinations();
-                int nbOfCombination = 0;
-                boolean isSame = true;
+                Collection<Combination> allCombinations = set.getAllCombinations();                
                 Collection<GameTile> chowFound = new ArrayList<>();
-                Combination lastCombi = null;
-
-                for (Combination currentCombi: allCombinations) {
-                    if (currentCombi.isChow()){
-                        if(nbOfCombination > 0){
-                            if(!currentCombi.getTiles()[0].getTile().getPrevious().equals(lastCombi.getTiles()[2].getTile())){
-                                isSame = false;
+                boolean isFind = false;
+                ArrayList<Combination> chowArray = new ArrayList<>();
+                for (Combination currentCombi: allCombinations){
+                    if(currentCombi.isChow())
+                        chowArray.add(currentCombi);
+                }
+                for(Combination currentCombi : chowArray){
+                    for(Combination tmpCombi : chowArray){
+                        AbstractTile tileFirstChow = currentCombi.getTiles()[2].getTile();
+                        AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
+                        if(tileFirstChow.getNext() != null){
+                            if( tileFirstChow.getNext().equals(tileSecondChow) ){
+                                chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                                isFind = true;
                                 break;
                             }
                         }
-                        nbOfCombination++;
-                        chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                        lastCombi = currentCombi;
-                    } 
+                        
+                    }
+                    if(isFind)break;
                 }
 
-                if (nbOfCombination == 2 && isSame){
+                if (isFind){
                     IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                     result.add(pattern);
                 }
@@ -1558,43 +1563,28 @@ public class InternationalPatternList implements AbstractPatternList {
                 Collection<Combination> allCombinations = set.getAllCombinations();                
                 Collection<GameTile> chowFound = new ArrayList<>();
                 int nbCheck = 0;
-                AbstractTile firstMajor = null;
                 boolean isFind = false;
-                
-                for (Combination currentCombi: allCombinations) {
-                    if(currentCombi.isChow()){
-                        AbstractTile number3 = (currentCombi.getTiles()[2].getTile());
-                        AbstractTile number1 = (currentCombi.getTiles()[0].getTile());
-                        
-                        if(nbCheck==0){
-                            if( number1.isMajor() ){
-                                nbCheck+=1;
-                                firstMajor = number1;
-                                chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                            }                        
-                            if( number3.isMajor()){
-                                nbCheck+=1;
-                                firstMajor = number3;
-                                chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                            }
-                        }
-                        if(nbCheck==1){
-                            if(firstMajor.getFamily() != null){
-                                if( firstMajor.getFamily().equals(number3.getFamily()) ){
-                                    if( number1.isMajor() &&  (number1 != firstMajor) ){
-                                        chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                                        isFind = true;
-                                        break;
-                                    }                        
-                                    if( number3.isMajor() && (number3 != firstMajor)){
-                                        chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                                        isFind = true;
-                                        break;
-                                    }
+                ArrayList<Combination> chowArray = new ArrayList<>();
+                for (Combination currentCombi: allCombinations){
+                    if(currentCombi.isChow() && (currentCombi.getTiles()[0].getTile().isMajor() || currentCombi.getTiles()[2].getTile().isMajor()))
+                        chowArray.add(currentCombi);
+                }
+                for(Combination currentCombi : chowArray){
+                    for(Combination tmpCombi : chowArray){
+                        AbstractTile tileFirstChow = currentCombi.getTiles()[0].getTile();
+                        AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
+                        if(tileFirstChow.getFamily() != null){
+                            if( tileFirstChow.getFamily().equals(tileSecondChow.getFamily()) ){
+                                if(!tileFirstChow.getNumber().equals(tileSecondChow.getNumber())){
+                                    chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                    chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                                    isFind = true;
+                                    break;
                                 }
                             }
                         }
                     }
+                    if(isFind)break;
                 }
 
                 if (isFind){

@@ -47,10 +47,9 @@ public class InternationalPatternListTest {
 
     /**
      * Test of getPatterns method, of class InternationalPatternList.
-     * @throws fr.univubs.inf1603.mahjong.engine.rule.RulesException
      */
     @Test
-    public void testGetPatterns() throws RulesException {
+    public void testGetPatterns(){
         System.out.println("getPatterns");
         
         //Création de la winningTile   
@@ -68,9 +67,17 @@ public class InternationalPatternListTest {
         GameTile bamboo2 = new GameTile(6,InternationalTiles.BAMBOO_2);
         GameTile bamboo2bis = new GameTile(7,InternationalTiles.BAMBOO_2);
         
-        Combination combiDots = newCombiFact.newCombination(dot1,dot2,dot3);
-        Combination combiDotsBis = newCombiFact.newCombination(dot6,dot7,dot8);
-        Combination combiBamboos = newCombiFact.newCombination(bamboo2,bamboo2bis);
+        Combination combiDots = null;
+        Combination combiDotsBis = null;
+        Combination combiBamboos = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1,dot2,dot3);
+            combiDotsBis = newCombiFact.newCombination(dot6,dot7,dot8);
+        combiBamboos = newCombiFact.newCombination(bamboo2,bamboo2bis);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatternListTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         hand.add(combiDots);
         hand.add(combiDotsBis);
         hand.add(combiBamboos);
@@ -83,8 +90,15 @@ public class InternationalPatternListTest {
         GameTile dragonW = new GameTile(12,InternationalTiles.DRAGON_RED);
         GameTile dragonR = new GameTile(13,InternationalTiles.DRAGON_RED);
         
-        Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
-        Combination combiDragons = newCombiFact.newCombination(dragonG,dragonR,dragonW);
+        Combination combiCars = null;
+        Combination combiDragons = null;
+        try {
+            combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
+            combiDragons = newCombiFact.newCombination(dragonG,dragonR,dragonW);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatternListTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         melds.add(combiCars);
         melds.add(combiDragons);
         //Création des cachés et des honneurs
