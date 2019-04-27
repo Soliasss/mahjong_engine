@@ -2,6 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  *
@@ -16,7 +17,7 @@ public interface ScoringSystem {
     AbstractPatternList getPatternList();
 
     /**
-     * In order to compute scores, we need to know how the player wants its tile to be arranged.
+     * In order to compute scores, we need to know how the player wants their tile to be arranged.
      * We use this method to find all the possible hand arrangements from a situation.
      * <br>
      * <b>Example :</b><pre>situation.hand = {2b, 1b, 3b, 1b, 3b, 1b, 3b, 2b, 2b, [...]}
@@ -28,6 +29,25 @@ public interface ScoringSystem {
      * @return a collection of sets arranged from the situation
      */
     Collection<PlayerSet> createSetsFromSituation(PlayerSituation situation);
+
+    static <STORED_TYPE> Collection<Collection<STORED_TYPE>> newCollectionsWithAddedObject(Collection<Collection<STORED_TYPE>> oldCollections, STORED_TYPE objectToAdd) {
+        Collection<Collection<STORED_TYPE>> newCollections = new HashSet<>();
+        Collection<STORED_TYPE> currCollection = new HashSet<>();
+
+        if (oldCollections.isEmpty()) {
+            currCollection.add(objectToAdd);
+            newCollections.add(new HashSet<>(currCollection));
+        } else {
+            for (Collection<STORED_TYPE> otherCombinations : oldCollections) {
+                currCollection.clear();
+                currCollection.addAll(otherCombinations);
+                currCollection.add(objectToAdd);
+                newCollections.add(new HashSet<>(currCollection));
+            }
+        }
+
+        return newCollections;
+    }
 
     /**
      * Given a specific tile arrangement, we can identify the patterns in it.
