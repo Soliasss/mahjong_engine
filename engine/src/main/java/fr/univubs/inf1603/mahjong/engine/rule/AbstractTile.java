@@ -31,4 +31,11 @@ public interface AbstractTile {
     default AbstractTile getPrevious(){
         return null;
     }
+    
+    /**
+     *
+     */
+    default boolean isMajor(){
+        return false;
+    }
 }

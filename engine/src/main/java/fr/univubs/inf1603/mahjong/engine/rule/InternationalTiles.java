@@ -6,6 +6,7 @@ public enum InternationalTiles implements AbstractTile {
         public AbstractTile getNext() {
             return BAMBOO_2;
         }
+
     },
     BAMBOO_2(new CommonTile(CommonTile.Family.BAMBOO, CommonTile.Number.TWO)){
         @Override
@@ -305,4 +306,10 @@ public enum InternationalTiles implements AbstractTile {
     public String toNormalizedName() {
         return this.tile.toNormalizedName();
     }
+    
+    @Override
+    public boolean isMajor(){
+        return this.tile.isMajor();
+    }
+    
 }

@@ -69,6 +69,7 @@ public class CommonTile extends ComplexTile{
      * Looks if the CommonTile is a major tile (i.e its number is 1 or 9).
      * @return Returns true if the tile is a major tile, false otherwise.
      */
+    @Override
     public boolean isMajor(){
         return (this.number == Number.ONE) || (this.number == Number.NINE);     
     }

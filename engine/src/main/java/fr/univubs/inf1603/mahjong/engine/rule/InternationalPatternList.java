@@ -36,7 +36,7 @@ public class InternationalPatternList implements AbstractPatternList {
     /**
      * The enumeration of all the possible patterns in the international ruleset.
      */
-    private enum InternationalPatterns implements IdentifiablePattern {
+    protected enum InternationalPatterns implements IdentifiablePattern {
         /**
          * 4 pungs des 4 vents
          */
@@ -963,6 +963,24 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                int nbFind = 0;
+                Pattern dragonPattern = Pattern.compile("D.");
+                for(Combination currentCombi : allCombinations){
+                    if(currentCombi.isPung() || currentCombi.isKong()){
+                        Matcher dragonMatcher = dragonPattern.matcher(currentCombi.getTiles()[0].getTile().toNormalizedName());
+                        if(dragonMatcher.matches()){
+                            tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            nbFind++;
+                            if(nbFind >= 2)break;
+                        }
+                    }
+                }
+                if(nbFind >= 2){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1133,6 +1151,24 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Wind roundWind = set.getRoundWind();
+                Collection<Combination> concealedCombinations = set.getAllCombinations();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isFind = false;
+                for(Combination currentCombi : concealedCombinations){
+                    if(currentCombi.isPung()){
+                        WindHonor tile = (WindHonor)currentCombi.getTiles()[0].getTile();
+                        if(tile.getWind() == roundWind){
+                            tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            isFind = true;
+                            break;
+                        }
+                    }
+                }
+                if(isFind){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1148,6 +1184,24 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Wind playerWind = set.getPlayerWind();
+                Collection<Combination> concealedCombinations = set.getAllCombinations();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isFind = false;
+                for(Combination currentCombi : concealedCombinations){
+                    if(currentCombi.isPung()){
+                        WindHonor tile = (WindHonor)currentCombi.getTiles()[0].getTile();
+                        if(tile.getWind() == playerWind){
+                            tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            isFind = true;
+                            break;
+                        }
+                    }
+                }
+                if(isFind){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1193,6 +1247,20 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> concealedCombinations = set.getConcealed();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                int numberFind = 0;
+                for(Combination currentCombi : concealedCombinations){
+                    if(currentCombi.isPung()){
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        numberFind ++;
+                        if(numberFind >= 2) break;
+                    }
+                }
+                if(numberFind >= 2){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1208,6 +1276,20 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> concealedCombinations = set.getConcealed();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isFind = false;
+                for(Combination currentCombi : concealedCombinations){
+                    if(currentCombi.isKong()){
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        isFind = true;
+                        break;
+                    }
+                }
+                if(isFind){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1325,6 +1407,7 @@ public class InternationalPatternList implements AbstractPatternList {
                                 chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
                                 break;
                             }
+                            break;
                         }
                         nbOfCombination++;
                         chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
