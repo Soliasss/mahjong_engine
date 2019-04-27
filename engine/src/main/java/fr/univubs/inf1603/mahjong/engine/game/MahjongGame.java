@@ -108,7 +108,7 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public synchronized void registerMove(Move move) throws GameException {
+    public void registerMove(Move move) throws GameException {
         if(this.ableToRegisterMoves){
           this.registeredMoves.add(move);
         }
@@ -274,26 +274,8 @@ public class MahjongGame implements Game {
     /**
      * Permet de lancer un thread attendant que les moves soit register
      */
-    private synchronized void waitToRegisterMoves(){
-      Thread thread = new Thread(new Runnable(){
-        public void run(){
-          registeredMoves = new ArrayList<Move>();
-          ableToRegisterMoves = true;
-          try{
-              Thread.sleep((int)playingTime.getSeconds()*1000);
-              ableToRegisterMoves = false;
-              chooseMoveToApply();
-          }
-          catch (InterruptedException ie){
-              ableToRegisterMoves = false;
-              ie.printStackTrace();
-          }
-          catch(GameException ge){
-              exitGame(1, ge.getMessage());
-          }
-        }
-      });
-      thread.start();
+    private void waitToRegisterMoves(){
+      
     }
 
     /**
