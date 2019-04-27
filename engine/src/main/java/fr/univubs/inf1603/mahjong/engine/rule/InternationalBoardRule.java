@@ -105,7 +105,7 @@ public class InternationalBoardRule implements BoardRule{
             i++;
         }
         try {
-            if(i!=143) throw new RulesException("All the tiles are not defined");
+            if(i<143) throw new RulesException("All the tiles are not defined");
         } catch (RulesException ex) {
             Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -450,8 +450,6 @@ public class InternationalBoardRule implements BoardRule{
                     }
                     boolean drawnFromWall = false;
                     boolean takenFromDiscard = false;
-                    Wind roundWind;
-                    Wind playerWind;
                     PlayerSet set = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors,
                             drawnFromWall, takenFromDiscard, board.getCurrentWind(), wind);
                     
