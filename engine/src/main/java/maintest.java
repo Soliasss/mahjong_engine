@@ -1,4 +1,5 @@
 
+import fr.univubs.inf1603.mahjong.engine.game.Game;
 import fr.univubs.inf1603.mahjong.engine.game.GameException;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import fr.univubs.inf1603.mahjong.engine.game.GameTileInterface;
@@ -10,6 +11,8 @@ import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import fr.univubs.inf1603.mahjong.engine.rule.GameRuleFactory;
 import fr.univubs.inf1603.mahjong.engine.rule.RulesException;
 import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
@@ -48,5 +51,18 @@ public class maintest {
             
             System.out.println();
         }
+        PropertyChangeListener prop = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent arg0) {
+                System.out.println(arg0.getPropertyName());
+            }
+        };
+                
+        game.addPropertyChangeListener(Game.LAST_PLAYED_MOVE_PROPERTY, prop);
+        game.addPropertyChangeListener(Game.GAME_OVER_PROPERTY, prop);
+        game.addPropertyChangeListener(Game.POSSIBLE_MOVES_PROPERTY, prop);
+
+        
+        
     }
 }
