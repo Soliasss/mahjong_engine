@@ -6,7 +6,6 @@ import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 
 /**
  *
- * @author purpl
  */
 public interface GameTileInterface extends Persistable {
 
@@ -23,5 +22,8 @@ public interface GameTileInterface extends Persistable {
      */
     public int getGameID();
     
+    /**
+     * @return This GameTile's orientation in the current game.
+     */
     public Wind getOrientation();
 }

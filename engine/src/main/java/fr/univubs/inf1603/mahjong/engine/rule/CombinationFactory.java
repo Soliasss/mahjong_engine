@@ -3,7 +3,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
 /**
- * @author purpl
+ * 
  */
 public class CombinationFactory {
 

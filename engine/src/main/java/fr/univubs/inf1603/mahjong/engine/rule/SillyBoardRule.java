@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Abdelilah MOULIDA
  */
 public class SillyBoardRule implements BoardRule {
 
@@ -56,7 +55,7 @@ public class SillyBoardRule implements BoardRule {
                     path.put(i*j, TileZoneIdentifier.getIdentifierFromNormalizedName("hand"+Wind.values()[i].getName()));
                     Move drawMove=null;
                     try {
-                        drawMove = new Move(Wind.values()[i], 0, path,new HashMap<Integer, Boolean>());
+                        drawMove = new Move(Wind.values()[i], 0, path, new HashMap<>());
                     } catch (MoveException ex) {
                         Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -88,7 +87,7 @@ public class SillyBoardRule implements BoardRule {
             Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            Move discard = new Move(nextWindToPlay, 0, path,new HashMap<Integer, Boolean>());
+            Move discard = new Move(nextWindToPlay, 0, path,new HashMap<>());
             moves.get(nextWindToPlay).add(discard);
         } catch (MoveException ex) {
             Logger.getLogger(SillyBoardRule.class.getName()).log(Level.SEVERE, null, ex);

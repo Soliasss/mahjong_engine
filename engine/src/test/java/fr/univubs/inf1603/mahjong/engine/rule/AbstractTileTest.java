@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Malléjac Clément
  */
 public class AbstractTileTest {
     

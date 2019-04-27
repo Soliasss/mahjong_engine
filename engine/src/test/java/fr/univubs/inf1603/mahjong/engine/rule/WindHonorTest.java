@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  *
- * @author Malléjac Clément
  */
 public class WindHonorTest {
     /**

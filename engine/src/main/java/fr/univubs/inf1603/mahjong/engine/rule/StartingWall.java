@@ -7,7 +7,6 @@ import java.util.Deque;
 /**
  * StartingWall : class can be usefull if we need to display where the breach is formed on the wall
  *
- * @author Abdelilah MOULIDA
  */
 public class StartingWall
 {

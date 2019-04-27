@@ -3,7 +3,6 @@ package fr.univubs.inf1603.mahjong.engine.game;
 import fr.univubs.inf1603.mahjong.engine.rule.ComplexTile;
 
 /**
- * @author COGOLUEGNES Charles, LE BERRE Samuel
  * Une réprésentation d'une tuile cachée
  */
 public class HiddenTile extends ComplexTile{
