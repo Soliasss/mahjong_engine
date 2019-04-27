@@ -202,5 +202,17 @@ public class MahjongBoardTest {
         }
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Test of getZones method, of class MahjongBoard.
+     */
+    public void testGetZones(){
+        System.out.println("getZone");
+        UUID u  = UUID.randomUUID();
+        EnumMap<TileZoneIdentifier, TileZone> expResult = new EnumMap<>(TileZoneIdentifier.class);
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), expResult );
+        EnumMap<TileZoneIdentifier, TileZone> result = instance.getZones();
+        assertEquals(expResult, result);
+    }
 
 }
