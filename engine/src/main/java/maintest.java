@@ -62,7 +62,9 @@ public class maintest {
         game.addPropertyChangeListener(Game.GAME_OVER_PROPERTY, prop);
         game.addPropertyChangeListener(Game.POSSIBLE_MOVES_PROPERTY, prop);
 
-        
+        for(Move a : game.getPossibleMoves()){
+            System.out.println(a.getPath().toString());
+        }
         
     }
 }
