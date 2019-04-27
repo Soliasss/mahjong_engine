@@ -1,10 +1,13 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -777,9 +780,56 @@ enum InternationalPatterns implements IdentifiablePattern {
             return 8;
         }
 
-        @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> chowFound= new ArrayList<>();
+            boolean isDots=false, isBamboo=false, isCharacters=false;
+            boolean isFind = false;
+            Combination lastCombiDots = null;
+            Combination lastCombiCharac = null;
+            Combination lastCombiBamboo = null;
+            
+            for(Combination currentCombi : set.getAllCombinations()){
+                if( currentCombi.isChow()){
+                    chowFound.add(currentCombi);
+                }
+            }
+            
+            for(Combination currentChow : chowFound){
+                for(Combination tmpChow : chowFound){
+                    if( tmpChow.getTiles()[0].getTile().getFamily() == Family.DOT ){
+                        isDots=true;
+                        lastCombiDots = tmpChow;
+                    }
+                    else if( tmpChow.getTiles()[0].getTile().getFamily() == Family.CHARACTER ){
+                        isCharacters=true;
+                        lastCombiCharac = tmpChow;
+                    }
+                    else if( tmpChow.getTiles()[0].getTile().getFamily() == Family.BAMBOO ){
+                       isBamboo=true;
+                       lastCombiBamboo = tmpChow;
+                   }
+                }
+                if ( isDots && isCharacters && isBamboo ){
+                    AbstractTile bam0 = lastCombiBamboo.getTiles()[0].getTile();                    
+                    AbstractTile car0 = lastCombiCharac.getTiles()[0].getTile();                    
+                    AbstractTile dot0 = lastCombiDots.getTiles()[0].getTile();
+                    
+                    if( ( (bam0.getNext().getNumber() == car0.getNumber()) && 
+                          (car0.getNext().getNumber() == dot0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern idP = new IdentifiedPattern(this,combiFound);
+                toReturn.add(idP);
+            }
             return toReturn;
         }
     },
@@ -793,9 +843,106 @@ enum InternationalPatterns implements IdentifiablePattern {
             return 8;
         }
 
-        @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> chowFound= new ArrayList<>();
+            boolean isDots=false, isBamboo=false, isCharacters=false;
+            boolean isFind = false;
+            Combination lastCombiDots = null;
+            Combination lastCombiCharac = null;
+            Combination lastCombiBamboo = null;
+            
+            for(Combination currentCombi : set.getAllCombinations()){
+                if( currentCombi.isChow()){
+                    chowFound.add(currentCombi);
+                }
+            }
+            
+            for(Combination currentChow : chowFound){
+                for(Combination tmpChow : chowFound){
+                    if( tmpChow.getTiles()[0].getTile().getFamily() == Family.DOT ){
+                        isDots=true;
+                        lastCombiDots = tmpChow;
+                    }
+                    else if( tmpChow.getTiles()[0].getTile().getFamily() == Family.CHARACTER ){
+                        isCharacters=true;
+                        lastCombiCharac = tmpChow;
+                    }
+                    else if( tmpChow.getTiles()[0].getTile().getFamily() == Family.BAMBOO ){
+                       isBamboo=true;
+                       lastCombiBamboo = tmpChow;
+                   }
+                }
+                if ( isDots && isCharacters && isBamboo ){
+                    AbstractTile bam0 = lastCombiBamboo.getTiles()[0].getTile();
+                    AbstractTile bam2 = lastCombiBamboo.getTiles()[2].getTile();
+                    
+                    AbstractTile car0 = lastCombiCharac.getTiles()[0].getTile();
+                    AbstractTile car2 = lastCombiCharac.getTiles()[2].getTile();
+                    
+                    AbstractTile dot0 = lastCombiDots.getTiles()[0].getTile();
+                    AbstractTile dot2 = lastCombiDots.getTiles()[2].getTile();
+                    
+                    
+                    if( ( (bam2.getNext().getNumber() == car0.getNumber()) && 
+                          (car2.getNext().getNumber() == dot0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (bam2.getNext().getNumber() == dot0.getNumber()) && 
+                          (dot2.getNext().getNumber() == car0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }   
+                    
+                    if( ( (car2.getNext().getNumber() == dot0.getNumber()) && 
+                          (dot2.getNext().getNumber() == bam0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (car2.getNext().getNumber() == bam0.getNumber()) && 
+                          (bam2.getNext().getNumber() == dot0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (dot2.getNext().getNumber() == car0.getNumber()) && 
+                          (car2.getNext().getNumber() == bam0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    if( ( (dot2.getNext().getNumber() == bam0.getNumber()) && 
+                          (bam2.getNext().getNumber() == car0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern idP = new IdentifiedPattern(this,combiFound);
+                toReturn.add(idP);
+            }
             return toReturn;
         }
     },
@@ -812,6 +959,98 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> pungFound= new ArrayList<>();
+            boolean isDots=false, isBamboo=false, isCharacters=false;
+            boolean isFind = false;
+            Combination lastCombiDots = null;
+            Combination lastCombiCharac = null;
+            Combination lastCombiBamboo = null;
+            
+            for(Combination currentCombi : set.getAllCombinations()){
+                if( currentCombi.isPung()){
+                    pungFound.add(currentCombi);
+                }
+            }
+            
+            for(Combination currentPung : pungFound){
+                for(Combination tmpPung : pungFound){
+                    if( tmpPung.getTiles()[0].getTile().getFamily() == Family.DOT ){
+                        isDots=true;
+                        lastCombiDots = tmpPung;
+                    }
+                    else if( tmpPung.getTiles()[0].getTile().getFamily() == Family.CHARACTER ){
+                        isCharacters=true;
+                        lastCombiCharac = tmpPung;
+                    }
+                    else if( tmpPung.getTiles()[0].getTile().getFamily() == Family.BAMBOO ){
+                       isBamboo=true;
+                       lastCombiBamboo = tmpPung;
+                   }
+                }
+                if ( isDots && isCharacters && isBamboo ){
+                    AbstractTile bam0 = lastCombiBamboo.getTiles()[0].getTile();                    
+                    AbstractTile car0 = lastCombiCharac.getTiles()[0].getTile();                    
+                    AbstractTile dot0 = lastCombiDots.getTiles()[0].getTile();
+                    
+                    if( ( (bam0.getNext().getNumber() == car0.getNumber()) && 
+                          (car0.getNext().getNumber() == dot0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (bam0.getNext().getNumber() == dot0.getNumber()) && 
+                          (dot0.getNext().getNumber() == car0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }   
+                    
+                    if( ( (car0.getNext().getNumber() == dot0.getNumber()) && 
+                          (dot0.getNext().getNumber() == bam0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (car0.getNext().getNumber() == bam0.getNumber()) && 
+                          (bam0.getNext().getNumber() == dot0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (dot0.getNext().getNumber() == car0.getNumber()) && 
+                          (car0.getNext().getNumber() == bam0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    if( ( (dot0.getNext().getNumber() == bam0.getNumber()) && 
+                          (bam0.getNext().getNumber() == car0.getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern idP = new IdentifiedPattern(this,combiFound);
+                toReturn.add(idP);
+            }
             return toReturn;
         }
     },
@@ -847,6 +1086,7 @@ enum InternationalPatterns implements IdentifiablePattern {
     /**
      * Finir (faire Mah-Jong) en piochant la dernière tuile du mur.
      * (Non-cumulable avec le fan «Tirer Soi-même».)
+     * MANQUE D'INFOS
      */
     LAST_TILE_DRAW {
         @Override
@@ -862,6 +1102,7 @@ enum InternationalPatterns implements IdentifiablePattern {
     },
     /**
      * Finir (faire Mah-Jong) sur la dernière tuile défaussée de la partie.
+     * MANQUE D'INFOS
      */
     LAST_TILE_CLAIM {
         @Override
@@ -895,6 +1136,7 @@ enum InternationalPatterns implements IdentifiablePattern {
     /**
      * Finir avec la tuile, qu’un autre joueur rajoute à son Pung (pour le transformer en Kong).
      * (Non-cumulable avec le fan «Dernière Tuile Existante»).
+     * MANQUE D'INFOS
      */
     ROBBING_THE_KONG {
         @Override
@@ -921,8 +1163,30 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
-            return toReturn;
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            boolean justReverse = true;
+            Pattern pattern = Pattern.compile("Dw|d([1-5]|[8-9])|c(2|[4-6]|[8-9])");
+            for (Combination currentCombi: set.getAllCombinations()) {
+                    GameTile[] currentTiles = currentCombi.getTiles();
+                    justReverse = true;
+                    for(int i=0; i<currentTiles.length;i++){
+                        
+                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
+                        if(!matcher.matches()){
+                            justReverse = false;
+                            break;
+                        }
+                    }
+                    if(!justReverse)break;
+                    tilesFound.addAll(Arrays.asList(currentTiles));
+            }
+            if (!justReverse){
+                IdentifiedPattern patternId = new IdentifiedPattern(this, tilesFound);
+                result.add(patternId);
+            }
+
+            return result;
         }
     },
     /**
@@ -974,7 +1238,7 @@ enum InternationalPatterns implements IdentifiablePattern {
         }
     },
     /**
-     * 3 Chows dans les 3 familles, avec leurs séquences numériques en décalage égale au précédentde 1.
+     * 3 Chows dans les 3 familles, avec leurs séquences numériques en décalage égale au précédent de 1.
      * (1-2-3 / 2-3-4 / 3-4-5)
      */
     MIXED_SHIFTED_CHOWS {
@@ -986,6 +1250,107 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> chowFound= new ArrayList<>();
+            boolean isDots=false, isBamboo=false, isCharacters=false;
+            boolean isFind = false;
+            Combination lastCombiDots = null;
+            Combination lastCombiCharac = null;
+            Combination lastCombiBamboo = null;
+            
+            for(Combination currentCombi : set.getAllCombinations()){
+                if( currentCombi.isChow()){
+                    chowFound.add(currentCombi);
+                }
+            }
+            
+            for(Combination currentChow : chowFound){
+                for(Combination tmpChow : chowFound){
+                    if( tmpChow.getTiles()[0].getTile().getFamily() == Family.DOT ){
+                        isDots=true;
+                        lastCombiDots = tmpChow;
+                    }
+                    else if( tmpChow.getTiles()[0].getTile().getFamily() == Family.CHARACTER ){
+                        isCharacters=true;
+                        lastCombiCharac = tmpChow;
+                    }
+                    else if( tmpChow.getTiles()[0].getTile().getFamily() == Family.BAMBOO ){
+                       isBamboo=true;
+                       lastCombiBamboo = tmpChow;
+                   }
+                }
+                if ( isDots && isCharacters && isBamboo ){
+                    AbstractTile bam0 = lastCombiBamboo.getTiles()[0].getTile();
+                    AbstractTile bam1 = lastCombiBamboo.getTiles()[1].getTile();
+                    AbstractTile bam2 = lastCombiBamboo.getTiles()[2].getTile();
+                    
+                    AbstractTile car0 = lastCombiCharac.getTiles()[0].getTile();
+                    AbstractTile car1 = lastCombiCharac.getTiles()[1].getTile();
+                    AbstractTile car2 = lastCombiCharac.getTiles()[2].getTile();
+                    
+                    AbstractTile dot0 = lastCombiDots.getTiles()[0].getTile();
+                    AbstractTile dot1 = lastCombiDots.getTiles()[1].getTile();
+                    AbstractTile dot2 = lastCombiDots.getTiles()[2].getTile();
+                    
+                    
+                    if( ( (bam2.getNumber() == car1.getPrevious().getNumber()) && 
+                          (car1.getNumber() == dot0.getPrevious().getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (bam2.getNumber() == dot1.getPrevious().getNumber()) && 
+                          (dot1.getNumber() == car0.getPrevious().getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }   
+                    
+                    if( ( (car2.getNumber() == dot1.getPrevious().getNumber()) && 
+                          (dot1.getNumber() == bam0.getPrevious().getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (car2.getNumber() == bam1.getPrevious().getNumber()) && 
+                          (bam1.getNumber() == dot0.getPrevious().getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    
+                    if( ( (dot2.getNumber() == car1.getPrevious().getNumber()) && 
+                          (car1.getNumber() == bam0.getPrevious().getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                    if( ( (dot2.getNumber() == bam1.getPrevious().getNumber()) && 
+                          (bam1.getNumber() == car0.getPrevious().getNumber()) )) {
+                            combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                            combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                            isFind=true;
+                            break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern idP = new IdentifiedPattern(this,combiFound);
+                toReturn.add(idP);
+            }
             return toReturn;
         }
     },
@@ -1000,8 +1365,22 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
-            return toReturn;
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<GameTile> combinationsFound = new ArrayList<>();
+            int nbFind =0;
+            for(Combination currentCombi : set.getHand()){
+                if(currentCombi.isPung() || currentCombi.isKong() || currentCombi.isPair()){
+                    if (currentCombi.isPung() || currentCombi.isKong())nbFind++;
+                    
+                    combinationsFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                }
+                
+            }
+            if (nbFind ==4){
+                IdentifiedPattern patternId = new IdentifiedPattern(this, combinationsFound);
+                result.add(patternId);
+            }
+            return result;
         }
     },
     /**
@@ -1017,6 +1396,35 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            boolean isDragon = false, isWind= false, isDot= false, isCharacter= false, isBamboo = false;
+            Pattern patternDragon = Pattern.compile("D.");
+            Pattern patternWind = Pattern.compile("W.");
+            Pattern patternDot = Pattern.compile("d.");
+            Pattern patternCharacter = Pattern.compile("c.");
+            Pattern patternBamboo = Pattern.compile("b.");
+            
+            for(Combination currentCombi : set.getHand()){
+                AbstractTile currentTile = currentCombi.getTiles()[0].getTile();
+                
+                Matcher matcherDragon = patternDragon.matcher(currentTile.toNormalizedName());
+                Matcher matcherWind = patternWind.matcher(currentTile.toNormalizedName());
+                Matcher matcherDot = patternDot.matcher(currentTile.toNormalizedName());
+                Matcher matcherCharacter = patternCharacter.matcher(currentTile.toNormalizedName());
+                Matcher matcherBamboo = patternBamboo.matcher(currentTile.toNormalizedName());
+                if(matcherDragon.matches()) isDragon = true;
+                else if(matcherWind.matches()) isWind = true;
+                else if(matcherDot.matches()) isDot = true;
+                else if(matcherCharacter.matches()) isCharacter = true;
+                else if(matcherBamboo.matches()) isBamboo = true;
+                combiFound.addAll(Arrays.asList(currentCombi.getTiles()));
+            }
+            if( !isDragon && isWind && ( (isDot && !isCharacter && !isBamboo) || 
+                                         (!isDot && isCharacter && !isBamboo) ||
+                                         (!isDot && !isCharacter && isBamboo) )){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1033,6 +1441,31 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            boolean isDragon = false, isWind= false, isDot= false, isCharacter= false, isBamboo = false;
+            Pattern patternDragon = Pattern.compile("D.");
+            Pattern patternWind = Pattern.compile("W.");
+            Pattern patternDot = Pattern.compile("d.");
+            Pattern patternCharacter = Pattern.compile("c.");
+            Pattern patternBamboo = Pattern.compile("b.");
+            for(Combination currentCombi : set.getHand()){
+                AbstractTile currentTile = currentCombi.getTiles()[0].getTile();
+                Matcher matcherDragon = patternDragon.matcher(currentTile.toNormalizedName());
+                Matcher matcherWind = patternWind.matcher(currentTile.toNormalizedName());
+                Matcher matcherDot = patternDot.matcher(currentTile.toNormalizedName());
+                Matcher matcherCharacter = patternCharacter.matcher(currentTile.toNormalizedName());
+                Matcher matcherBamboo = patternBamboo.matcher(currentTile.toNormalizedName());
+                if(matcherDragon.matches()) isDragon = true;
+                else if(matcherWind.matches()) isWind = true;
+                else if(matcherDot.matches()) isDot = true;
+                else if(matcherCharacter.matches()) isCharacter = true;
+                else if(matcherBamboo.matches()) isBamboo = true;
+                combiFound.addAll(Arrays.asList(currentCombi.getTiles()));
+            }
+            if(isDragon && isWind && isDot && isCharacter && isBamboo){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1049,6 +1482,18 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> allHand = set.getHand();
+            GameTile winningTile = set.getWinningTile();
+            
+            if( allHand.isEmpty() && winningTile != null && set.isTakenFromDiscard() && set.getConcealed().isEmpty()){
+                for(Combination aCombi : set.getMelds()){
+                    if( aCombi.isChow() || aCombi.isPung() || aCombi.isKong())
+                        combiFound.addAll(Arrays.asList(aCombi.getTiles()));
+                }
+                IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1063,7 +1508,25 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            ArrayList<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<Combination> allCombinations = set.getMelds();
+            Collection<GameTile> kongFound = new ArrayList<>();
+            boolean isFind = false;
+            int meldedKong=0;
+            
+            for (Combination currentCombi: allCombinations) {
+                if(currentCombi.isKong()){
+                    meldedKong++;
+                    isFind = true;
+                    kongFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                    break;
+                }
+            }
+            if(isFind && meldedKong==2){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, kongFound);
+                toReturn.add(pattern);
+            }
+
             return toReturn;
         }
     },
@@ -1078,8 +1541,32 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
-            return toReturn;
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<Combination> allCombinations = set.getAllCombinations();
+            int nbOfCombination = 0;
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            boolean justSimple = true;
+            Pattern pattern = Pattern.compile("((b|c|d)[2-8])|D.");
+            for (Combination currentCombi: allCombinations) {
+                    GameTile[] currentTiles = currentCombi.getTiles();
+                    justSimple = true;
+                    for(int i=0; i<currentTiles.length;i++){
+                        
+                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
+                        if(!matcher.matches()){
+                            justSimple = false;
+                            break;
+                        }
+                    }
+                    if(!justSimple)break;
+                    tilesFound.addAll(Arrays.asList(currentTiles));
+            }
+            if (!justSimple){
+                IdentifiedPattern patternId = new IdentifiedPattern(this, tilesFound);
+                result.add(patternId);
+            }
+
+            return result;
         }
     },
     /**
@@ -1094,6 +1581,17 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> allMelds = set.getMelds();
+            GameTile winningTile = set.getWinningTile();
+            
+            if( allMelds.isEmpty() && allMelds != null && winningTile != null && set.isDrawnForWall()){
+                for(Combination aCombi : set.getHand()){
+                    combiFound.addAll(Arrays.asList(aCombi.getTiles()));
+                }
+                IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1223,8 +1721,32 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
-            return toReturn;
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<GameTile> chowsFound = new ArrayList<>();
+            int nbChow =0;
+            boolean isNoHonor = true;
+            Pattern pattern = Pattern.compile("(b|c|d)[1-9]");
+            for(Combination currentCombi : set.getAllCombinations()){
+                if(currentCombi.isChow() || currentCombi.isPair()){
+                    if (currentCombi.isChow())nbChow++;
+                    GameTile[] currentTiles = currentCombi.getTiles();
+                    for(int i=0; i<currentTiles.length;i++){
+                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
+                        if(!matcher.matches()){
+                            isNoHonor = false;
+                            break;
+                        } 
+                    }
+                    chowsFound.addAll(Arrays.asList(currentTiles));
+                }
+                if(!isNoHonor) break;
+                
+            }
+            if (isNoHonor && nbChow ==4){
+                IdentifiedPattern patternId = new IdentifiedPattern(this, chowsFound);
+                result.add(patternId);
+            }
+            return result;
         }
     },
     /**
@@ -1238,8 +1760,40 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
-            return toReturn;
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<Combination> allCombinations = set.getAllCombinations();
+            Collection<GameTile> pungFound = new ArrayList<>();
+            boolean isFind = false;
+            ArrayList<Combination> pungArray = new ArrayList<>();
+            for (Combination currentCombi: allCombinations){
+                if(currentCombi.isPung())
+                    pungArray.add(currentCombi);
+            }
+            for(Combination currentCombi : pungArray){
+                for(Combination tmpCombi : pungArray){
+                    AbstractTile tileFirstPung = currentCombi.getTiles()[0].getTile();
+                    AbstractTile tileSecondPung = tmpCombi.getTiles()[0].getTile();
+                    if(tileFirstPung.getFamily() != null){
+                        if( !tileFirstPung.getFamily().equals(tileSecondPung.getFamily()) ){
+                            if(tileFirstPung.getNumber().equals(tileSecondPung.getNumber())){
+                                pungFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                pungFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                                isFind = true;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                if(isFind)break;
+            }
+
+            if (isFind){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, pungFound);
+                result.add(pattern);
+            }
+
+            return result;
         }
     },
     /**
@@ -1316,42 +1870,25 @@ enum InternationalPatterns implements IdentifiablePattern {
             int nbOfCombination = 0;
             Collection<GameTile> tilesFound = new ArrayList<>();
             boolean isAllSimple = true;
-            Combination lastCombi;
-
+            Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
             for (Combination currentCombi: allCombinations) {
-                if (currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong()){
+                
                     GameTile[] currentTiles = currentCombi.getTiles();
                     for(int i=0; i<currentTiles.length;i++){
-                        Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
+                        
                         Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());//Fix
                         if(!matcher.matches()){
                             isAllSimple = false;
                             break;
-                        }
+                        } 
                     }
                     if(!isAllSimple)break;
-                    nbOfCombination++;
-                    tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    lastCombi = currentCombi;
-                } else if(nbOfCombination == 4 && currentCombi.isPair()){
-                    GameTile[] currentTiles = currentCombi.getTiles();
-                    for(int i=0; i<currentTiles.length;i++){
-                        Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
-                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());//Fix
-                        if(!matcher.matches()){
-                            isAllSimple = false;
-                            break;
-                        }
-                    }
-                    if(!isAllSimple)break;
-                    tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    nbOfCombination++;
-                }
+                    tilesFound.addAll(Arrays.asList(currentTiles));
             }
 
-            if (nbOfCombination == 5 && isAllSimple){
-                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
-                result.add(pattern);
+            if (isAllSimple){
+                IdentifiedPattern patternId = new IdentifiedPattern(this, tilesFound);
+                result.add(patternId);
             }
 
             return result;
@@ -1369,6 +1906,17 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<GameTile> combiFound = new ArrayList<>();
+            Collection<Combination> allMelds = set.getMelds();
+            GameTile winningTile = set.getWinningTile();
+            
+            if( allMelds.isEmpty() && allMelds != null && winningTile != null && set.isTakenFromDiscard()){
+                for(Combination aCombi : set.getHand()){
+                    combiFound.addAll(Arrays.asList(aCombi.getTiles()));
+                }
+                IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1384,6 +1932,40 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<Combination> allCombinations = set.getHand();
+            Collection<GameTile> combinationsFound = new ArrayList<>();
+            boolean isFind = false;
+            ArrayList<Combination> combinationArray = new ArrayList<>();
+            for (Combination currentCombi: allCombinations){
+                if(!currentCombi.isKong())
+                    combinationArray.add(currentCombi);
+            }
+            HashMap<AbstractTile, Integer> countMap = new HashMap<>();
+            for(Combination currentCombi : combinationArray){
+                GameTile[] tileArray = currentCombi.getTiles();
+                for(int i=0; i<tileArray.length; i++){
+                    if(countMap.containsKey(tileArray[i].getTile())){
+                        Integer tmp = countMap.get(tileArray[i].getTile());
+                        tmp ++;
+                        countMap.put(tileArray[i].getTile(), tmp);
+                    } else {
+                        countMap.put(tileArray[i].getTile(), 1);
+                    }
+                }
+            }
+            for(AbstractTile key : countMap.keySet()){
+                if(countMap.get(key).equals(4)){
+                    isFind = true;
+                }
+            }
+            if(isFind){
+                for(Combination aCombi : allCombinations){
+                    combinationsFound.addAll(Arrays.asList(aCombi.getTiles()));
+                }
+                IdentifiedPattern pattern = new IdentifiedPattern(this, combinationsFound);
+                result.add(pattern);
+            }
+            
 
             return result;
         }
@@ -1401,34 +1983,40 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
-            int nbOfCombination = 0;
-            boolean isSame = false;
             Collection<GameTile> chowFound = new ArrayList<>();
-            Combination lastCombi = null;
-
-            for (Combination currentCombi: allCombinations) {
-                if (currentCombi.isChow()){
-                    if(nbOfCombination > 0){
-                        if(currentCombi.equals(lastCombi)){
-                            isSame = true;
+            boolean isFind = false;
+            ArrayList<Combination> chowArray = new ArrayList<>();
+            for (Combination currentCombi: allCombinations){
+                if(currentCombi.isChow())
+                    chowArray.add(currentCombi);
+            }
+            for(Combination currentCombi : chowArray){
+                for(Combination tmpCombi : chowArray){
+                    int equalstwice = 0;
+                    AbstractTile tileFirstChow = currentCombi.getTiles()[0].getTile();
+                    AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
+                    if(tileFirstChow.equals(tileSecondChow)){
+                        equalstwice ++;
+                        if(equalstwice == 2){
                             chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                            isFind = true;
                             break;
                         }
-                        break;
                     }
-                    nbOfCombination++;
-                    chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    lastCombi = currentCombi;
+                        
+                    
+
                 }
+                if(isFind)break;
             }
 
-            if (isSame){
+            if (isFind){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                 result.add(pattern);
             }
 
             return result;
-
         }
     },
     /**
@@ -1444,38 +2032,38 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
-            int nbOfCombination = 0;
-            boolean isDifferent = true;
-            boolean isSameNumber = false;
             Collection<GameTile> chowFound = new ArrayList<>();
-            Combination lastCombi = null;
-
-            for (Combination currentCombi: allCombinations) {
-                if (currentCombi.isChow()){
-                    if(nbOfCombination > 0){
-                        if((currentCombi.getTiles()[0].getTile()).getFamily().equals((lastCombi.getTiles()[0].getTile()).getFamily())){
-                            isDifferent = false;
-                            break;
-                        }
-                        if((currentCombi.getTiles()[0].getTile()).getNumber().equals((lastCombi.getTiles()[0].getTile()).getNumber())){
-                            isSameNumber = true;
-                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                            break;
+            boolean isFind = false;
+            ArrayList<Combination> chowArray = new ArrayList<>();
+            for (Combination currentCombi: allCombinations){
+                if(currentCombi.isChow())
+                    chowArray.add(currentCombi);
+            }
+            for(Combination currentCombi : chowArray){
+                for(Combination tmpCombi : chowArray){
+                    AbstractTile tileFirstChow = currentCombi.getTiles()[0].getTile();
+                    AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
+                    if(tileFirstChow.getFamily() != null){
+                        if( !tileFirstChow.getFamily().equals(tileSecondChow.getFamily()) ){
+                            if(tileFirstChow.getNumber().equals(tileSecondChow.getNumber())){
+                                chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                                isFind = true;
+                                break;
+                            }
                         }
                     }
-                    nbOfCombination++;
-                    chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    lastCombi = currentCombi;
+
                 }
+                if(isFind)break;
             }
 
-            if ( isSameNumber && isDifferent){
+            if (isFind){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                 result.add(pattern);
             }
 
             return result;
-
         }
     },
     /**
