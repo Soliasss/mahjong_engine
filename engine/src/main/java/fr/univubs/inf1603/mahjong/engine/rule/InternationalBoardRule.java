@@ -388,9 +388,6 @@ public class InternationalBoardRule implements BoardRule{
                 } else {
                     //Discard
                     moves.get(nextWindToPlay).addAll(this.possibleMoveDiscard(board, nextWindToPlay));
-                    HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
-                    path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), board.getTileZone("Discard"+nextWindToPlay.getName()).getIdentifier());
-                    moves.get(nextWindToPlay).add(new Move(nextWindToPlay, 0, path,new HashMap<Integer, Boolean>()));
                     //PUNG et CHOW
                     ArrayList<GameTileInterface> gtiArray = board.getTileZone("Hand"+nextWindToPlay.getName()).getTiles();
                     ArrayList<GameTile> gtArray = new ArrayList<GameTile>();
