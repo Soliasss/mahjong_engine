@@ -148,4 +148,13 @@ public class Move implements Persistable,Serializable, Cloneable {
         }
         return true;
     }
+    
+    public String toString(){
+        String description = new String();
+        for(Integer tile : path.keySet()){
+            description +=tile+":"+path.get(tile);
+            description += " ";
+        }
+        return description;
+    }
 }
