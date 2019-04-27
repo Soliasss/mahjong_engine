@@ -23,17 +23,13 @@ public class maintest {
     public static void main(String[] args) throws GameException{
         GameRule rule = null;
         try {
-            rule = new GameRuleFactory().create("SILLY_RULE");
+            rule = new GameRuleFactory().create("INTERNATIONAL");
         } catch (RulesException ex) {
-            System.exit(0);
+            throw new RuntimeException();
         }
         
-        
-        MahjongBoard board = new MahjongBoard(Wind.WEST);
-        
-        
         MahjongGame game;
-        game = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), new int[4], UUID.randomUUID(), Wind.values());
+        game = new MahjongGame(rule, Duration.ofSeconds(5), Duration.ofSeconds(5));
         System.out.println("Passed construction");
         
         game.launchGame();
