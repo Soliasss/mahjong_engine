@@ -103,6 +103,8 @@ public class MahjongGame implements Game {
                 System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
             }
         }
+        
+        getAndFirePossibleMoves();
     }
 
     @Override
