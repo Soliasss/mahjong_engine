@@ -39,5 +39,5 @@ public interface Combination {
      * @param tiles the tiles of the combination
      * @return true or false if a pair, chow, pung or kong is valid
      */
-    public boolean isValid(GameTile[] tiles);
+    boolean isValid(GameTile[] tiles);
 }

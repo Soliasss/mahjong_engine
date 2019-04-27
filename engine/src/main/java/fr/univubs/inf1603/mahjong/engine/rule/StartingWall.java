@@ -2,11 +2,11 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * StartingWall : class can be usefull if we need to display where the breach is formed on the wall
  *
- * @author Abdelilah MOULIDA
  */
 public class StartingWall
 {
@@ -22,7 +22,7 @@ public class StartingWall
      * {@link ArrayDeque} representing the tiles in the wall, we chose a deque because
      * drawing from the back of the wall is possible
      */
-    private ArrayDeque<GameTile> cut;
+    private Deque<GameTile> cut;
 
     /**
      * Constructor of the object,
@@ -53,7 +53,7 @@ public class StartingWall
     /**
      * @return the cut
      */
-    public ArrayDeque<GameTile> getCut() {
+    public Deque<GameTile> getCut() {
         return cut;
     }
 

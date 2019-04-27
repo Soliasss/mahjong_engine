@@ -10,7 +10,6 @@ import java.util.UUID;
 /**
  * MahjongBoard represents the mahjong board during the game.
  *
- * @author Samuel LE BERRE
  */
 public class MahjongBoard implements Board, Cloneable {
 
@@ -209,6 +208,14 @@ public class MahjongBoard implements Board, Cloneable {
                 throw new GameException("Move "+move.getUUID()+" is trying to move a tile back into the same zone");
             }
         }
+    }
+    
+
+    /**
+    * @return L'enummap de tilezones
+    */
+    public EnumMap<TileZoneIdentifier, TileZone> getZones(){
+        return this.zones;
     }
     
 }

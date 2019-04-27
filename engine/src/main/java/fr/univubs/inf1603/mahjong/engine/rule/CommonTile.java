@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * Represents common tiles (i.e bamboo,characters,dots) of a mahjong game.
  */
 
@@ -12,7 +11,7 @@ public class CommonTile extends ComplexTile{
      */
     public enum Family { 
         BAMBOO('b'), CHARACTER('c'), DOT('d');
-        private final char symbol;
+        private  final char symbol;
         private Family(char symbol){
             this.symbol = symbol;
         }
@@ -55,6 +54,7 @@ public class CommonTile extends ComplexTile{
     /**
      * @return Returns this CommonTile's Family.
      */
+    @Override
     public Family getFamily(){
         return this.family;
     }
@@ -62,6 +62,7 @@ public class CommonTile extends ComplexTile{
     /**
      * @return Returns this CommonTile's Number.
      */
+    @Override
     public Number getNumber(){
         return this.number;
     }
@@ -70,6 +71,7 @@ public class CommonTile extends ComplexTile{
      * Looks if the CommonTile is a major tile (i.e its number is 1 or 9).
      * @return Returns true if the tile is a major tile, false otherwise.
      */
+    @Override
     public boolean isMajor(){
         return (this.number == Number.ONE) || (this.number == Number.NINE);     
     }

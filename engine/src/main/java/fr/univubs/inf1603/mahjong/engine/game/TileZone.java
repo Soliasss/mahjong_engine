@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 /**
  *
- * @author purpl
  */
 public interface TileZone extends Persistable{
         public static final String 

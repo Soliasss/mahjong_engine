@@ -2,7 +2,6 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 /**
  *
- * @author purpl
  */
 public enum TileZoneIdentifier {
     Wall,
@@ -35,7 +34,7 @@ public enum TileZoneIdentifier {
     MeldNorth2,
     MeldNorth3;
     
-    String getNormalizedName(){
+    public String getNormalizedName(){
         return this.name();
     }
     public static String getNormalizedNameFromIdentifier(TileZoneIdentifier identifier){

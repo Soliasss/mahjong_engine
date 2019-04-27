@@ -1,8 +1,9 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Number;
 /**
  * AbstractTile represents the concept of tile in mahjong rules.
- * @author Malléjac Clément
  */
 public interface AbstractTile {
     /**
@@ -30,6 +31,18 @@ public interface AbstractTile {
      * @return a reference to the followed tile
      */
     default AbstractTile getPrevious(){
+        return null;
+    }
+    
+    default boolean isMajor(){
+        return false;
+    }
+    
+    default Family getFamily(){
+        return null;
+    }
+    
+    default Number getNumber(){
         return null;
     }
 }

@@ -2,9 +2,10 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
+import java.util.Arrays;
+
 /**
  *
- * @author anton
  */
 public class Chow implements Combination {
 
@@ -38,5 +39,18 @@ public class Chow implements Combination {
         return tiles.length==3 &&
                 tiles[0].getTile().getNext() == tiles[1].getTile() &&
                 tiles[1].getTile().getNext() == tiles[2].getTile();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chow chow = (Chow) o;
+        return Arrays.equals(getTiles(), chow.getTiles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(getTiles());
     }
 }

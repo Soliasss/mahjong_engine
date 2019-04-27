@@ -1,7 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 /**
- * @author Anton Cosnefroy
  * This represents all simple honors (a.k.a wind tiles)
  */
 public class SimpleHonor extends WindHonor{
@@ -15,6 +14,7 @@ public class SimpleHonor extends WindHonor{
         super(windTile);
     }
     
+    @Override
     public String toString(){
         return super.toString()+"simpleHonor_"+wind;
     }

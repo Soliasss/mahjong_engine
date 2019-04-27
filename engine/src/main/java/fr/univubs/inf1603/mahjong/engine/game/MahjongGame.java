@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
-
-import fr.univubs.inf1603.mahjong.engine.rule.*;
+import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
+import fr.univubs.inf1603.mahjong.engine.rule.StartingWall;
+import fr.univubs.inf1603.mahjong.engine.rule.Wind;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.UUID;
 /**
  * Cette classe permet de représenter une partie de Mahjong
  *
- * @author COGOLUEGNES Charles
  */
 public class MahjongGame implements Game {
 
@@ -39,6 +39,7 @@ public class MahjongGame implements Game {
      * @param lastPlayedMove The last played move of this game
      * @param stealingTime The time players have to decide if they can steal a discarded tile
      * @param playingTime This players have to decide what to discard
+     * @param playerPoints The points's number of the player
      * @param uuid This game's UUID
      * @param playerWind The wind according to the player
      * @throws GameException
@@ -52,8 +53,9 @@ public class MahjongGame implements Game {
         this.uuid = uuid;
         this.playerPoints = playerPoints;
         this.playerWind = playerWind;
+        
+        this.ableToRegisterMoves=false;
     }
-
     /**
      * This is a constructor of MahjongGame
      * @param rule Rules of this game
@@ -63,12 +65,17 @@ public class MahjongGame implements Game {
     public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime){
         this.rule = rule;
         this.stealingTime = stealingTime;
-        this.playingTime = playingTime;
 
-        this.board = new MahjongBoard(Wind.WEST);
+        this.playingTime = playingTime;    
+        
+        
         this.lastPlayedMove = null;
+        this.board = null;
         this.uuid = UUID.randomUUID();
-        this.playerPoints = new int[4];
+        this.playerPoints = new int[4];        
+        this.playerWind = null;        
+        
+        this.ableToRegisterMoves=false;
     }
 
     @Deprecated
@@ -76,18 +83,30 @@ public class MahjongGame implements Game {
         this.rule = rule;
         this.board = null;
         this.uuid = UUID.randomUUID();
+        this.playingTime = Duration.ofSeconds(5);
         this.ableToRegisterMoves = false;
     }
 
     @Override
     public void launchGame() {
-        if(this.playerWind == null) this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-        if(this.board == null) this.board = this.rule.getBoardRule().distributeTiles(this.rule.getBoardRule().buildWall());
-        this.getAndFirePossibleMoves();
+        if(this.playerWind == null){
+            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
+        }
+        StartingWall wall = this.rule.getBoardRule().buildWall();
+        
+        if(this.board == null){
+            if(wall !=null){
+                this.board = this.rule.getBoardRule().distributeTiles(wall);
+            }else{
+                System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
+            }
+        }
+        
+        getAndFirePossibleMoves();
     }
 
     @Override
-    public synchronized void registerMove(Move move) throws GameException {
+    public void registerMove(Move move) throws GameException {
         if(this.ableToRegisterMoves){
           this.registeredMoves.add(move);
         }
@@ -254,26 +273,8 @@ public class MahjongGame implements Game {
     /**
      * Permet de lancer un thread attendant que les moves soit register
      */
-    private synchronized void waitToRegisterMoves(){
-      Thread thread = new Thread(new Runnable(){
-        public void run(){
-          registeredMoves = new ArrayList<Move>();
-          ableToRegisterMoves = true;
-          try{
-              Thread.sleep((int)playingTime.getSeconds()*1000);
-              ableToRegisterMoves = false;
-              chooseMoveToApply();
-          }
-          catch (InterruptedException ie){
-              ableToRegisterMoves = false;
-              ie.printStackTrace();
-          }
-          catch(GameException ge){
-              exitGame(1, ge.getMessage());
-          }
-        }
-      });
-      thread.start();
+    private void waitToRegisterMoves(){
+      
     }
 
     /**

@@ -11,7 +11,6 @@ import java.util.UUID;
 /**
  * GameTile represents a tile once in an ongoing game of mahjong.
  *
- * @author Malléjac Clément
  */
 public class GameTile implements GameTileInterface, Serializable, Cloneable, Persistable {
 
@@ -25,8 +24,8 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      * @param uuid This tile's UUID
-     * @param publiclyVisible
-     * @param orientation
+     * @param publiclyVisible if the tile is visible or not
+     * @param orientation the tile's orientation
      */
     public GameTile(int gameID, AbstractTile tile, UUID uuid, boolean publiclyVisible, Wind orientation) {
         this.gameID = gameID;
@@ -36,6 +35,11 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         this.orientation = orientation;
     }
 
+    /**
+     * 
+     * @param gameID This GameTile's place in the deck before it gets shuffled
+     * @param tile This GameTile's face
+     */
     public GameTile(int gameID, AbstractTile tile) {
         this(gameID, tile, UUID.randomUUID(),false,Wind.EAST);
     }
@@ -59,7 +63,11 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         return this.uuid;
     }
 
-    boolean isPubliclyVisible(){
+    /**
+     * Return is the tile is visible or not
+     * @return true if is visible, else return false
+     */
+    public boolean isPubliclyVisible(){
         return this.publiclyVisible;
     }
     
@@ -98,10 +106,18 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         return propertyChangeSupport;
     }
 
+    /**
+     * Set the orientation of the tile
+     * @param wind the wind which define the orientation of the tile
+     */
     void setOrientation(Wind wind){
         this.orientation = wind;
     }
     
+    /**
+     * Return the Wind which define the orientation of the tile
+     * @return 
+     */
     @Override
     public Wind getOrientation() {
         return this.orientation;

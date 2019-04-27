@@ -2,8 +2,10 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
- * @author anton
  */
 public class Pung implements Combination {
 
@@ -12,6 +14,7 @@ public class Pung implements Combination {
     public Pung(GameTile[] tiles) throws RulesException {
         if (isValid(tiles)) {
             this.tiles = tiles;
+            Arrays.sort(this.tiles, Comparator.comparing(GameTile::getGameID));
         } else {
             throw new RulesException("Invalid pung");
         }
@@ -34,4 +37,16 @@ public class Pung implements Combination {
                 tiles[0].getTile() == tiles[2].getTile();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pung pung = (Pung) o;
+        return Arrays.equals(getTiles(), pung.getTiles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(getTiles());
+    }
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Malléjac Clément
  */
 public class HonorTileTest {
     //No methods to test here yet

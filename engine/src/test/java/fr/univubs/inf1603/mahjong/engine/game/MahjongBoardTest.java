@@ -15,12 +15,12 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author purpl
  */
 public class MahjongBoardTest {
 
     /**
      * Test of getCurrentWind method, of class MahjongBoard.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetCurrentWind() throws Exception {
@@ -200,6 +200,18 @@ public class MahjongBoardTest {
         } catch (GameException ex) {
             fail("MahjongBoard threw an exception :"+ex);
         }
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getZones method, of class MahjongBoard.
+     */
+    public void testGetZones(){
+        System.out.println("getZone");
+        UUID u  = UUID.randomUUID();
+        EnumMap<TileZoneIdentifier, TileZone> expResult = new EnumMap<>(TileZoneIdentifier.class);
+        MahjongBoard instance = new MahjongBoard(Wind.WEST, UUID.randomUUID(), expResult );
+        EnumMap<TileZoneIdentifier, TileZone> result = instance.getZones();
         assertEquals(expResult, result);
     }
 
