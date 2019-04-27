@@ -5,13 +5,9 @@ import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 /**
  * 
  */
-public class CombinationFactory {
+public class InternationalCombinationFactory implements AbstractCombinationFactory {
 
-    /**
-     * @param tiles Tiles with which we want to make a combination
-     * @return The correct Combination made with the given tiles
-     * @throws fr.univubs.inf1603.mahjong.engine.rule.RulesException the tiles cannot be made into a valid combination
-     */
+    @Override
     public Combination newCombination(GameTile... tiles) throws RulesException{
         for (int i = 0; i < tiles.length; i++)
             for (int j = 0; j < tiles.length; j++)

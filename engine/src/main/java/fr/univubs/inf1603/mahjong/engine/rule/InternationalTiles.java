@@ -289,7 +289,7 @@ public enum InternationalTiles implements AbstractTile {
     
     private AbstractTile tile;
     
-    private InternationalTiles(AbstractTile abstractTile) {
+    InternationalTiles(AbstractTile abstractTile) {
         this.tile = abstractTile;
     }
     
