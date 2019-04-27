@@ -342,7 +342,7 @@ enum InternationalPatterns implements IdentifiablePattern {
             for (Combination currentCombi: allCombinations) {
                 if (currentCombi.isPung() || currentCombi.isKong()){
                     GameTile currentTile = currentCombi.getTiles()[0];
-                    if( ! ((CommonTile)currentTile.getTile()).isMajor()){ //Fix
+                    if( ! (currentTile.getTile()).isMajor()){ //Fix
                         isAllMajor = false;
                         break;
                     }
@@ -351,7 +351,7 @@ enum InternationalPatterns implements IdentifiablePattern {
                     lastCombi = currentCombi;
                 } else if(nbOfCombination == 4 && currentCombi.isPair()){
                     GameTile currentTile = currentCombi.getTiles()[0];
-                    if( ! ((CommonTile)currentTile.getTile()).isMajor()){ //Fix
+                    if( ! (currentTile.getTile()).isMajor()){ //Fix
                         isAllMajor = false;
                         break;
                     }
@@ -827,6 +827,20 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<Combination> concealedCombinations = set.getConcealed();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            int nbKong = 0;
+            for(Combination currentCombi : concealedCombinations){
+                if(currentCombi.isKong()){
+                    nbKong++;
+                    tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                    if(nbKong>=2)break;
+                }
+            }
+            if(nbKong >= 2){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -938,6 +952,24 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<Combination> allCombinations = set.getAllCombinations();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            int nbFind = 0;
+            Pattern dragonPattern = Pattern.compile("D.");
+            for(Combination currentCombi : allCombinations){
+                if(currentCombi.isPung() || currentCombi.isKong()){
+                    Matcher dragonMatcher = dragonPattern.matcher(currentCombi.getTiles()[0].getTile().toNormalizedName());
+                    if(dragonMatcher.matches()){
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        nbFind++;
+                        if(nbFind >= 2)break;
+                    }
+                }
+            }
+            if(nbFind >= 2){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1093,6 +1125,24 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<Combination> allCombinations = set.getAllCombinations();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            boolean isFind = false;
+            Pattern dragonPattern = Pattern.compile("D.");
+            for(Combination currentCombi : allCombinations){
+                if(currentCombi.isPung() || currentCombi.isKong()){
+                    Matcher dragonMatcher = dragonPattern.matcher(currentCombi.getTiles()[0].getTile().toNormalizedName());
+                    if(dragonMatcher.matches()){
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        isFind = true;
+                        break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1108,6 +1158,24 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Wind roundWind = set.getRoundWind();
+            Collection<Combination> concealedCombinations = set.getAllCombinations();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            boolean isFind = false;
+            for(Combination currentCombi : concealedCombinations){
+                if(currentCombi.isPung()){
+                    WindHonor tile = (WindHonor)currentCombi.getTiles()[0].getTile();
+                    if(tile.getWind() == roundWind){
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        isFind = true;
+                        break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1123,6 +1191,24 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Wind playerWind = set.getPlayerWind();
+            Collection<Combination> concealedCombinations = set.getAllCombinations();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            boolean isFind = false;
+            for(Combination currentCombi : concealedCombinations){
+                if(currentCombi.isPung()){
+                    WindHonor tile = (WindHonor)currentCombi.getTiles()[0].getTile();
+                    if(tile.getWind() == playerWind){
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        isFind = true;
+                        break;
+                    }
+                }
+            }
+            if(isFind){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1168,6 +1254,20 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<Combination> concealedCombinations = set.getConcealed();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            int numberFind = 0;
+            for(Combination currentCombi : concealedCombinations){
+                if(currentCombi.isPung()){
+                    tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                    numberFind ++;
+                    if(numberFind >= 2) break;
+                }
+            }
+            if(numberFind >= 2){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1183,6 +1283,20 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<Combination> concealedCombinations = set.getConcealed();
+            Collection<GameTile> tilesFound = new ArrayList<>();
+            boolean isFind = false;
+            for(Combination currentCombi : concealedCombinations){
+                if(currentCombi.isKong()){
+                    tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                    isFind = true;
+                    break;
+                }
+            }
+            if(isFind){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                toReturn.add(pattern);
+            }
             return toReturn;
         }
     },
@@ -1288,17 +1402,19 @@ enum InternationalPatterns implements IdentifiablePattern {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
             int nbOfCombination = 0;
-            boolean isSame = true;
+            boolean isSame = false;
             Collection<GameTile> chowFound = new ArrayList<>();
             Combination lastCombi = null;
 
             for (Combination currentCombi: allCombinations) {
                 if (currentCombi.isChow()){
                     if(nbOfCombination > 0){
-                        if(!currentCombi.equals(lastCombi)){
-                            isSame = false;
+                        if(currentCombi.equals(lastCombi)){
+                            isSame = true;
+                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
                             break;
                         }
+                        break;
                     }
                     nbOfCombination++;
                     chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
@@ -1306,7 +1422,7 @@ enum InternationalPatterns implements IdentifiablePattern {
                 }
             }
 
-            if (nbOfCombination == 2 && isSame){
+            if (isSame){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                 result.add(pattern);
             }
@@ -1337,12 +1453,14 @@ enum InternationalPatterns implements IdentifiablePattern {
             for (Combination currentCombi: allCombinations) {
                 if (currentCombi.isChow()){
                     if(nbOfCombination > 0){
-                        if(((CommonTile)currentCombi.getTiles()[0].getTile()).getFamily().equals(((CommonTile)lastCombi.getTiles()[0].getTile()).getFamily())){
+                        if((currentCombi.getTiles()[0].getTile()).getFamily().equals((lastCombi.getTiles()[0].getTile()).getFamily())){
                             isDifferent = false;
                             break;
                         }
-                        if(((CommonTile)currentCombi.getTiles()[0].getTile()).getNumber().equals(((CommonTile)lastCombi.getTiles()[0].getTile()).getNumber())){
+                        if((currentCombi.getTiles()[0].getTile()).getNumber().equals((lastCombi.getTiles()[0].getTile()).getNumber())){
                             isSameNumber = true;
+                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            break;
                         }
                     }
                     nbOfCombination++;
@@ -1351,7 +1469,7 @@ enum InternationalPatterns implements IdentifiablePattern {
                 }
             }
 
-            if (nbOfCombination == 2 && isSameNumber && isDifferent){
+            if ( isSameNumber && isDifferent){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                 result.add(pattern);
             }
@@ -1373,26 +1491,31 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
-            int nbOfCombination = 0;
-            boolean isSame = true;
             Collection<GameTile> chowFound = new ArrayList<>();
-            Combination lastCombi = null;
-
-            for (Combination currentCombi: allCombinations) {
-                if (currentCombi.isChow()){
-                    if(nbOfCombination > 0){
-                        if(!currentCombi.getTiles()[0].getTile().getPrevious().equals(lastCombi.getTiles()[2].getTile())){
-                            isSame = false;
+            boolean isFind = false;
+            ArrayList<Combination> chowArray = new ArrayList<>();
+            for (Combination currentCombi: allCombinations){
+                if(currentCombi.isChow())
+                    chowArray.add(currentCombi);
+            }
+            for(Combination currentCombi : chowArray){
+                for(Combination tmpCombi : chowArray){
+                    AbstractTile tileFirstChow = currentCombi.getTiles()[2].getTile();
+                    AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
+                    if(tileFirstChow.getNext() != null){
+                        if( tileFirstChow.getNext().equals(tileSecondChow) ){
+                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                            isFind = true;
                             break;
                         }
                     }
-                    nbOfCombination++;
-                    chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    lastCombi = currentCombi;
+
                 }
+                if(isFind)break;
             }
 
-            if (nbOfCombination == 2 && isSame){
+            if (isFind){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                 result.add(pattern);
             }
@@ -1413,32 +1536,33 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
-            int nbOfCombination = 0;
-
             Collection<GameTile> chowFound = new ArrayList<>();
-            Combination lastCombi = null;
-
-            for (Combination currentCombi: allCombinations) {
-                if (currentCombi.isChow()){
-                    if(nbOfCombination == 0){
-                        if(((CommonTile)currentCombi.getTiles()[0].getTile()).isMajor()){
-                            nbOfCombination++;
-                            lastCombi = currentCombi;
-                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+            int nbCheck = 0;
+            boolean isFind = false;
+            ArrayList<Combination> chowArray = new ArrayList<>();
+            for (Combination currentCombi: allCombinations){
+                if(currentCombi.isChow() && (currentCombi.getTiles()[0].getTile().isMajor() || currentCombi.getTiles()[2].getTile().isMajor()))
+                    chowArray.add(currentCombi);
+            }
+            for(Combination currentCombi : chowArray){
+                for(Combination tmpCombi : chowArray){
+                    AbstractTile tileFirstChow = currentCombi.getTiles()[0].getTile();
+                    AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
+                    if(tileFirstChow.getFamily() != null){
+                        if( tileFirstChow.getFamily().equals(tileSecondChow.getFamily()) ){
+                            if(!tileFirstChow.getNumber().equals(tileSecondChow.getNumber())){
+                                chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
+                                isFind = true;
+                                break;
+                            }
                         }
-                    } else if(nbOfCombination == 1){
-                        if(((CommonTile)currentCombi.getTiles()[2].getTile()).isMajor()
-                                && ((CommonTile)currentCombi.getTiles()[0].getTile()).getFamily().equals(
-                                ((CommonTile)lastCombi.getTiles()[0].getTile()).getFamily())){
-                            nbOfCombination ++;
-                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-
-                        }
-                    } else { break;}
+                    }
                 }
+                if(isFind)break;
             }
 
-            if (nbOfCombination == 2){
+            if (isFind){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
                 result.add(pattern);
             }
@@ -1459,24 +1583,16 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> toReturn = new ArrayList<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
-
-
             Collection<GameTile> pungFound = new ArrayList<>();
 
             boolean isFind = false;
+            Pattern windPattern = Pattern.compile("W.");
 
             for (Combination currentCombi: allCombinations) {
-                GameTile tile = currentCombi.getTiles()[0];
-                if (currentCombi.isPung() && (
-                        ((CommonTile)tile.getTile()).isMajor() ||
-                                //tile.getTile().toNormalizedName().equals("Dr") ||
-                                //tile.getTile().toNormalizedName().equals("Dg") ||
-                                //tile.getTile().toNormalizedName().equals("Dw") ||
-                                tile.getTile().toNormalizedName().equals("Wn") ||
-                                tile.getTile().toNormalizedName().equals("Ww") ||
-                                tile.getTile().toNormalizedName().equals("We") ||
-                                tile.getTile().toNormalizedName().equals("Ws")
-                )){
+                AbstractTile tile = currentCombi.getTiles()[0].getTile();
+                Matcher matcher = windPattern.matcher(tile.toNormalizedName());
+
+                if ( (currentCombi.isPung() || currentCombi.isKong()) && (matcher.matches() || tile.isMajor()) ){
                     isFind = true;
                     pungFound.addAll(Arrays.asList(currentCombi.getTiles()));
                     break;
@@ -1487,7 +1603,6 @@ enum InternationalPatterns implements IdentifiablePattern {
                 IdentifiedPattern pattern = new IdentifiedPattern(this, pungFound);
                 toReturn.add(pattern);
             }
-
             return toReturn;
         }
     },
@@ -1503,7 +1618,7 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> toReturn = new ArrayList<>();
-            Collection<Combination> allCombinations = set.getMelds(); //Fix
+            Collection<Combination> allCombinations = set.getMelds();
             Collection<GameTile> kongFound = new ArrayList<>();
             boolean isFind = false;
             for (Combination currentCombi: allCombinations) {
@@ -1529,17 +1644,43 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) { //Ajout
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<GameTile> transformed = new ArrayList<>();
             Collection<Combination> allHand = set.getHand();
-            Collection<GameTile> tilesFound = new ArrayList();
 
-            for (Combination currentCombi : allHand ){
-                if( currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong() ){
+            boolean isBamboos = false;
+            boolean isCharacters = false;
+            boolean isDots = false;
 
+            Pattern patternBamboos = Pattern.compile("b[1-9]");
+            Pattern patternCharacters = Pattern.compile("c[1-9]");
+            Pattern patternDots = Pattern.compile("d[1-9]");
+
+            for (Combination currentCombi: allHand) {
+                GameTile[] currentTiles = currentCombi.getTiles();
+                for(int i=0; i<currentTiles.length;i++){
+                    Matcher matcherBamboos = patternBamboos.matcher(currentTiles[i].getTile().toNormalizedName());
+                    Matcher matcherCharacters = patternCharacters.matcher(currentTiles[i].getTile().toNormalizedName());
+                    Matcher matcherDots = patternDots.matcher(currentTiles[i].getTile().toNormalizedName());
+                    if(matcherBamboos.matches()){
+                        isBamboos = true;
+                    }
+                    else if(matcherCharacters.matches()){
+                        isCharacters = true;
+                    }
+                    else if(matcherDots.matches()){
+                        isBamboos = true;
+                    }
                 }
+                transformed.addAll(Arrays.asList(currentCombi.getTiles()));
             }
 
-            return toReturn;
+            if ( (isCharacters && isBamboos) || (isCharacters && isDots) || (isBamboos && isDots) ){
+                IdentifiedPattern pattern = new IdentifiedPattern(this, transformed);
+                result.add(pattern);
+            }
+
+            return result;
         }
     },
     /**
@@ -1554,37 +1695,28 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
-            //Changement
-            Collection<Combination> allCombinations = set.getHand();
-            int nbOfCombination = 0;
-            Collection<GameTile> tilesFound = new ArrayList<>();
+            Collection<GameTile> transformed = new ArrayList<>();
+            Collection<Combination> allHand = set.getHand();
             boolean isAllHog = true;
-            Combination lastCombi;
+            Pattern pattern = Pattern.compile("(b|c|d)[1-9]");
 
-            for (Combination currentCombi: allCombinations) {
-
-                if (currentCombi.isChow() || currentCombi.isPung() || currentCombi.isKong()){
-                    GameTile[] currentTiles = currentCombi.getTiles();
-                    for(int i=0; i<currentTiles.length;i++){
-                        //Changement
-                        Pattern pattern = Pattern.compile("(b|c|d)[1-9]");
-                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
-                        if(!matcher.matches()){
-                            isAllHog = false;
-                            break;
-                        }
+            for (Combination currentCombi: allHand) {
+                GameTile[] currentTiles = currentCombi.getTiles();
+                for(int i=0; i<currentTiles.length;i++){
+                    Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
+                    if(!matcher.matches()){
+                        isAllHog = false;
+                        break;
                     }
+                }
+                if(!isAllHog)break;
 
-                    if(!isAllHog)break;
-                    nbOfCombination++;
-                    tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    lastCombi = currentCombi;
-                }//Suppr condition
+                transformed.addAll(Arrays.asList(currentCombi.getTiles()));
             }
 
-            if (nbOfCombination == 4 && isAllHog){
-                IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
-                result.add(pattern);
+            if (isAllHog){
+                IdentifiedPattern patternIdent = new IdentifiedPattern(this, transformed);
+                result.add(patternIdent);
             }
 
             return result;
@@ -1602,7 +1734,29 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<IdentifiedPattern> toReturn = new ArrayList<IdentifiedPattern>();
+            GameTile lastTile = set.getWinningTile();
+            Collection <Combination> allHand = set.getHand();
+
+            if(lastTile != null){
+                for(Combination combination : allHand){
+                    if(combination.isChow() && Arrays.asList(combination.getTiles()).contains(lastTile)){
+                        AbstractTile number3 = (combination.getTiles()[2].getTile());
+                        AbstractTile number1 = (combination.getTiles()[0].getTile());
+
+                        if( number1.isMajor() && (number3 == lastTile.getTile())){
+                            Collection<GameTile> chow1 = new ArrayList<>(Arrays.asList(combination.getTiles()));
+                            IdentifiedPattern pattern = new IdentifiedPattern(this, chow1);
+                            toReturn.add(pattern);
+                        }
+                        else if( number3.isMajor() && (number1 == lastTile.getTile())){
+                            Collection<GameTile> chow2 = new ArrayList<>(Arrays.asList(combination.getTiles()));
+                            IdentifiedPattern pattern = new IdentifiedPattern(this, chow2);
+                            toReturn.add(pattern);
+                        }
+                    }
+                }
+            }
             return toReturn;
         }
     },
@@ -1618,7 +1772,21 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+            Collection<IdentifiedPattern> toReturn = new ArrayList<IdentifiedPattern>();
+            GameTile lastTile = set.getWinningTile();
+            Collection <Combination> allHand = set.getHand();
+
+            if(lastTile != null){
+                for(Combination combination : allHand){
+                    if(combination.isChow() && Arrays.asList(combination.getTiles()).contains(lastTile)){
+                        if(combination.getTiles()[1].getTile() == lastTile){
+                            Collection<GameTile> chow = new ArrayList<>(Arrays.asList(combination.getTiles()));
+                            IdentifiedPattern pattern = new IdentifiedPattern(this, chow);
+                            toReturn.add(pattern);
+                        }
+                    }
+                }
+            }
             return toReturn;
         }
     },
@@ -1647,7 +1815,7 @@ enum InternationalPatterns implements IdentifiablePattern {
                         toReturn.add(pattern);
                     }
                 }
-            } //error: incompatible types: inferred type does not conform to upper bound(s)
+            }
             return toReturn;
         }
     },
@@ -1664,7 +1832,6 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             //Ajout
             Collection<IdentifiedPattern> toReturn = new ArrayList<IdentifiedPattern>();
-            Collection<Combination> allHand = set.getHand();
 
             if( set.isDrawnForWall() ){
                 ArrayList<GameTile> winTile = new ArrayList();
@@ -1695,4 +1862,3 @@ enum InternationalPatterns implements IdentifiablePattern {
         }
     }
 }
-
