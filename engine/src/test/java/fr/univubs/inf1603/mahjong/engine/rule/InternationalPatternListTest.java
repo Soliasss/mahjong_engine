@@ -9,6 +9,8 @@ import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.After;
@@ -45,26 +47,12 @@ public class InternationalPatternListTest {
 
     /**
      * Test of getPatterns method, of class InternationalPatternList.
+     * @throws fr.univubs.inf1603.mahjong.engine.rule.RulesException
      */
     @Test
-    public void testGetPatterns() {
+    public void testGetPatterns() throws RulesException {
         System.out.println("getPatterns");
-        //InternationalPatternList instance = null;
-        //IdentifiablePattern[] expResult = null;
-        //IdentifiablePattern[] result = instance.getPatterns();
-        //assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPattern method, of class InternationalPatternList.
-     */
-    @Test
-    public void testGetPattern() throws RulesException {
-        System.out.println("getPattern");
         
-        InternationalPatternList.InternationalPatterns inter = InternationalPatternList.InternationalPatterns.BIG_FOUR_WINDS;
         //Création de la winningTile   
         GameTile winningTile = new GameTile(14, InternationalTiles.BAMBOO_1);
         //Création de la factory
@@ -104,9 +92,7 @@ public class InternationalPatternListTest {
         Collection<GameTile> supremeHonors = new ArrayList();
         //Création d'un set
         PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
-        //Création de l'ArrayList pour le pattern identifié
-        ArrayList<IdentifiedPattern> toReturn = new ArrayList<>();
-        
+                
         IdentifiablePattern idP = new IdentifiablePattern() {
             @Override
             public int getValue() {
@@ -118,6 +104,7 @@ public class InternationalPatternListTest {
                 
                 Collection<Combination> allCombinations = setTest.getAllCombinations();
                 Collection<GameTile> pungFound = new ArrayList<>();
+                ArrayList<IdentifiedPattern> toReturn = new ArrayList<>();
                 
                 boolean isFind = false;
                 Pattern windPattern = Pattern.compile("W.");
@@ -143,19 +130,32 @@ public class InternationalPatternListTest {
         };  
         
         //Appel de la méthode d'identification par rapport au set créé
-        idP.identify(setTest);
+        Collection<IdentifiedPattern> pattern = idP.identify(setTest);
         //ArrayList de retour pour transformer un IdentifiedPattern en GameTile
-        ArrayList<Combination> toTest = new ArrayList();
-        
-        for(IdentifiedPattern iP : toReturn){
+       
+        for(IdentifiedPattern iP : pattern){
             //Le but est le suivant : chaque tuiles du patterns identifié doivent être comparées à la combinaison créée
             //Soit : Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
             //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
             //Donc que le contenu de toTest soit égale à combiCars de notre test
-            toTest.addAll(iP.getTiles());
+            //toTest.addAll(iP.getTiles());
+            Collection<GameTile> tiles = iP.getTiles();
+            Collection<GameTile> combiTiles = new ArrayList();
+            combiTiles.addAll(Arrays.asList(combiCars.getTiles()));
+            assertEquals(combiTiles,tiles);
         }
-        assertEquals(InternationalPatternList.InternationalPatterns.valueOf("BIG_FOUR_WINDS"),inter);
+        
         assertEquals(idP.getValue(),1);
-        //assertEquals(combiCars.getTiles(), toTest);
+    }
+
+    /**
+     * Test of getPattern method, of class InternationalPatternList.
+     * @throws fr.univubs.inf1603.mahjong.engine.rule.RulesException
+     */
+    @Test
+    public void testGetPattern() throws RulesException {
+        System.out.println("getPattern");        
+        InternationalPatternList.InternationalPatterns inter = InternationalPatternList.InternationalPatterns.BIG_FOUR_WINDS;        
+        assertEquals(InternationalPatternList.InternationalPatterns.valueOf("BIG_FOUR_WINDS"),inter);
     }
 }

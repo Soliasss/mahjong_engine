@@ -1,5 +1,8 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
+import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Number;
+
 public enum InternationalTiles implements AbstractTile {
     BAMBOO_1(new CommonTile(CommonTile.Family.BAMBOO, CommonTile.Number.ONE)){
         @Override
@@ -310,6 +313,16 @@ public enum InternationalTiles implements AbstractTile {
     @Override
     public boolean isMajor(){
         return this.tile.isMajor();
+    }
+    
+    @Override
+    public Family getFamily(){
+        return this.tile.getFamily();
+    }
+    
+    @Override
+    public Number getNumber(){
+        return this.tile.getNumber();
     }
     
 }

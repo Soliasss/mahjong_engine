@@ -11,7 +11,7 @@ public class CommonTile extends ComplexTile{
      */
     public enum Family { 
         BAMBOO('b'), CHARACTER('c'), DOT('d');
-        private final char symbol;
+        private  final char symbol;
         private Family(char symbol){
             this.symbol = symbol;
         }
@@ -38,8 +38,8 @@ public class CommonTile extends ComplexTile{
         }
     }
     
-    private final Family family;
-    private final Number number;
+    public final Family family;
+    public final Number number;
     
     /**
      * Constructs a new CommonTile with its specified Family and Number
@@ -54,6 +54,7 @@ public class CommonTile extends ComplexTile{
     /**
      * @return Returns this CommonTile's Family.
      */
+    @Override
     public Family getFamily(){
         return this.family;
     }
@@ -61,6 +62,7 @@ public class CommonTile extends ComplexTile{
     /**
      * @return Returns this CommonTile's Number.
      */
+    @Override
     public Number getNumber(){
         return this.number;
     }

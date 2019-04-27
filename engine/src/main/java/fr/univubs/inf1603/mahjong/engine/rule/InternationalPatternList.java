@@ -367,7 +367,7 @@ public class InternationalPatternList implements AbstractPatternList {
                 for (Combination currentCombi: allCombinations) {
                     if (currentCombi.isPung() || currentCombi.isKong()){
                         GameTile currentTile = currentCombi.getTiles()[0];
-                            if( ! ((CommonTile)currentTile.getTile()).isMajor()){ //Fix
+                            if( ! (currentTile.getTile()).isMajor()){ //Fix
                                 isAllMajor = false;
                                 break;
                             }
@@ -376,7 +376,7 @@ public class InternationalPatternList implements AbstractPatternList {
                         lastCombi = currentCombi;
                     } else if(nbOfCombination == 4 && currentCombi.isPair()){
                         GameTile currentTile = currentCombi.getTiles()[0];
-                            if( ! ((CommonTile)currentTile.getTile()).isMajor()){ //Fix
+                            if( ! (currentTile.getTile()).isMajor()){ //Fix
                                 isAllMajor = false;
                                 break;
                             }
@@ -852,6 +852,20 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> concealedCombinations = set.getConcealed();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                int nbKong = 0;
+                for(Combination currentCombi : concealedCombinations){
+                    if(currentCombi.isKong()){
+                        nbKong++;
+                        tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        if(nbKong>=2)break;
+                    }
+                }
+                if(nbKong >= 2){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1136,6 +1150,24 @@ public class InternationalPatternList implements AbstractPatternList {
             @Override
             public Collection<IdentifiedPattern> identify(PlayerSet set) {
                 Collection<IdentifiedPattern> toReturn = new ArrayList<>();
+                Collection<Combination> allCombinations = set.getAllCombinations();
+                Collection<GameTile> tilesFound = new ArrayList<>();
+                boolean isFind = false;
+                Pattern dragonPattern = Pattern.compile("D.");
+                for(Combination currentCombi : allCombinations){
+                    if(currentCombi.isPung() || currentCombi.isKong()){
+                        Matcher dragonMatcher = dragonPattern.matcher(currentCombi.getTiles()[0].getTile().toNormalizedName());
+                        if(dragonMatcher.matches()){
+                            tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                            isFind = true;
+                            break;
+                        }
+                    }
+                }
+                if(isFind){
+                    IdentifiedPattern pattern = new IdentifiedPattern(this, tilesFound);
+                    toReturn.add(pattern);
+                }
                 return toReturn;
             }
         },
@@ -1446,11 +1478,11 @@ public class InternationalPatternList implements AbstractPatternList {
                 for (Combination currentCombi: allCombinations) {
                     if (currentCombi.isChow()){
                         if(nbOfCombination > 0){
-                            if(((CommonTile)currentCombi.getTiles()[0].getTile()).getFamily().equals(((CommonTile)lastCombi.getTiles()[0].getTile()).getFamily())){
+                            if((currentCombi.getTiles()[0].getTile()).getFamily().equals((lastCombi.getTiles()[0].getTile()).getFamily())){
                                 isDifferent = false;
                                 break;
                             }
-                            if(((CommonTile)currentCombi.getTiles()[0].getTile()).getNumber().equals(((CommonTile)lastCombi.getTiles()[0].getTile()).getNumber())){
+                            if((currentCombi.getTiles()[0].getTile()).getNumber().equals((lastCombi.getTiles()[0].getTile()).getNumber())){
                                 isSameNumber = true;
                                 chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
                                 break;
@@ -1526,13 +1558,13 @@ public class InternationalPatternList implements AbstractPatternList {
                 Collection<Combination> allCombinations = set.getAllCombinations();                
                 Collection<GameTile> chowFound = new ArrayList<>();
                 int nbCheck = 0;
-                CommonTile firstMajor = null;
+                AbstractTile firstMajor = null;
                 boolean isFind = false;
                 
                 for (Combination currentCombi: allCombinations) {
                     if(currentCombi.isChow()){
-                        CommonTile number3 = ((CommonTile)currentCombi.getTiles()[2].getTile());
-                        CommonTile number1 = ((CommonTile)currentCombi.getTiles()[0].getTile());
+                        AbstractTile number3 = (currentCombi.getTiles()[2].getTile());
+                        AbstractTile number1 = (currentCombi.getTiles()[0].getTile());
                         
                         if(nbCheck==0){
                             if( number1.isMajor() ){
@@ -1547,16 +1579,18 @@ public class InternationalPatternList implements AbstractPatternList {
                             }
                         }
                         if(nbCheck==1){
-                            if( firstMajor.getFamily().equals(number3.getFamily()) ){
-                                if( number1.isMajor() &&  (number1 != firstMajor) ){
-                                    chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                                    isFind = true;
-                                    break;
-                                }                        
-                                if( number3.isMajor() && (number3 != firstMajor)){
-                                    chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                                    isFind = true;
-                                    break;
+                            if(firstMajor.getFamily() != null){
+                                if( firstMajor.getFamily().equals(number3.getFamily()) ){
+                                    if( number1.isMajor() &&  (number1 != firstMajor) ){
+                                        chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                        isFind = true;
+                                        break;
+                                    }                        
+                                    if( number3.isMajor() && (number3 != firstMajor)){
+                                        chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                                        isFind = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1593,7 +1627,7 @@ public class InternationalPatternList implements AbstractPatternList {
                     AbstractTile tile = currentCombi.getTiles()[0].getTile();
                     Matcher matcher = windPattern.matcher(tile.toNormalizedName());
                     
-                    if ( (currentCombi.isPung() || currentCombi.isKong()) && (matcher.matches() || ((CommonTile)tile).isMajor()) ){
+                    if ( (currentCombi.isPung() || currentCombi.isKong()) && (matcher.matches() || tile.isMajor()) ){
                         isFind = true;
                         pungFound.addAll(Arrays.asList(currentCombi.getTiles()));
                         break;    
@@ -1742,8 +1776,8 @@ public class InternationalPatternList implements AbstractPatternList {
                 if(lastTile != null){
                     for(Combination combination : allHand){
                         if(combination.isChow() && Arrays.asList(combination.getTiles()).contains(lastTile)){
-                            CommonTile number3 = ((CommonTile)combination.getTiles()[2].getTile());
-                            CommonTile number1 = ((CommonTile)combination.getTiles()[0].getTile());
+                            AbstractTile number3 = (combination.getTiles()[2].getTile());
+                            AbstractTile number1 = (combination.getTiles()[0].getTile());
                             
                             if( number1.isMajor() && (number3 == lastTile.getTile())){
                                 Collection<GameTile> chow1 = new ArrayList<>(Arrays.asList(combination.getTiles())); 
