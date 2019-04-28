@@ -14,6 +14,10 @@ public interface Game extends Persistable {
     public static final String LAST_PLAYED_MOVE_PROPERTY = "Lastplayedmove",
                                POSSIBLE_MOVES_PROPERTY = "Possiblemoves",
                                GAME_OVER_PROPERTY = "Gameover";
+    
+    public static final String PLAYERWIND="playerwind",
+                               BOARD="board",
+                               PLAYERPOINTS="playerpoints";
 
     /**
      * Permet de récupérer la règles utilisée pour cette partie

@@ -8,8 +8,7 @@ import java.util.ArrayList;
  */
 public interface TileZone extends Persistable{
         public static final String 
-                INDEXED_TILES="indexedtiles",
-                SIZE="size";
+                TILELIST="tilelist";
         
         /**
          * @return This tile zone's list of tiles
