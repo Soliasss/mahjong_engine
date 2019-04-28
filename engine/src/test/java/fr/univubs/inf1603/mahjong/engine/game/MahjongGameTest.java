@@ -81,7 +81,7 @@ public class MahjongGameTest {
             publiclyVisible.put(0, true);
             Move move = new Move(Wind.WEST, 0, path, publiclyVisible);
             MahjongGame instance = new MahjongGame(rule, board, move, Duration.ofSeconds(5), Duration.ofSeconds(5), new int[4], UUID.randomUUID(), Wind.values());
-            
+            instance.launchGame();
             ArrayList<Move> result = instance.getPossibleMoves();
             assertNotNull(result);
         } catch (GameException | RulesException ex) {
