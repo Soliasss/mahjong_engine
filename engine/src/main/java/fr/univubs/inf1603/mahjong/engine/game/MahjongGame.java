@@ -63,7 +63,6 @@ public class MahjongGame implements Game {
         this.playerPoints = playerPoints;
         this.playerWind = playerWind;
 
-        this.ableToRegisterMoves = false;
     }
 
     /**
@@ -86,7 +85,6 @@ public class MahjongGame implements Game {
         this.playerPoints = new int[4];
         this.playerWind = this.rule.getBoardRule().getPlayerOrder();
         
-        this.ableToRegisterMoves = false;
     }
 
     @Deprecated
@@ -95,7 +93,6 @@ public class MahjongGame implements Game {
         this.board = null;
         this.uuid = UUID.randomUUID();
         this.playingTime = Duration.ofSeconds(5);
-        this.ableToRegisterMoves = false;
     }
 
     @Override

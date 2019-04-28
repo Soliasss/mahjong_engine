@@ -77,6 +77,7 @@ public class MahjongBoard implements Board, Cloneable {
      */
     public void setWind(Wind newWind) {
         this.currentWind = newWind;
+        this.propertyChangeSupport.firePropertyChange(CURRENTWIND, null, this.currentWind);
     }
     
     /**
@@ -187,9 +188,9 @@ public class MahjongBoard implements Board, Cloneable {
     public void applyMove(Move move) throws GameException{
         isMoveCoherent(move);
         for(Entry<Integer, TileZoneIdentifier> t : move.getPath().entrySet()){
-            GameTileInterface buf = getTile(t.getKey());
-            getTileZoneOfTile(buf).getTiles().remove(buf);
-            getTileZone(t.getValue()).getTiles().add(buf);
+            GameTile buf = (GameTile)getTile(t.getKey());
+            ((MahjongTileZone)getTileZoneOfTile(buf)).removeTile(buf);
+            ((MahjongTileZone)getTileZone(t.getValue())).addTile(buf);
             this.tileToZone.put(buf,getTileZone(t.getValue()));//Updating the reverse search
         }
     }
