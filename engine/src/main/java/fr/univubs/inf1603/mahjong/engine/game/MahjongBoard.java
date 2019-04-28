@@ -205,7 +205,7 @@ public class MahjongBoard implements Board, Cloneable {
                 throw new GameException("Move "+move.getUUID()+" is trying to move a tile that does not exist");
             }
             if(getTileZoneOfTile(t.getKey()) == getTileZone(t.getValue())){
-                throw new GameException("Move "+move.getUUID()+" is trying to move a tile back into the same zone");
+                throw new GameException("Move "+move.toString()+"\n\tis trying to move a tile back into the same zone");
             }
         }
     }

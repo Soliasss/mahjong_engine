@@ -1,10 +1,15 @@
 package fr.univubs.inf1603.mahjong.engine.game;
+
 import fr.univubs.inf1603.mahjong.engine.rule.*;
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.EnumMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 /**
@@ -20,6 +25,7 @@ public class MahjongGame implements Game {
 
     private Duration stealingTime;
     private Duration playingTime;
+    private Timer playingTimer;
 
     private ArrayList<Move> registeredMoves;
     private ArrayList<Move> possiblesMoves;
@@ -31,18 +37,21 @@ public class MahjongGame implements Game {
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     /**
-     * This is the full constructor of MahjongGame, allowing to initialize all of its fields
+     * This is the full constructor of MahjongGame, allowing to initialize all
+     * of its fields
+     *
      * @param rule Rules of this game
      * @param board Current state of the board
      * @param lastPlayedMove The last played move of this game
-     * @param stealingTime The time players have to decide if they can steal a discarded tile
+     * @param stealingTime The time players have to decide if they can steal a
+     * discarded tile
      * @param playingTime This players have to decide what to discard
      * @param playerPoints The points's number of the player
      * @param uuid This game's UUID
      * @param playerWind The wind according to the player
      * @throws GameException
      */
-    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime,int[] playerPoints,UUID uuid, Wind[] playerWind) throws GameException{
+    public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime, int[] playerPoints, UUID uuid, Wind[] playerWind) throws GameException {
         this.rule = rule;
         this.board = board;
         this.lastPlayedMove = lastPlayedMove;
@@ -51,29 +60,31 @@ public class MahjongGame implements Game {
         this.uuid = uuid;
         this.playerPoints = playerPoints;
         this.playerWind = playerWind;
-        
-        this.ableToRegisterMoves=false;
+
+        this.ableToRegisterMoves = false;
     }
+
     /**
      * This is a constructor of MahjongGame
+     *
      * @param rule Rules of this game
-     * @param stealingTime The time players have to decide if they can steal a discarded tile
+     * @param stealingTime The time players have to decide if they can steal a
+     * discarded tile
      * @param playingTime This players have to decide what to discard
      */
-    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime){
+    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime) {
         this.rule = rule;
         this.stealingTime = stealingTime;
 
-        this.playingTime = playingTime;    
-        
-        
+        this.playingTime = playingTime;
+
         this.lastPlayedMove = null;
         this.board = null;
         this.uuid = UUID.randomUUID();
-        this.playerPoints = new int[4];        
-        this.playerWind = null;        
+        this.playerPoints = new int[4];
+        this.playerWind = this.rule.getBoardRule().getPlayerOrder();
         
-        this.ableToRegisterMoves=false;
+        this.ableToRegisterMoves = false;
     }
 
     @Deprecated
@@ -86,53 +97,30 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public void launchGame() {
-        if(this.playerWind == null){
-            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-        }
-        StartingWall wall = this.rule.getBoardRule().buildWall();
-        
-        if(this.board == null){
-            if(wall !=null){
-                this.board = this.rule.getBoardRule().distributeTiles(wall);
-            }else{
-                System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
-            }
-        }
-        
-        getAndFirePossibleMoves();
-    }
-
-    @Override
-    public void registerMove(Move move) throws GameException {
-        if(this.ableToRegisterMoves){
-          this.registeredMoves.add(move);
-        }
-        else{
-            throw new GameException("Impossible de register le move hors du temps imparti.");
-        }
-    }
-
-    @Override
     public Board getBoard(Wind wind) throws GameException {
-        if(wind == null){
+        if (wind == null) {
             return this.board;
         }
         return this.board.getViewFromWind(wind);
     }
 
-    public Board getBoard(){
+    public Board getBoard() {
         return this.board;
     }
 
     @Override
     public ArrayList<Move> getPossibleMoves() {
-        EnumMap<Wind, Collection<Move>> res = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
-        ArrayList<Move> ret = new ArrayList<>();
-        for(Collection c : res.values()){
-            ret.addAll(c);
-        }
-        return ret;
+        return this.possiblesMoves;
+    }
+
+    @Override
+    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
+        return new ArrayList<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove).get(wind));
+    }
+
+    @Override
+    public ArrayList<Move> getPossibleMoves(int player) throws GameException {
+        return getPossibleMoves(playerWind[player]);
     }
 
     @Override
@@ -176,19 +164,17 @@ public class MahjongGame implements Game {
         return this.board.getCurrentWind();
     }
 
-
     @Override
     public int getPlayerPoints(int player) {
         return this.playerPoints[player];
     }
 
-
     @Override
     public int getPlayerPoints(Wind wind) {
-        int indexOfWind=0;
-        do{
-          indexOfWind++;
-        }while(this.playerWind[indexOfWind] != wind);
+        int indexOfWind = 0;
+        do {
+            indexOfWind++;
+        } while (this.playerWind[indexOfWind] != wind);
         return this.playerPoints[indexOfWind];
     }
 
@@ -199,19 +185,27 @@ public class MahjongGame implements Game {
 
     @Override
     public Wind getPlayerWind(int player) throws GameException {
-        if(player<0 || player > 3)throw new GameException("The player you are asking the wind from doesn't exist. There is only 4 player describs by 0 1 2 3 .");
+        if (player < 0 || player > 3) {
+            throw new GameException("The player you are asking the wind from doesn't exist. There is only 4 player describs by 0 1 2 3 .");
+        }
         Wind wind = this.playerWind[player];
-        if(wind == null) throw new GameException("The wind of a player cannot be null.");
+        if (wind == null) {
+            throw new GameException("The wind of a player cannot be null.");
+        }
         return wind;
     }
 
     @Override
     public int getPlayerFromWind(Wind wind) throws GameException {
         int player = -1;
-        for(int i=0; i<4; i++){
-            if(this.playerWind[i] == wind) player = i;
+        for (int i = 0; i < 4; i++) {
+            if (this.playerWind[i] == wind) {
+                player = i;
+            }
         }
-        if(player == -1)throw new GameException("The wind has to be in the playerWind.");
+        if (player == -1) {
+            throw new GameException("The wind has to be in the playerWind.");
+        }
         return player;
     }
 
@@ -220,92 +214,164 @@ public class MahjongGame implements Game {
         return this.playerWind;
     }
 
-    @Override
-    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
-        return new ArrayList<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove).get(wind));
-    }
-
-    @Override
-    public ArrayList<Move> getPossibleMoves(int player) throws GameException {
-        return getPossibleMoves(playerWind[player]);
-    }
-
     /**
      * Permet d'effectuer le move sur le Board
+     *
      * @param move Le move à effectuer
      * @throws GameException quand throw GameException dans board.applyMove
      */
-    private void applyMove(Move move) throws GameException{
-      try{
-        this.board.applyMove(move);
-        this.lastPlayedMove = move;
-        this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
-        this.getAndFirePossibleMoves();
-      }
-      catch (GameException ge){
-        throw new GameException(ge.getMessage());
-      }
+    private synchronized void applyMove(Move move) throws GameException {
+        try {
+            System.out.println();
+            this.board.applyMove(move);
+            this.lastPlayedMove = move;
+            this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
+        } catch (GameException ge) {
+            throw new GameException(ge.getMessage());
+        }
+    }
+
+    @Override
+    public void launchGame() {
+        if (this.playerWind == null) {
+            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
+            //This shoudl not happen, peristance maybe missed this field
+        }
+        StartingWall wall = this.rule.getBoardRule().buildWall();
+
+        if (this.board == null) {
+            if (wall != null) {
+                this.board = this.rule.getBoardRule().distributeTiles(wall);
+            } else {
+                System.err.println("Wall filled by gamerule : " + rule.getName() + " is null");
+            }
+        }
+        this.registeredMoves = new ArrayList<>();
+        getAndFirePossibleMoves();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Tasking");
+//                ableToRegisterMoves = false;
+                try {
+                    chooseMoveToApply();
+                } catch (GameException ex) {
+                    System.err.println("Unable to choose move to play : " + ex);
+                }
+                getAndFirePossibleMoves();
+                //playingTimer.schedule(this, playingTime.toMillis());
+            }
+        };
+        playingTimer = new Timer();
+        playingTimer.schedule(task, this.playingTime.toMillis(), this.playingTime.toMillis());
+
+    }
+
+    @Override
+    public synchronized void registerMove(Move move) throws GameException {
+        //      if(this.ableToRegisterMoves){
+        boolean matchAlreadyPlayed = false;
+        for (Move p : this.registeredMoves) {
+            if (p.equals(move)) {
+                matchAlreadyPlayed = true;
+                break;
+            }
+        }
+        if(!matchAlreadyPlayed){
+            boolean match = false;
+            for (Move p : this.possiblesMoves) {
+                if (p.equals(move)) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                System.out.println("Registered move is : " + move);
+                this.registeredMoves.add(move);
+            } else {
+                throw new MoveException("Move " + move + " apprears to be forged");
+            }
+        }else{
+            throw new GameException("Trying to register an already registered move");
+        }
+        //    }
+        /*  else{
+            throw new GameException("Impossible de register le move hors du temps imparti.");
+        }*/
     }
 
     /**
-     * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
+     * Permet de récupérer les moves possibles sur un Board via Rule et de les
+     * notifier
      */
-    private void getAndFirePossibleMoves(){
-      this.possiblesMoves = new ArrayList<Move>();
-      EnumMap<Wind, Collection<Move>> validMoves = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
-      for(Wind w : validMoves.keySet()){
-          for(Move m : validMoves.get(w)){
-              this.possiblesMoves.add(m);
-          }
-      }
-      if(this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)){
-        this.computeScore();
-        this.exitGame(0,"Fin de la partie.");
-      }
-      else{
-        this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, null);
-        this.waitToRegisterMoves();
-      }
+    private synchronized void getAndFirePossibleMoves() {
+        this.possiblesMoves = new ArrayList<>();
+        this.registeredMoves = new ArrayList<>();
+        EnumMap<Wind, Collection<Move>> validMoves = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
+        for (Wind w : validMoves.keySet()) {
+            for (Move m : validMoves.get(w)) {
+                this.possiblesMoves.add(m);
+            }
+        }
+        //System.out.println("New available moves :\n"+possiblesMoves.toString());
+        if (this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)) {
+            this.computeScore();
+            this.exitGame(0, "Fin de la partie.");
+        } else {
+            this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, this.possiblesMoves);
+        }
     }
 
     /**
-     * Permet de lancer un thread attendant que les moves soit register
-     */
-    private void waitToRegisterMoves(){
-      
-    }
-
-    /**
-     * Permet de choisir le move à effectuer par rapport à ceux qui ont été register et appel la méthode applyMove
+     * Permet de choisir le move à effectuer par rapport à ceux qui ont été
+     * register et appel la méthode applyMove
+     *
      * @throws GameException quand applyMove throw une GameException
      */
-    private void chooseMoveToApply() throws GameException{
-      Move moveToApply = this.possiblesMoves.get(0);
-      if(this.registeredMoves.isEmpty()){
-          for(Move move : this.possiblesMoves){
-              if(move.getPriority() < moveToApply.getPriority()) moveToApply = move;
-          }
-      }
-      else{
-        moveToApply = this.registeredMoves.get(0);
-        for(Move move : this.registeredMoves){
-            if(move.getPriority() < moveToApply.getPriority()) moveToApply = move;
+    private synchronized void chooseMoveToApply() throws GameException {
+        if (this.possiblesMoves == null) {
+            System.out.println("Wow we did not get the moves for you");
         }
-      }
-      try{
-        this.applyMove(moveToApply);
-      }
-      catch (GameException ge){
-          throw new GameException(ge.getMessage());
-      }
+
+        if (this.possiblesMoves.isEmpty()) {
+            System.out.println("Wow you can't play");
+        }
+
+        Move moveToApply = this.possiblesMoves.get(0);
+        if (this.registeredMoves == null) {
+            System.out.println("Wow we did not create a space to register move, it's our bad");
+        }
+        if (this.registeredMoves.isEmpty()) {
+            System.out.println("Move choosen by the game");
+            for (Move move : this.possiblesMoves) {
+                if (move.getPriority() < moveToApply.getPriority()) {
+                    moveToApply = move;
+                }
+            }
+        } else {
+            moveToApply = this.registeredMoves.get(0);
+            for (Move move : this.registeredMoves) {
+                if (move.getPriority() < moveToApply.getPriority()) {
+                    moveToApply = move;
+                }
+            }
+        }
+        try {
+            this.applyMove(moveToApply);
+            
+        } catch (GameException ge) {
+            throw new GameException(ge.getMessage());
+        }
     }
 
     /**
      * Les actions à effectuer lors d'une interruption de partie
-     * @param state L'état de sortie (0 = sortie sans erreur, 1 = sortie avec erreur)
+     *
+     * @param state L'état de sortie (0 = sortie sans erreur, 1 = sortie avec
+     * erreur)
      * @param msg Le message à afficher
      */
-    private void exitGame(int state, String msg){
+    private void exitGame(int state, String msg) {
         switch (state) {
             case 0:
                 this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, msg);
@@ -321,39 +387,41 @@ public class MahjongGame implements Game {
     /**
      * Permet de calculer le score du joueur qui a fait Mahjong
      */
-    private void computeScore(){
-      BoardRule br = this.rule.getBoardRule();
-      ScoringSystem ss = this.rule.getScoringSystem();
-      Wind playerWind = this.lastPlayedMove.getWind();
-      int highScore = 0;
+    private void computeScore() {
+        BoardRule br = this.rule.getBoardRule();
+        ScoringSystem ss = this.rule.getScoringSystem();
+        Wind playerWind = this.lastPlayedMove.getWind();
+        int highScore = 0;
 
-      GameTile winningTile = null; //Récupérer dans lastPlayedMove
-      Collection<GameTile> hand = null; //Récupérer dans le Board
-      Collection<Combination> concealed = null; //Récupérer dans le Board
-      Collection<Combination> melds = null; //Récupérer dans le Board
-      Collection<GameTile> supremeHonors = null; //Récupérer dans le Board
-      boolean drawnFromWall = false; //En déduire par rapport au lastPlayedMove
-      boolean takenFromDiscard = false; //En déduire par rapport au lastPlayedMove
-      Wind roundWind = null; // A définir ???
+        GameTile winningTile = null; //Récupérer dans lastPlayedMove
+        Collection<GameTile> hand = null; //Récupérer dans le Board
+        Collection<Combination> concealed = null; //Récupérer dans le Board
+        Collection<Combination> melds = null; //Récupérer dans le Board
+        Collection<GameTile> supremeHonors = null; //Récupérer dans le Board
+        boolean drawnFromWall = false; //En déduire par rapport au lastPlayedMove
+        boolean takenFromDiscard = false; //En déduire par rapport au lastPlayedMove
+        Wind roundWind = null; // A définir ???
 
-      PlayerSituation ps = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors, drawnFromWall, takenFromDiscard, roundWind, playerWind);
+        PlayerSituation ps = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors, drawnFromWall, takenFromDiscard, roundWind, playerWind);
 
-      int score = 0;
-      Collection<PlayerSet> playerSets =  ss.createSetsFromSituation(ps);
-      for(PlayerSet pset : playerSets){
-        Collection<IdentifiedPattern> patterns = ss.identifyPatterns(pset);
-        Collection<Collection<IdentifiedPattern>> patternsCollections = ss.splitIncompatiblePatterns(patterns);
-        for(Collection<IdentifiedPattern> c : patternsCollections){
-          score = ss.computeScore(c);
-          if(score > highScore) highScore = score;
+        int score = 0;
+        Collection<PlayerSet> playerSets = ss.createSetsFromSituation(ps);
+        for (PlayerSet pset : playerSets) {
+            Collection<IdentifiedPattern> patterns = ss.identifyPatterns(pset);
+            Collection<Collection<IdentifiedPattern>> patternsCollections = ss.splitIncompatiblePatterns(patterns);
+            for (Collection<IdentifiedPattern> c : patternsCollections) {
+                score = ss.computeScore(c);
+                if (score > highScore) {
+                    highScore = score;
+                }
+            }
         }
-      }
 
-      for(int i=0; i<this.playerWind.length; i++){
-        if(this.playerWind[i].getSymbol() == playerWind.getSymbol()){
-          this.playerPoints[i] = highScore;
-          break;
+        for (int i = 0; i < this.playerWind.length; i++) {
+            if (this.playerWind[i].getSymbol() == playerWind.getSymbol()) {
+                this.playerPoints[i] = highScore;
+                break;
+            }
         }
-      }
     }
 }
