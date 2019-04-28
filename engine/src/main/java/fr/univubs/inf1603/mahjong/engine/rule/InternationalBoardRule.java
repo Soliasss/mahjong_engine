@@ -376,7 +376,6 @@ public class InternationalBoardRule implements BoardRule{
                 int index = tileHand.getGameID();
                 if(board.getTile(index).getTile() instanceof SupremeHonor){
                     HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
-                    System.out.println("Honneur : " + index);
                     path.put(index, board.getTileZone("Supreme"+nextWindToPlay.getName()).getIdentifier());
                     path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(),
                             board.getTileZone("Hand"+nextWindToPlay.getName()).getIdentifier());
