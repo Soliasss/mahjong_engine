@@ -11,6 +11,8 @@ import java.util.EnumMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Cette classe permet de représenter une partie de Mahjong
@@ -62,7 +64,6 @@ public class MahjongGame implements Game {
         this.playerWind = playerWind;
 
         this.ableToRegisterMoves = false;
-
     }
 
     /**
@@ -84,8 +85,8 @@ public class MahjongGame implements Game {
         this.uuid = UUID.randomUUID();
         this.playerPoints = new int[4];
         this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-
-        this.ableToRegisterMoves=false;
+        
+        this.ableToRegisterMoves = false;
     }
 
     @Deprecated
@@ -96,7 +97,7 @@ public class MahjongGame implements Game {
         this.playingTime = Duration.ofSeconds(5);
         this.ableToRegisterMoves = false;
     }
-  
+
     @Override
     public Board getBoard(Wind wind) throws GameException {
         if (wind == null) {
@@ -123,10 +124,11 @@ public class MahjongGame implements Game {
     public ArrayList<Move> getPossibleMoves(int player) throws GameException {
         return getPossibleMoves(playerWind[player]);
     }
+
     @Override
     public MahjongGame clone() {
         throw new UnsupportedOperationException("not implemented yet");
-        //        return new MahjongGameGame();
+//        return new MahjongGameGame();
     }
 
     @Override
@@ -235,7 +237,7 @@ public class MahjongGame implements Game {
     public void launchGame() {
         if (this.playerWind == null) {
             this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-            //This should not happen, peristance maybe missed this field
+            //This shoudl not happen, peristance maybe missed this field
         }
         StartingWall wall = this.rule.getBoardRule().buildWall();
 
@@ -320,75 +322,6 @@ public class MahjongGame implements Game {
         } else {
             this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, this.possiblesMoves);
         }
-=======
-        if(this.playerWind == null){
-            this.playerWind = this.rule.getBoardRule().getPlayerOrder();
-        }
-        StartingWall wall = this.rule.getBoardRule().buildWall();
-
-        if(this.board == null){
-            if(wall !=null){
-                this.board = this.rule.getBoardRule().distributeTiles(wall);
-            }else{
-                System.err.println("Wall filled by gamerule : "+rule.getName()+" is null");
-            }
-        }
-
-        getAndFirePossibleMoves();
-    }
-
-    @Override
-    public void registerMove(Move move) throws GameException {
-        if(this.ableToRegisterMoves){
-          this.registeredMoves.add(move);
-        }
-        else{
-            throw new GameException("Impossible de register le move hors du temps imparti.");
-        }
-    }
-
-
-
-    /**
-     * Permet de récupérer les moves possibles sur un Board via Rule et de les notifier
-     */
-    private synchronized void getAndFirePossibleMoves() {
-        this.possiblesMoves = new ArrayList<>();
-        this.registeredMoves = new ArrayList<>();
-        EnumMap<Wind, Collection<Move>> validMoves = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
-        for (Wind w : validMoves.keySet()) {
-            for (Move m : validMoves.get(w)) {
-                this.possiblesMoves.add(m);
-            }
-        }
-        //System.out.println("New available moves :\n"+possiblesMoves.toString());
-        if (this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)) {
-            this.computeScore();
-            this.exitGame(0, "Fin de la partie.");
-        } else {
-            this.propertyChangeSupport.firePropertyChange(POSSIBLE_MOVES_PROPERTY, null, this.possiblesMoves);
-        }
-    }
-
-    @Override
-    public ArrayList<Move> getPossibleMoves() {
-        return this.possiblesMoves;
-    }
-
-    @Override
-    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
-        ArrayList<Move> mlist = new ArrayList<>();
-        for(Move m : this.possiblesMoves){
-            if(m.getWind()==wind){
-                mlist.add(m);
-            }
-        }
-        return mlist;
-    }
-
-    @Override
-    public ArrayList<Move> getPossibleMoves(int player) throws GameException {
-        return getPossibleMoves(playerWind[player]);
     }
 
     /**
@@ -451,82 +384,91 @@ public class MahjongGame implements Game {
             default:
                 System.err.println("L'état envoyé n'est pas supporté.");
         }
-    }
+}
 
     /**
      * Permet de calculer le score du joueur qui a fait Mahjong
      */
     private void computeScore(){
-      BoardRule br = this.rule.getBoardRule();
-      ScoringSystem ss = this.rule.getScoringSystem();
-      Wind playerWind = this.lastPlayedMove.getWind();
-      int highScore = 0;
-
-      Integer idLastTile = 0;
-      for(Integer inte : this.lastPlayedMove.getPath().keySet()) idLastTile = inte;
-      GameTileInterface winningTileInterface = this.board.getTile(idLastTile);
-      GameTile winningTile = null;
-      if(winningTileInterface instanceof GameTile) winningTile = (GameTile) winningTileInterface;
-
-      ArrayList<Combination> hand = new ArrayList<Combination>();
-      GameTile[] tab = new GameTile[board.getTileZone("Hand"+wind.getName()).getTiles().size()];
-      int j=0;
-      for(GameTileInterface gti : board.getTileZone("Hand"+wind.getName()).getTiles()){
-          GameTile gt = null;
-          if(gti instanceof GameTile) gt = (GameTile) gti;
-          if(gt != null) tab[j] = gt;
-          j++;
-      }
-      try{
-          hand.add(factory.newCombination(tab));
-      }catch(RulesException ex){
-
-      }
-      ArrayList<Combination> concealed = new ArrayList<Combination>();
-
-      ArrayList<Combination> melds = new ArrayList<Combination>();
-      for(int i=0; i<4; i++){
-          tab = new GameTile[board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles().size()];
-          int k = 0;
-          for(GameTileInterface gti : board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles()){
-              GameTile gt = null;
-              if(gti instanceof GameTile) gt = (GameTile) gti;
-              if(gt != null) tab[k] = gt;
-              k++;
-          }
-          try{
-              melds.add(factory.newCombination(tab));
-          }catch(RulesException ex){
-
-          }
-      }
-      ArrayList<GameTileInterface> supremeHonorsInterface = board.getTileZone("Supreme"+wind.getName()).getTiles();
-      ArrayList<GameTile> supremeHonors = new ArrayList<GameTile>();
-      for(GameTileInterface gti : supremeHonorsInterface){
-          GameTile gt = null;
-          if(gti instanceof GameTile) gt = (GameTile) gti;
-          if(gt != null) supremeHonors.add(gt);
-      }
-      boolean drawnFromWall = false;
-      boolean takenFromDiscard = false;
-
-      PlayerSituation ps = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors, drawnFromWall, takenFromDiscard, roundWind, playerWind);
-
-      int score = 0;
-      Collection<PlayerSet> playerSets =  ss.createSetsFromSituation(ps);
-      for(PlayerSet pset : playerSets){
-        Collection<IdentifiedPattern> patterns = ss.identifyPatterns(pset);
-        Collection<Collection<IdentifiedPattern>> patternsCollections = ss.splitIncompatiblePatterns(patterns);
-        for(Collection<IdentifiedPattern> c : patternsCollections){
-          score = ss.computeScore(c);
-          if(score > highScore) highScore = score;
-        }
-
-        for (int i = 0; i < this.playerWind.length; i++) {
-            if (this.playerWind[i].getSymbol() == playerWind.getSymbol()) {
-                this.playerPoints[i] = highScore;
-                break;
+        try {
+            BoardRule br = this.rule.getBoardRule();
+            ScoringSystem ss = this.rule.getScoringSystem();
+            Wind playerWind = this.lastPlayedMove.getWind();
+            int highScore = 0;
+            
+            Integer idLastTile = 0;
+            for(Integer inte : this.lastPlayedMove.getPath().keySet()) idLastTile = inte;
+            GameTileInterface winningTileInterface=null;
+            try {
+                winningTileInterface = this.board.getTile(idLastTile);
+            } catch (GameException ex) {
+                Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
             }
+            GameTile winningTile = null;
+            if(winningTileInterface instanceof GameTile) winningTile = (GameTile) winningTileInterface;
+            Wind wind = lastPlayedMove.getWind();
+            ArrayList<Combination> hand = new ArrayList<Combination>();
+            GameTile[] tab = new GameTile[board.getTileZone("Hand"+wind.getName()).getTiles().size()];
+            int j=0;
+            for(GameTileInterface gti : board.getTileZone("Hand"+wind.getName()).getTiles()){
+                GameTile gt = null;
+                if(gti instanceof GameTile) gt = (GameTile) gti;
+                if(gt != null) tab[j] = gt;
+                j++;
+            }
+            InternationalCombinationFactory factory = new InternationalCombinationFactory();
+            hand.add(factory.newCombination(tab));
+            ArrayList<Combination> concealed = new ArrayList<Combination>();
+            
+            ArrayList<Combination> melds = new ArrayList<Combination>();
+            for(int i=0; i<4; i++){
+                tab = new GameTile[board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles().size()];
+                int k = 0;
+                for(GameTileInterface gti : board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles()){
+                    GameTile gt = null;
+                    if(gti instanceof GameTile) gt = (GameTile) gti;
+                    if(gt != null) tab[k] = gt;
+                    k++;
+                }
+                try{
+                    melds.add(factory.newCombination(tab));
+                }catch(RulesException ex){
+                    
+                }
+            }
+            ArrayList<GameTileInterface> supremeHonorsInterface = board.getTileZone("Supreme"+wind.getName()).getTiles();
+            ArrayList<GameTile> supremeHonors = new ArrayList<GameTile>();
+            for(GameTileInterface gti : supremeHonorsInterface){
+                GameTile gt = null;
+                if(gti instanceof GameTile) gt = (GameTile) gti;
+                if(gt != null) supremeHonors.add(gt);
+            }
+            boolean drawnFromWall = false;
+            boolean takenFromDiscard = false;
+            Wind roundWind = Wind.EAST;
+            PlayerSituation ps = new PlayerSituation(winningTile, null,concealed, melds, supremeHonors, drawnFromWall, takenFromDiscard, roundWind, playerWind);
+            
+            int score = 0;
+            Collection<PlayerSet> playerSets =  ss.createSetsFromSituation(ps);
+            for(PlayerSet pset : playerSets){
+                Collection<IdentifiedPattern> patterns = ss.identifyPatterns(pset);
+                Collection<Collection<IdentifiedPattern>> patternsCollections = ss.splitIncompatiblePatterns(patterns);
+                for(Collection<IdentifiedPattern> c : patternsCollections){
+                    score = ss.computeScore(c);
+                    if(score > highScore) highScore = score;
+                }
+                
+                for (int i = 0; i < this.playerWind.length; i++) {
+                    if (this.playerWind[i].getSymbol() == playerWind.getSymbol()) {
+                        this.playerPoints[i] = highScore;
+                        break;
+                    }
+                }
+            }
+        } catch (GameException ex) {
+            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RulesException ex) {
+            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
