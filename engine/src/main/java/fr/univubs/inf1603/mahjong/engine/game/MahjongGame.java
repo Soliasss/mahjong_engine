@@ -374,6 +374,7 @@ public class MahjongGame implements Game {
      * @param msg Le message à afficher
      */
     private void exitGame(int state, String msg) {
+        this.playingTimer.cancel();
         switch (state) {
             case 0:
                 this.propertyChangeSupport.firePropertyChange(GAME_OVER_PROPERTY, null, msg);

@@ -35,7 +35,7 @@ public class maintest {
             throw new RuntimeException();
         }
         
-        game = new MahjongGame(rule, Duration.ofSeconds(1), Duration.ofSeconds(1));
+        game = new MahjongGame(rule, Duration.ofMillis(1), Duration.ofMillis(1));
         System.out.println("Passed construction");
 
         PropertyChangeListener prop;
@@ -54,9 +54,9 @@ public class maintest {
 
                     possibleMoves = (ArrayList<Move>)arg0.getNewValue();
                     try {
-                        System.out.println("try to register move : "+possibleMoves.get(0).toString());
+//                        System.out.println("try to register move : "+possibleMoves.get(0).toString());
                         
-                        game.registerMove(possibleMoves.get(0));
+                        game.registerMove(possibleMoves.get(possibleMoves.size()-1));
                     } catch (GameException ex) {
                         Logger.getLogger(maintest.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -76,15 +76,15 @@ public class maintest {
         game.launchGame();
 
         MahjongBoard b = (MahjongBoard)game.getBoard();
-        /*
-        for(TileZone tz : b.getZones().values()){
+        
+/*        for(TileZone tz : b.getZones().values()){
             System.out.print(tz.getIdentifier().getNormalizedName()+":");
             for(GameTileInterface gt : tz.getTiles()){
                 System.out.print(gt.toString()+" ");
             }
             
             System.out.println();
-        }
-*/
+        }*/
+
     }
 }
