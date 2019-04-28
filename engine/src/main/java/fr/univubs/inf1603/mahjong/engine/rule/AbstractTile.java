@@ -45,4 +45,8 @@ public interface AbstractTile {
     default Number getNumber(){
         return null;
     }
+    
+    default Wind getWind(){
+        return null;
+    }
 }

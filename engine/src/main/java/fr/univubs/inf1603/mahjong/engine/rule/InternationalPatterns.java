@@ -1657,13 +1657,13 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
             Wind roundWind = set.getRoundWind();
-            Collection<Combination> concealedCombinations = set.getAllCombinations();
+            Collection<Combination> allCombinations = set.getAllCombinations();
             Collection<GameTile> tilesFound = new ArrayList<>();
             boolean isFind = false;
-            for(Combination currentCombi : concealedCombinations){
-                if(currentCombi.isPung()){
-                    WindHonor tile = (WindHonor)currentCombi.getTiles()[0].getTile();
-                    if(tile.getWind() == roundWind){
+            for(Combination currentCombi : allCombinations){
+                if(currentCombi.isPung() || currentCombi.isKong()){
+                    Wind tile = currentCombi.getTiles()[0].getTile().getWind();
+                    if(tile == roundWind){
                         tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
                         isFind = true;
                         break;
@@ -1690,13 +1690,13 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             Collection<IdentifiedPattern> toReturn = new ArrayList<>();
             Wind playerWind = set.getPlayerWind();
-            Collection<Combination> concealedCombinations = set.getAllCombinations();
+            Collection<Combination> allCombinations = set.getAllCombinations();
             Collection<GameTile> tilesFound = new ArrayList<>();
             boolean isFind = false;
-            for(Combination currentCombi : concealedCombinations){
+            for(Combination currentCombi : allCombinations){
                 if(currentCombi.isPung()){
-                    WindHonor tile = (WindHonor)currentCombi.getTiles()[0].getTile();
-                    if(tile.getWind() == playerWind){
+                    Wind tile = currentCombi.getTiles()[0].getTile().getWind();
+                    if(tile == playerWind){
                         tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
                         isFind = true;
                         break;
