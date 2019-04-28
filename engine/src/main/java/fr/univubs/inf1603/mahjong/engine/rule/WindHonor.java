@@ -17,6 +17,7 @@ public abstract class WindHonor extends HonorTile{
     /**
      * @return Returns this tile's associated wind
      */
+    @Override
     public Wind getWind(){
         return this.wind;
     }

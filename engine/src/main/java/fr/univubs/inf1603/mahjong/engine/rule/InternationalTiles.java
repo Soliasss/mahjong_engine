@@ -325,4 +325,9 @@ public enum InternationalTiles implements AbstractTile {
         return this.tile.getNumber();
     }
     
+    @Override
+    public Wind getWind(){
+        return this.tile.getWind();
+    }
+    
 }
