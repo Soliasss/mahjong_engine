@@ -192,7 +192,6 @@ public class InternationalBoardRule implements BoardRule{
      * @return Une liste vide si pas de tuile dans la main ou contenant les mouvements de defausse possible
      * @throws GameException 
      */
-
     public ArrayList<Move> possibleMoveDiscard(MahjongBoard board, Wind wind) throws GameException{
         ArrayList<Move> moves = new ArrayList<Move>();
         TileZoneIdentifier tziDiscard = board.getTileZone("Discard" + wind.getName()).getIdentifier();
@@ -209,7 +208,7 @@ public class InternationalBoardRule implements BoardRule{
     }
     
     /**
-     * Verifie si un joueur peut faire une combinaison de 4 tuiles
+     * Verifie si un joueur peut faire une combinaison de 3-4 tuiles
      * @param board Le board de la partie
      * @param wind Le vent du joueur dont on veut verifier les moves possibles
      * @param tiles La main du joueur
@@ -371,6 +370,24 @@ public class InternationalBoardRule implements BoardRule{
             }
             moves.put(nextWindToPlay, new ArrayList<>());
             
+            //Ajout Gestion tuiles Supreme
+            for(int i=0; i<board.getTileZone("Hand"+nextWindToPlay.getName()).getTiles().size() ; i++){
+                GameTileInterface tileHand = board.getTileZone("Hand"+nextWindToPlay.getName()).getTiles().get(i);
+                int index = tileHand.getGameID();
+                if(board.getTile(index).getTile() instanceof SupremeHonor){
+                    HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
+                    System.out.println("Honneur : " + index);
+                    path.put(index, board.getTileZone("Supreme"+nextWindToPlay.getName()).getIdentifier());
+                    path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(),
+                            board.getTileZone("Hand"+nextWindToPlay.getName()).getIdentifier());
+                    HashMap<Integer, Boolean> visible = new HashMap<Integer, Boolean>();
+                    for(Integer integ : path.keySet()){
+                        visible.put(integ, true);
+                    }
+                    board.applyMove(new Move(nextWindToPlay, 0, path,visible));
+                    i=0;
+                }
+            }
             //Ajoute les elements defaussable, le fait de piocher, de voler et de faire des melds
             if(lastMove != null){
                 
