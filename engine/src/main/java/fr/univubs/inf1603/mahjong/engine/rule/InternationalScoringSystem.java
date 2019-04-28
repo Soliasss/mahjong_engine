@@ -183,14 +183,9 @@ public class InternationalScoringSystem implements ScoringSystem {
 
             if (currPattern.getPattern() != InternationalPatterns.LAST_TILE_DRAW &&
                 currPattern.getPattern() != InternationalPatterns.SELF_DRAW)
-
-                rest.removeIf(pattern -> {
-                    for (GameTile tile : currPattern.getTiles())
-                        if (pattern.getTiles().contains(tile))
-                            return true;
-
-                    return false;
-                });
+                rest.removeIf(
+                        patternToCheck -> currPattern.getTiles().stream().anyMatch(
+                                currPatternTile -> patternToCheck.getTiles().contains(currPatternTile)));
 
             splittedPatternsLeft = splitIncompatiblePatterns(rest);
 

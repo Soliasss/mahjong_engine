@@ -31,12 +31,11 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         this.gameID = gameID;
         this.tile = tile;
         this.uuid = uuid;
-        this.publiclyVisible=publiclyVisible;
+        this.publiclyVisible = publiclyVisible;
         this.orientation = orientation;
     }
 
     /**
-     * 
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      */

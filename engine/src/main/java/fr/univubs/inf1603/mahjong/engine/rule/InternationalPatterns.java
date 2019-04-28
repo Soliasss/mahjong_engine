@@ -3,11 +3,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1165,26 +1161,28 @@ enum InternationalPatterns implements IdentifiablePattern {
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
             Collection<GameTile> tilesFound = new ArrayList<>();
-            boolean justReverse = true;
             Pattern pattern = Pattern.compile("Dw|d([1-5]|[8-9])|c(2|[4-6]|[8-9])");
+            int matchCount;
+            int combiMatchedCount = 0;
+
             for (Combination currentCombi: set.getAllCombinations()) {
-                    GameTile[] currentTiles = currentCombi.getTiles();
-                    justReverse = true;
-                    for(int i=0; i<currentTiles.length;i++){
-                        
-                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
-                        if(!matcher.matches()){
-                            justReverse = false;
-                            break;
-                        }
-                    }
-                    if(!justReverse)break;
-                    tilesFound.addAll(Arrays.asList(currentTiles));
+                matchCount = 0;
+                for (GameTile currentTile : currentCombi.getTiles()) {
+                    Matcher matcher = pattern.matcher(currentTile.getTile().toNormalizedName());
+                    if (matcher.matches()) {
+                        matchCount++;
+                        tilesFound.add(currentTile);
+                    } else
+                        break;
+                }
+                if (matchCount >= currentCombi.getTiles().length)
+                    combiMatchedCount++;
+                else
+                    break;
             }
-            if (!justReverse){
-                IdentifiedPattern patternId = new IdentifiedPattern(this, tilesFound);
-                result.add(patternId);
-            }
+
+            if (combiMatchedCount >= set.getAllCombinations().size())
+                result.add(new IdentifiedPattern(this, tilesFound));
 
             return result;
         }
@@ -1541,30 +1539,30 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            ArrayList<IdentifiedPattern> result = new ArrayList<>();
-            Collection<Combination> allCombinations = set.getAllCombinations();
-            int nbOfCombination = 0;
-            Collection<GameTile> tilesFound = new ArrayList<>();
-            boolean justSimple = true;
-            Pattern pattern = Pattern.compile("((b|c|d)[2-8])|D.");
-            for (Combination currentCombi: allCombinations) {
-                    GameTile[] currentTiles = currentCombi.getTiles();
-                    justSimple = true;
-                    for(int i=0; i<currentTiles.length;i++){
-                        
-                        Matcher matcher = pattern.matcher(currentTiles[i].getTile().toNormalizedName());
-                        if(!matcher.matches()){
-                            justSimple = false;
-                            break;
-                        }
+            Collection<IdentifiedPattern> result = new HashSet<>();
+            Collection<GameTile> tilesFound = new HashSet<>();
+            Pattern pattern = Pattern.compile("([bcd][2-8])");
+            boolean matched;
+            int matchedCombiCount = 0;
+
+            for (Combination currentCombi: set.getAllCombinations()) {
+                    matched = false;
+                for (GameTile currentTile : currentCombi.getTiles()) {
+                    Matcher matcher = pattern.matcher(currentTile.getTile().toNormalizedName());
+                    if (!matcher.matches()) {
+                        matched = true;
+                        tilesFound.add(currentTile);
                     }
-                    if(!justSimple)break;
-                    tilesFound.addAll(Arrays.asList(currentTiles));
+                }
+
+                if(matched)
+                    matchedCombiCount++;
+                else
+                    break;
             }
-            if (!justSimple){
-                IdentifiedPattern patternId = new IdentifiedPattern(this, tilesFound);
-                result.add(patternId);
-            }
+            if (matchedCombiCount >= set.getAllCombinations().size())
+                result.add(new IdentifiedPattern(this, tilesFound));
+
 
             return result;
         }
@@ -1981,41 +1979,26 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<IdentifiedPattern> result = new HashSet<>();
             Collection<Combination> allCombinations = set.getAllCombinations();
-            Collection<GameTile> chowFound = new ArrayList<>();
-            boolean isFind = false;
-            ArrayList<Combination> chowArray = new ArrayList<>();
-            for (Combination currentCombi: allCombinations){
-                if(currentCombi.isChow())
-                    chowArray.add(currentCombi);
+            Collection<Combination> chows = new HashSet<>();
+            Collection<GameTile> tiles = new HashSet<>();
+
+            for (Combination currentCombi : allCombinations) {
+                if (currentCombi.isChow())
+                    chows.add(currentCombi);
             }
-            for(Combination currentCombi : chowArray){
-                for(Combination tmpCombi : chowArray){
-                    int equalstwice = 0;
-                    AbstractTile tileFirstChow = currentCombi.getTiles()[0].getTile();
-                    AbstractTile tileSecondChow = tmpCombi.getTiles()[0].getTile();
-                    if(tileFirstChow.equals(tileSecondChow)){
-                        equalstwice ++;
-                        if(equalstwice == 2){
-                            chowFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                            chowFound.addAll(Arrays.asList(tmpCombi.getTiles()));
-                            isFind = true;
-                            break;
-                        }
+            for (Combination chow1 : chows) {
+                for (Combination chow2 : chows) {
+                    if (chow1.getTiles()[0].getTile() == chow2.getTiles()[0].getTile() &&
+                            chow1 != chow2) {
+                        tiles.clear();
+                        tiles.addAll(Arrays.asList(chow1.getTiles()));
+                        tiles.addAll(Arrays.asList(chow2.getTiles()));
+                        result.add(new IdentifiedPattern(this, tiles));
                     }
-                        
-                    
-
                 }
-                if(isFind)break;
             }
-
-            if (isFind){
-                IdentifiedPattern pattern = new IdentifiedPattern(this, chowFound);
-                result.add(pattern);
-            }
-
             return result;
         }
     },
