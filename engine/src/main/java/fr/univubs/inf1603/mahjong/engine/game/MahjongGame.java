@@ -1,16 +1,10 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.*;
+
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -114,7 +108,11 @@ public class MahjongGame implements Game {
 
     @Override
     public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
-        return new ArrayList<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove).get(wind));
+        Map<Wind, Collection<Move>> moves = new HashMap<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove));
+        if (moves.containsKey(wind))
+            return new ArrayList<>(moves.get(wind));
+        else
+            return new ArrayList<>();
     }
 
     @Override
@@ -405,7 +403,7 @@ public class MahjongGame implements Game {
             GameTile winningTile = null;
             if(winningTileInterface instanceof GameTile) winningTile = (GameTile) winningTileInterface;
             Wind wind = lastPlayedMove.getWind();
-            ArrayList<Combination> hand = new ArrayList<Combination>();
+            ArrayList<Combination> hand = new ArrayList<>();
             GameTile[] tab = new GameTile[board.getTileZone("Hand"+wind.getName()).getTiles().size()];
             int j=0;
             for(GameTileInterface gti : board.getTileZone("Hand"+wind.getName()).getTiles()){
@@ -416,13 +414,13 @@ public class MahjongGame implements Game {
             }
             InternationalCombinationFactory factory = new InternationalCombinationFactory();
             hand.add(factory.newCombination(tab));
-            ArrayList<Combination> concealed = new ArrayList<Combination>();
+            ArrayList<Combination> concealed = new ArrayList<>();
             
-            ArrayList<Combination> melds = new ArrayList<Combination>();
+            ArrayList<Combination> melds = new ArrayList<>();
             for(int i=0; i<4; i++){
-                tab = new GameTile[board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles().size()];
+                tab = new GameTile[board.getTileZone("Meld"+wind.getName()+ i).getTiles().size()];
                 int k = 0;
-                for(GameTileInterface gti : board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles()){
+                for(GameTileInterface gti : board.getTileZone("Meld"+wind.getName()+ i).getTiles()){
                     GameTile gt = null;
                     if(gti instanceof GameTile) gt = (GameTile) gti;
                     if(gt != null) tab[k] = gt;
@@ -435,7 +433,7 @@ public class MahjongGame implements Game {
                 }
             }
             ArrayList<GameTileInterface> supremeHonorsInterface = board.getTileZone("Supreme"+wind.getName()).getTiles();
-            ArrayList<GameTile> supremeHonors = new ArrayList<GameTile>();
+            ArrayList<GameTile> supremeHonors = new ArrayList<>();
             for(GameTileInterface gti : supremeHonorsInterface){
                 GameTile gt = null;
                 if(gti instanceof GameTile) gt = (GameTile) gti;
