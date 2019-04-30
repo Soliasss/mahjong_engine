@@ -1418,7 +1418,7 @@ enum InternationalPatterns implements IdentifiablePattern {
                 else if(matcherBamboo.matches()) isBamboo = true;
                 combiFound.addAll(Arrays.asList(currentCombi.getTiles()));
             }
-            if( !isDragon && isWind && ( (isDot && !isCharacter && !isBamboo) || 
+            if( (isDragon || isWind) && ( (isDot && !isCharacter && !isBamboo) || 
                                          (!isDot && isCharacter && !isBamboo) ||
                                          (!isDot && !isCharacter && isBamboo) )){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
