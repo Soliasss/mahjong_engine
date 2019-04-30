@@ -566,4 +566,3 @@ public class MahjongGame implements Game {
         return new ArrayList<IdentifiedPattern> ();
     } 
 }
-}
