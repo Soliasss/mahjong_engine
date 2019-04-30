@@ -481,8 +481,6 @@ public class MahjongGame implements Game {
             }
         } catch (GameException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RulesException ex) {
-            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
