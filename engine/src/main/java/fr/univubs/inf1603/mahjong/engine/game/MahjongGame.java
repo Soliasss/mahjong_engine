@@ -427,7 +427,11 @@ public class MahjongGame implements Game {
                 j++;
             }
             InternationalCombinationFactory factory = new InternationalCombinationFactory();
-            hand.add(factory.newCombination(tab));
+            try{
+                hand.add(factory.newCombination(tab));
+            }catch(RulesException ex){
+
+            }
             ArrayList<Combination> concealed = new ArrayList<>();
             
             ArrayList<Combination> melds = new ArrayList<>();
@@ -476,8 +480,6 @@ public class MahjongGame implements Game {
                 }
             }
         } catch (GameException ex) {
-            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RulesException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -565,5 +567,4 @@ public class MahjongGame implements Game {
         }
         return new ArrayList<IdentifiedPattern> ();
     } 
-}
 }
