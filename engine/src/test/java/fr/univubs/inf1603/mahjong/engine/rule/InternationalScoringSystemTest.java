@@ -2,17 +2,19 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-class InternationalScoringSystemTest {
+public class InternationalScoringSystemTest {
+    
+        public InternationalScoringSystemTest(){}
 
     @Test
-    void createSetsFromSituation() {
+    public void createSetsFromSituation() {
         System.out.println("createSetsFromSituationTest");
 
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
@@ -83,7 +85,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void findMultipleHandArrangements() {
+    public void findMultipleHandArrangements() {
         System.out.println("findMultipleHandArrangementsTest");
         ArrayList<GameTile> gameTiles = new ArrayList<>();
         gameTiles.add(new GameTile(1, InternationalTiles.BAMBOO_1));
@@ -121,7 +123,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void normalHandArrangements() {
+    public void normalHandArrangements() {
         System.out.println("normalHandArrangementsTest");
         ArrayList<GameTile> gameTiles = new ArrayList<>();
         gameTiles.add(new GameTile(1, InternationalTiles.BAMBOO_1));
@@ -158,7 +160,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void findAllTriples() {
+    public void findAllTriples() {
         System.out.println("findAllTriplesTest");
         ArrayList<GameTile> gameTiles = new ArrayList<>();
         gameTiles.add(new GameTile(1, InternationalTiles.BAMBOO_1));
@@ -189,7 +191,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void sevenPairsHandArrangement() {
+    public void sevenPairsHandArrangement() {
         System.out.println("sevenPairsHandArrangementTest");
         ArrayList<GameTile> gameTiles = new ArrayList<>();
         gameTiles.add(new GameTile(1, InternationalTiles.BAMBOO_1));
@@ -228,7 +230,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void findAllPairs() {
+    public void findAllPairs() {
         System.out.println("findAllPairsTest");
         ArrayList<GameTile> gameTiles = new ArrayList<>();
         gameTiles.add(new GameTile(1, InternationalTiles.BAMBOO_1));
@@ -263,7 +265,7 @@ class InternationalScoringSystemTest {
 
 
     @Test
-    void identifyPatterns() {
+    public void identifyPatterns() {
         System.out.println("identifyPatternsTest");
 
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
@@ -348,7 +350,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void splitIncompatiblePatterns() {
+    public void splitIncompatiblePatterns() {
         System.out.println("splitIncompatiblePatternsTest");
 
         Collection<IdentifiedPattern> patterns = new HashSet<>();
@@ -405,7 +407,7 @@ class InternationalScoringSystemTest {
     }
 
     @Test
-    void computeScore(){
+    public void computeScore(){
         System.out.println("computeScoreTest");
 
         Collection<IdentifiedPattern> patterns = new HashSet<>();
