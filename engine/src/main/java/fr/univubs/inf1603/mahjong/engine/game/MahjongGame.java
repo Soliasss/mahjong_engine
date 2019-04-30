@@ -30,6 +30,10 @@ public class MahjongGame implements Game {
     private boolean ableToRegisterMoves;
     
     private int[] playerPoints;
+    /**
+     * Liste des mahjong possible par joueur
+     */
+    private HashMap<Wind,Collection<PlayerSet>> mahjongSet;
     
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     
@@ -336,4 +340,89 @@ public class MahjongGame implements Game {
                 System.err.println("L'état envoyé n'est pas supporté.");
         }
     }
+    
+    /**
+     * Mets a jour la liste de mahjong possible par joueur
+     * @throws GameException 
+     */
+    private void getMahjong() throws GameException{
+        AbstractCombinationFactory factory = new InternationalCombinationFactory();
+            
+        for(Wind wind : Wind.values()){
+            //WINNINGTILE
+            Integer idLastTile = 0;
+            for(Integer inte : lastPlayedMove.getPath().keySet()) idLastTile = inte;
+            GameTileInterface winningTileInterface = board.getTile(idLastTile);
+            GameTile winningTile = null;
+            if(winningTileInterface instanceof GameTile) winningTile = (GameTile) winningTileInterface;
+
+            //HAND
+            ArrayList<GameTile> hand = new ArrayList<GameTile>();
+            int j=0;
+            for(GameTileInterface gti : board.getTileZone("Hand"+wind.getName()).getTiles()){
+                GameTile gt = null;
+                if(gti instanceof GameTile) gt = (GameTile) gti;
+                if(gt != null) hand.add(gt);
+            }
+            ArrayList<Combination> concealed = new ArrayList<Combination>();
+
+            //MELDS
+            ArrayList<Combination> melds = new ArrayList<Combination>();
+            GameTile[] tab = null;
+            for(int i=0; i<4; i++){
+                tab = new GameTile[board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles().size()];
+                int k = 0;
+                for(GameTileInterface gti : board.getTileZone("Meld"+wind.getName()+String.valueOf(i)).getTiles()){
+                    GameTile gt = null;
+                    if(gti instanceof GameTile) gt = (GameTile) gti;
+                    if(gt != null) tab[k] = gt;
+                    k++;
+                }
+                try{
+                    melds.add(factory.newCombination(tab));
+                }catch(RulesException ex){
+
+                }
+            }
+
+            //SUPREMEHONORS
+            ArrayList<GameTileInterface> supremeHonorsInterface = board.getTileZone("Supreme"+wind.getName()).getTiles();
+            ArrayList<GameTile> supremeHonors = new ArrayList<GameTile>();
+            for(GameTileInterface gti : supremeHonorsInterface){
+                GameTile gt = null;
+                if(gti instanceof GameTile) gt = (GameTile) gti;
+                if(gt != null) supremeHonors.add(gt);
+            }
+            boolean drawnFromWall = false;
+            boolean takenFromDiscard = false;
+            PlayerSituation situation = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors,
+                    drawnFromWall, takenFromDiscard, board.getCurrentWind(), wind);
+
+            InternationalScoringSystem scoring = InternationalScoringSystem.DEFAULT;
+            mahjongSet.put(wind, scoring.createSetsFromSituation(situation));
+        }   
+    }
+    
+    /**
+     * Si le retour est une liste vide il n'y a pas mahjong
+     * @param wind
+     * @param set
+     * @return 
+     */
+    private Collection<IdentifiedPattern> applyMahjong(Wind wind, PlayerSet set){
+        if(mahjongSet.get(wind).contains(set)){
+            Collection<IdentifiedPattern> patterns = this.rule.getScoringSystem().identifyPatterns(set);
+            Collection<IdentifiedPattern> bestPatterns = new ArrayList<IdentifiedPattern> ();
+            int maxScore = 0;
+            for(Collection<IdentifiedPattern> split : this.rule.getScoringSystem().splitIncompatiblePatterns(patterns)){
+                if(this.rule.getScoringSystem().computeScore(split)>maxScore){
+                    maxScore = this.rule.getScoringSystem().computeScore(split);
+                    bestPatterns.addAll(split);
+                }
+            }
+            return bestPatterns;
+        }
+        return new ArrayList<IdentifiedPattern> ();
+    } 
+}
 }
