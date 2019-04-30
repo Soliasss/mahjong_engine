@@ -62,13 +62,25 @@ public class MahjongGame implements Game {
 
     /**
      * This is a constructor of MahjongGame
+     *  @param rule Rules of this game
+     * @param stealingTime The time players have to decide if they can steal a
+     * discarded tile
+ * @param playingTime This players have to decide what to discard 
+     */
+    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime) {
+        this(UUID.randomUUID(), rule, stealingTime, playingTime);
+    }
+
+    /**
+     * This is a constructor of MahjongGame
      *
+     * @param uuid {@link UUID} of the game
      * @param rule Rules of this game
      * @param stealingTime The time players have to decide if they can steal a
      * discarded tile
      * @param playingTime This players have to decide what to discard
      */
-    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime) {
+    public MahjongGame(UUID uuid, GameRule rule, Duration stealingTime, Duration playingTime) {
         this.rule = rule;
         this.stealingTime = stealingTime;
 
@@ -76,7 +88,7 @@ public class MahjongGame implements Game {
 
         this.lastPlayedMove = null;
         this.board = null;
-        this.uuid = UUID.randomUUID();
+        this.uuid = uuid;
         this.playerPoints = new int[4];
         this.playerWind = this.rule.getBoardRule().getPlayerOrder();
         
@@ -114,7 +126,7 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
+    public ArrayList<Move> getPossibleMoves(Wind wind) {
         Map<Wind, Collection<Move>> moves = new HashMap<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove));
         if (moves.containsKey(wind))
             return new ArrayList<>(moves.get(wind));
@@ -471,9 +483,7 @@ public class MahjongGame implements Game {
                     }
                 }
             }
-        } catch (GameException ex) {
-            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RulesException ex) {
+        } catch (GameException | RulesException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
