@@ -136,4 +136,61 @@ public class PlayerSet {
 
         return allCombinations;
     }
+    
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 43 * hash + Objects.hashCode(this.winningTile);
+        hash = 43 * hash + Objects.hashCode(this.hand);
+        hash = 43 * hash + Objects.hashCode(this.concealed);
+        hash = 43 * hash + Objects.hashCode(this.melds);
+        hash = 43 * hash + Objects.hashCode(this.supremeHonors);
+        hash = 43 * hash + (this.drawnFromWall ? 1 : 0);
+        hash = 43 * hash + (this.takenFromDiscard ? 1 : 0);
+        hash = 43 * hash + Objects.hashCode(this.roundWind);
+        hash = 43 * hash + Objects.hashCode(this.playerWind);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PlayerSet other = (PlayerSet) obj;
+        if (this.drawnFromWall != other.drawnFromWall) {
+            return false;
+        }
+        if (this.takenFromDiscard != other.takenFromDiscard) {
+            return false;
+        }
+        if (!Objects.equals(this.winningTile, other.winningTile)) {
+            return false;
+        }
+        if (!Objects.equals(this.hand, other.hand)) {
+            return false;
+        }
+        if (!Objects.equals(this.concealed, other.concealed)) {
+            return false;
+        }
+        if (!Objects.equals(this.melds, other.melds)) {
+            return false;
+        }
+        if (!Objects.equals(this.supremeHonors, other.supremeHonors)) {
+            return false;
+        }
+        if (this.roundWind != other.roundWind) {
+            return false;
+        }
+        if (this.playerWind != other.playerWind) {
+            return false;
+        }
+        return true;
+    }
 }
