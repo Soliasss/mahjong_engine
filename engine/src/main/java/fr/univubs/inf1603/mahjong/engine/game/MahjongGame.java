@@ -487,9 +487,6 @@ public class MahjongGame implements Game {
                     }
                 }
             }
-        } catch (GameException | RulesException ex) {
-            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
         } catch (GameException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -500,7 +497,7 @@ public class MahjongGame implements Game {
      * @throws GameException
      */
     private void getMahjong() throws GameException{
-        AbstractCombinationFactory factory = new InternationalCombinationFactory();
+        /*AbstractCombinationFactory factory = new InternationalCombinationFactory();
 
         for(Wind wind : Wind.values()){
             //WINNINGTILE
@@ -554,7 +551,7 @@ public class MahjongGame implements Game {
 
             InternationalScoringSystem scoring = InternationalScoringSystem.DEFAULT;
             mahjongSet.put(wind, scoring.createSetsFromSituation(situation));
-        }
+        }*/
     }
 
     /**
@@ -564,7 +561,7 @@ public class MahjongGame implements Game {
      * @return
      */
     private Collection<IdentifiedPattern> applyMahjong(Wind wind, PlayerSet set){
-        if(mahjongSet.get(wind).contains(set)){
+        /*if(set.get(wind).contains(set)){
             Collection<IdentifiedPattern> patterns = this.rule.getScoringSystem().identifyPatterns(set);
             Collection<IdentifiedPattern> bestPatterns = new ArrayList<IdentifiedPattern> ();
             int maxScore = 0;
@@ -575,7 +572,7 @@ public class MahjongGame implements Game {
                 }
             }
             return bestPatterns;
-        }
+        }*/
         return new ArrayList<IdentifiedPattern> ();
     }
 }
