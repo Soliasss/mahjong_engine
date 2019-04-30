@@ -1,6 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 import fr.univubs.inf1603.mahjong.Wind;
-
+import org.apache.log4j.Logger;
 /**
  * Flower tiles are bonus tiles used in some rules, they are associated to winds.
  */
@@ -9,7 +9,10 @@ public class FlowerTile extends SupremeHonor{
      * Symbol used to represent seasons during normalized naming
      */
     private static final char FLOWER_SYMBOL='F';
-
+    
+    // Logger
+    private static final Logger LOGGER = Logger.getLogger(FlowerTile.class.getName());
+    
     /**
      * Possible flowers of flower tiles
      */
@@ -47,16 +50,19 @@ public class FlowerTile extends SupremeHonor{
      * @return Returns this FlowerTile's flower. 
      */
     public Flower getFlower(){
+        LOGGER.info("Enter to getFlower() method");
         return this.flower;
     }
     
     @Override
     public String toNormalizedName() {
+        LOGGER.info("Enter to toNormalizedName() method");
         return String.format("%c%d", FLOWER_SYMBOL,this.flower.getValue());
     }
     
     @Override
     public String toString(){
+        LOGGER.info("Enter to toString() method");
        return super.toString()+"wind_"+this.wind+"flower_"+this.flower;
     }
 }

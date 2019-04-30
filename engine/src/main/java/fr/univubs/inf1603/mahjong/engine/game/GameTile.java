@@ -7,6 +7,7 @@ import fr.univubs.inf1603.mahjong.Wind;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.UUID;
+import org.apache.log4j.Logger;
 
 /**
  * GameTile represents a tile once in an ongoing game of mahjong.
@@ -19,6 +20,14 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
     private final UUID uuid;
     private boolean publiclyVisible;
     private Wind orientation;
+    
+        /**
+     * This class contain the ROOTLOGGER
+     * Definition of LOGGER
+     */
+    public static final Logger ROOTLOGGER = Logger.getRootLogger();    
+    private static final Logger LOGGER = Logger.getLogger(GameTile.class.getName());
+
     /**
      *
      * @param gameID This GameTile's place in the deck before it gets shuffled
@@ -54,11 +63,13 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
      */
     @Override
     public int getGameID() {
+        LOGGER.info("Enter to getGameID() method");
         return this.gameID;
     }
 
     @Override
     public UUID getUUID() {
+        LOGGER.info("Enter to getUUID() method");
         return this.uuid;
     }
 
@@ -67,17 +78,21 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
      * @return true if is visible, else return false
      */
     public boolean isPubliclyVisible(){
+        LOGGER.info("Enter to isPubliclyVisible() method");
         return this.publiclyVisible;
     }
     
     void setPubliclyVisible(boolean value){
         //I don't see a case where you would have to rehide a tile after it has been discovered
         //TODO : maybe log if the case above happens
+        LOGGER.info("Enter to setPubliclyVisible(boolean value) method");
         this.publiclyVisible = value;
     }
     
     @Override
     public GameTile clone() {
+        LOGGER.info("Start of method");
+        LOGGER.info("End of method");
         return new GameTile(this.gameID, this.tile);
     }
 
@@ -87,6 +102,7 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
      * @param newTile La nouvelle tuile
      */
     public void setTile(AbstractTile newTile) {
+        LOGGER.info("Enter to setTile(AbstractTile newTile) method");
         AbstractTile oldValue = this.tile;
 
         this.tile = newTile;
@@ -95,6 +111,7 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
 
     @Override
     public String toString(){
+        LOGGER.info("Enter to toString() method");
         return gameID + ":" + tile.toNormalizedName();
     }
 
@@ -102,6 +119,7 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
 
     @Override
     public PropertyChangeSupport getPropertyChangeSupport() {
+        LOGGER.info("Enter to setOrientation(Wind wind) method");
         return propertyChangeSupport;
     }
 
@@ -110,6 +128,7 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
      * @param wind the wind which define the orientation of the tile
      */
     void setOrientation(Wind wind){
+        LOGGER.info("Enter to setOrientation(Wind wind) method");
         this.orientation = wind;
     }
     
@@ -119,6 +138,7 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
      */
     @Override
     public Wind getOrientation() {
+        LOGGER.info("Enter to getOrientation() method");
         return this.orientation;
     }
     

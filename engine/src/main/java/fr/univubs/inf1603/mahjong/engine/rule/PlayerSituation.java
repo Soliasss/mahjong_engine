@@ -10,6 +10,7 @@ import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
 import java.util.Collection;
 import java.util.HashSet;
+import org.apache.log4j.Logger;
 
 public class PlayerSituation {
     private GameTile winningTile;
@@ -21,6 +22,9 @@ public class PlayerSituation {
     private boolean takenFromDiscard;
     private Wind roundWind;
     private Wind playerWind;
+    
+    // Logger
+    private static final Logger LOGGER = Logger.getLogger(PlayerSituation.class.getName());
     
     /**
      *
@@ -52,6 +56,7 @@ public class PlayerSituation {
      * @return winningTile The last tile drawn or stolen which allow us to win 
      */
     public GameTile getWinningTile(){
+        LOGGER.info("Enter to getWinningTile()");
         return this.winningTile;
     }
     
@@ -60,6 +65,7 @@ public class PlayerSituation {
      * @return hand It's a list of GameTiles in the player's hand
      */
     public Collection<GameTile> getHand(){
+        LOGGER.info("Enter to getHand()");
         return this.hand;
     }
     
@@ -68,6 +74,7 @@ public class PlayerSituation {
      * @return concealed It's a list of combination if some tiles are hidden
      */
     public Collection<Combination> getConcealed(){
+        LOGGER.info("Enter to getConcealed()");
         return this.concealed;
     }
     
@@ -76,6 +83,7 @@ public class PlayerSituation {
      * @return melds It's a list of combination about tiles set down
      */
     public Collection<Combination> getMelds(){
+        LOGGER.info("Enter to getMelds()");
         return this.melds;
     }
     
@@ -84,6 +92,7 @@ public class PlayerSituation {
      * @return It's a list of supremeHonors set down
      */
     public Collection<GameTile> getSupremeHonors(){
+        LOGGER.info("Enter to getSupremeHonors()");
         return this.supremeHonors;
     }
     
@@ -92,6 +101,7 @@ public class PlayerSituation {
      * @return true or false if the last tile was drawn from the wall
      */
     public boolean isDrawnForWall(){
+        LOGGER.info("Enter to isDrawnForWall()");
         return this.drawnFromWall;
     }
     
@@ -100,6 +110,7 @@ public class PlayerSituation {
      * @return true or false if the last tile was stolen
      */
     public boolean isTakenFromDiscard(){
+        LOGGER.info("Enter to isTakenFromDiscard()");
         return this.takenFromDiscard;
     }
     
@@ -108,6 +119,7 @@ public class PlayerSituation {
      * @return the wind during this round if his a upward or downward wind
      */
     public Wind getRoundWind(){
+        LOGGER.info("Enter to getRoundWind()");
         return this.roundWind;
     }
     
@@ -116,6 +128,7 @@ public class PlayerSituation {
      * @return the wind of the player, it could be east, south, weast or north
      */
     public Wind getPlayerWind(){
+        LOGGER.info("Enter to getPlayerWind()");
         return this.playerWind;
     }
 }

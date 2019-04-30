@@ -1,5 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  */
@@ -34,10 +36,15 @@ public enum TileZoneIdentifier {
     MeldNorth2,
     MeldNorth3;
     
+    // Logger 
+    private static final Logger LOGGER = Logger.getLogger(TileZoneIdentifier.class.getName());
+    
     public String getNormalizedName(){
+        LOGGER.info("Enter to getNormalizedName()");
         return this.name();
     }
     public static String getNormalizedNameFromIdentifier(TileZoneIdentifier identifier){
+        LOGGER.info("Enter to getNormalizedNameFromIdentifier(TileZoneIdentifier identifier)");
         return identifier.getNormalizedName();
     }
     
