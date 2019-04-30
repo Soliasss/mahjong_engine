@@ -397,7 +397,9 @@ public class InternationalBoardRule implements BoardRule{
                     //Gere la pioche
                     HashMap<Integer, TileZoneIdentifier> path = new HashMap<>();
                     TileZoneIdentifier tzi = board.getTileZone("Hand" + nextWindToPlay.getName()).getIdentifier();
-                    path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), tzi);
+                    if(!board.getTileZone(TileZoneIdentifier.Wall).getTiles().isEmpty()){
+                        path.put(board.getTileZone(TileZoneIdentifier.Wall).getTiles().get(0).getGameID(), tzi);
+                    }
                     HashMap<Integer, Boolean> visible = new HashMap<Integer, Boolean>();
                     for(Integer inte : path.keySet()){
                         visible.put(inte, true);
