@@ -1,4 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
+import fr.univubs.inf1603.mahjong.Wind;
 
 /**
  * Season tiles are bonus tiles used in some rules, they are associated to winds.

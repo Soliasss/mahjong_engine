@@ -1,7 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.HashMap;

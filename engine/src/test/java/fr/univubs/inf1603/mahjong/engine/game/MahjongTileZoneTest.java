@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package fr.univubs.inf1603.mahjong.engine.game;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import fr.univubs.inf1603.mahjong.engine.rule.InternationalTiles;
 import java.beans.PropertyChangeSupport;

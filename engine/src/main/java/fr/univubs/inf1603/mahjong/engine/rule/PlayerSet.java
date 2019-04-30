@@ -1,4 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
+import fr.univubs.inf1603.mahjong.Wind;
 
 /**
  * PlayerSet represents the state of all tiles a player has; including the player's hand, tiles set down, winds from the round 

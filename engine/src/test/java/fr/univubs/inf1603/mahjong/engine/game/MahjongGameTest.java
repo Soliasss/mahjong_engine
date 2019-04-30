@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 package fr.univubs.inf1603.mahjong.engine.game;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import fr.univubs.inf1603.mahjong.engine.rule.GameRuleFactory;
 import fr.univubs.inf1603.mahjong.engine.rule.RulesException;
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
