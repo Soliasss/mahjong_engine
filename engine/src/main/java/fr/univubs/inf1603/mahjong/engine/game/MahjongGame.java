@@ -94,6 +94,9 @@ public class MahjongGame implements Game {
         if (wind == null) {
             return this.board;
         }
+        else if(this.board==null){
+            return null;
+        }
         return this.board.getViewFromWind(wind);
     }
 
@@ -103,6 +106,9 @@ public class MahjongGame implements Game {
 
     @Override
     public ArrayList<Move> getPossibleMoves() {
+        if(this.possiblesMoves==null){
+            return new ArrayList<>();
+        }
         return this.possiblesMoves;
     }
 
@@ -158,6 +164,9 @@ public class MahjongGame implements Game {
 
     @Override
     public Wind getCurrentwind() throws GameException {
+        if(this.board==null){
+            return null;
+        }
         return this.board.getCurrentWind();
     }
 
