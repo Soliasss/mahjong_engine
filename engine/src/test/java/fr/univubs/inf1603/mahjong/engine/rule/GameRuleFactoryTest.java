@@ -5,13 +5,7 @@
  */
 package fr.univubs.inf1603.mahjong.engine.rule;
 
-import fr.univubs.inf1603.mahjong.Wind;
-
-import fr.univubs.inf1603.mahjong.engine.game.MahjongBoard;
-import fr.univubs.inf1603.mahjong.engine.game.Move;
 import fr.univubs.inf1603.mahjong.engine.rule.GameRuleList.Rule;
-import java.util.Collection;
-import java.util.EnumMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,7 +26,7 @@ public class GameRuleFactoryTest {
         System.out.println("create");
         String name = "SILLY";
         GameRuleFactory instance = new GameRuleFactory();
-        GameRule expResult = Rule.SILLY;
+        GameRule expResult = Rule.INTERNATIONAL;
         GameRule result = instance.create(name);
         assertEquals(expResult, result);
     }
