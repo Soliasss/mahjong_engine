@@ -5,7 +5,7 @@
  */
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;

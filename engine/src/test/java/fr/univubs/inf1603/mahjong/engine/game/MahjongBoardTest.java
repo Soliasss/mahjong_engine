@@ -6,7 +6,7 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.rule.InternationalTiles;
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
 import java.util.UUID;

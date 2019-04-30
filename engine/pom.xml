@@ -118,5 +118,10 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>fr.univubs.inf1603.mahjong</groupId>
+            <artifactId>wind</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
 </project>

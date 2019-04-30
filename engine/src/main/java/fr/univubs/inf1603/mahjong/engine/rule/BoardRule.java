@@ -3,6 +3,7 @@ import fr.univubs.inf1603.mahjong.engine.game.MahjongBoard;
 import fr.univubs.inf1603.mahjong.engine.game.Move;
 import fr.univubs.inf1603.mahjong.engine.game.TileZone;
 import java.util.Collection;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import java.util.EnumMap;
 

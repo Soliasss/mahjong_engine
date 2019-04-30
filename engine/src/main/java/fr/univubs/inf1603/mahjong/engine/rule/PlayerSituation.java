@@ -4,6 +4,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  * and from the player, conditions about a tile drawn or stolen. 
  * It could be a fictive situation.
  */
+import fr.univubs.inf1603.mahjong.Wind;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
