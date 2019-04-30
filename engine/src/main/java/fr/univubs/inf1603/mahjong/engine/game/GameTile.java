@@ -2,7 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -31,12 +31,11 @@ public class GameTile implements GameTileInterface, Serializable, Cloneable, Per
         this.gameID = gameID;
         this.tile = tile;
         this.uuid = uuid;
-        this.publiclyVisible=publiclyVisible;
+        this.publiclyVisible = publiclyVisible;
         this.orientation = orientation;
     }
 
     /**
-     * 
      * @param gameID This GameTile's place in the deck before it gets shuffled
      * @param tile This GameTile's face
      */

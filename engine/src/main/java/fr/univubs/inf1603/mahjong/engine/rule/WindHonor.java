@@ -1,4 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
+import fr.univubs.inf1603.mahjong.Wind;
 
 /**
  * WindHonor represents tiles which are associated to a wind.
@@ -17,6 +18,7 @@ public abstract class WindHonor extends HonorTile{
     /**
      * @return Returns this tile's associated wind
      */
+    @Override
     public Wind getWind(){
         return this.wind;
     }

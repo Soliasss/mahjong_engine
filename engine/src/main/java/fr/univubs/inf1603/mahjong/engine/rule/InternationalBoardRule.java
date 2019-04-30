@@ -1,6 +1,7 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.*;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import java.util.*;
 import java.util.logging.Level;

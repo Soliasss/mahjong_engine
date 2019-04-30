@@ -2,6 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -26,6 +27,11 @@ public class IdentifiedPattern {
 
     public IdentifiedPattern(IdentifiablePattern pattern){
         this.pattern = pattern;
+    }
+
+    public IdentifiedPattern(IdentifiablePattern pattern, GameTile... tiles) {
+        this.pattern = pattern;
+        this.tiles.addAll(Arrays.asList(tiles));
     }
 
     public IdentifiablePattern getPattern() {

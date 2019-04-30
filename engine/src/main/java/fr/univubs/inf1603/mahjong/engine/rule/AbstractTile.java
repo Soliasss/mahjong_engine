@@ -1,4 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
 import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Number;
@@ -43,6 +44,10 @@ public interface AbstractTile {
     }
     
     default Number getNumber(){
+        return null;
+    }
+    
+    default Wind getWind(){
         return null;
     }
 }

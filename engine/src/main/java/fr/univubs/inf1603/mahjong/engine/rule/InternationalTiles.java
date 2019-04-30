@@ -1,4 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
+import fr.univubs.inf1603.mahjong.Wind;
 
 import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
 import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Number;
@@ -323,6 +324,11 @@ public enum InternationalTiles implements AbstractTile {
     @Override
     public Number getNumber(){
         return this.tile.getNumber();
+    }
+    
+    @Override
+    public Wind getWind(){
+        return this.tile.getWind();
     }
     
 }

@@ -1,13 +1,16 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 
 /**
  *
  */
 public interface Board extends Persistable {
-
+    
+    
+    public static final String 
+                CURRENTWIND="currentwind";
     /**
      * @param gameIndex Game index of the tile we want to
      * @return If it exists, the associated gameTileInterface

@@ -1,6 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.rule.Wind;
+import fr.univubs.inf1603.mahjong.Wind;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -77,6 +77,7 @@ public class MahjongBoard implements Board, Cloneable {
      */
     public void setWind(Wind newWind) {
         this.currentWind = newWind;
+        this.propertyChangeSupport.firePropertyChange(CURRENTWIND, null, this.currentWind);
     }
     
     /**
@@ -187,9 +188,9 @@ public class MahjongBoard implements Board, Cloneable {
     public void applyMove(Move move) throws GameException{
         isMoveCoherent(move);
         for(Entry<Integer, TileZoneIdentifier> t : move.getPath().entrySet()){
-            GameTileInterface buf = getTile(t.getKey());
-            getTileZoneOfTile(buf).getTiles().remove(buf);
-            getTileZone(t.getValue()).getTiles().add(buf);
+            GameTile buf = (GameTile)getTile(t.getKey());
+            ((MahjongTileZone)getTileZoneOfTile(buf)).removeTile(buf);
+            ((MahjongTileZone)getTileZone(t.getValue())).addTile(buf);
             this.tileToZone.put(buf,getTileZone(t.getValue()));//Updating the reverse search
         }
     }
@@ -205,7 +206,7 @@ public class MahjongBoard implements Board, Cloneable {
                 throw new GameException("Move "+move.getUUID()+" is trying to move a tile that does not exist");
             }
             if(getTileZoneOfTile(t.getKey()) == getTileZone(t.getValue())){
-                throw new GameException("Move "+move.getUUID()+" is trying to move a tile back into the same zone");
+                throw new GameException("Move "+move.toString()+"\n\tis trying to move a tile back into the same zone");
             }
         }
     }

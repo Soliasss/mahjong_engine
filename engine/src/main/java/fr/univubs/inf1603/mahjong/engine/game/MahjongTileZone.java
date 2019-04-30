@@ -3,6 +3,7 @@ package fr.univubs.inf1603.mahjong.engine.game;
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.UUID;
 
 /**
@@ -44,6 +45,7 @@ public class MahjongTileZone implements TileZone, Persistable {
      */
     public void addTile(GameTile tile) {
         this.tiles.add(tile);
+        this.propertyChangeSupport.firePropertyChange(TILELIST, null, this.tiles);
     }
 
     /**
@@ -53,6 +55,7 @@ public class MahjongTileZone implements TileZone, Persistable {
      */
     public void removeTile(GameTile tile) {
         this.tiles.remove(tile);
+        this.propertyChangeSupport.firePropertyChange(TILELIST, null, this.tiles);
     }
 
     @Override
