@@ -1,5 +1,6 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 import fr.univubs.inf1603.mahjong.Wind;
+import org.apache.log4j.Logger;
 
 /**
  * Season tiles are bonus tiles used in some rules, they are associated to winds.
@@ -11,6 +12,10 @@ public class SeasonTile extends SupremeHonor{
      * Symbol used to represent seasons during normalized naming
      */
     private static final char SEASON_SYMBOL='S';
+    
+    // Logger
+    private static final Logger LOGGER = Logger.getLogger(SeasonTile.class.getName());
+    
     /**
     * Enumeration of all seasons
     */
@@ -50,11 +55,13 @@ public class SeasonTile extends SupremeHonor{
      * @return Returns this tile's season
      */
     public Season getSeason(){
+        LOGGER.info("Enter to getSeason()");
         return this.season;
     }
     
     @Override
     public String toNormalizedName() {
+        LOGGER.info("Enter to toNormalizedName()");
         return String.format("%c%d",SEASON_SYMBOL,this.season.getValue());
     }
     
@@ -63,6 +70,7 @@ public class SeasonTile extends SupremeHonor{
      * @return a string with a windTle and its seasonTile associated
      */
     public String toString(){
+        LOGGER.info("Enter to toString()");
        return super.toString()+"wind_"+this.wind+"season_"+this.season;
    }
 }

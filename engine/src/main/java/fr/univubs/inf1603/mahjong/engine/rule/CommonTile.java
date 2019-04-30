@@ -1,10 +1,15 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
+import org.apache.log4j.Logger;
+
 /**
  * Represents common tiles (i.e bamboo,characters,dots) of a mahjong game.
  */
 
 public class CommonTile extends ComplexTile{
+    
+    // Logger
+    private static final Logger LOGGER = Logger.getLogger(CommonTile.class.getName());
     
     /**
      * Possible tile families of simple tiles
@@ -56,6 +61,7 @@ public class CommonTile extends ComplexTile{
      */
     @Override
     public Family getFamily(){
+        LOGGER.info("Enter to getFamily() method");
         return this.family;
     }
     
@@ -64,6 +70,7 @@ public class CommonTile extends ComplexTile{
      */
     @Override
     public Number getNumber(){
+        LOGGER.info("Enter to getNumber() method");
         return this.number;
     }
     
@@ -73,16 +80,19 @@ public class CommonTile extends ComplexTile{
      */
     @Override
     public boolean isMajor(){
+        LOGGER.info("Enter to isMajor() method");
         return (this.number == Number.ONE) || (this.number == Number.NINE);     
     }
     
     @Override
     public String toNormalizedName() {
+        LOGGER.info("Enter to toNormalizedName() method");
         return String.format("%c%c",this.getFamily().getSymbol(),this.getNumber().getSymbol()); 
     }
     
     @Override
     public String toString(){
+        LOGGER.info("Enter to toString() method");
         return super.toString()+"family_"+this.family+"number_"+this.number;
     }
 }
