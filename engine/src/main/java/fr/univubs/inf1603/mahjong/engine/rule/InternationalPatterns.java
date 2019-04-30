@@ -1447,7 +1447,7 @@ enum InternationalPatterns implements IdentifiablePattern {
             Pattern patternDot = Pattern.compile("d.");
             Pattern patternCharacter = Pattern.compile("c.");
             Pattern patternBamboo = Pattern.compile("b.");
-            for(Combination currentCombi : set.getHand()){
+            for(Combination currentCombi : set.getAllCombinations()){
                 AbstractTile currentTile = currentCombi.getTiles()[0].getTile();
                 Matcher matcherDragon = patternDragon.matcher(currentTile.toNormalizedName());
                 Matcher matcherWind = patternWind.matcher(currentTile.toNormalizedName());
