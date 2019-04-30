@@ -73,58 +73,7 @@ public class GameRuleFactoryTest {
         assertEquals(expName, result.getName());
     }
     
-    /**
-     * Test of create method, of class GameRuleFactory.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testCreate_BoardRule_ScoringSystem_Create() throws Exception {
-        System.out.println("create");
-        BoardRule boardRule = new TestBoardRule();
-        ScoringSystem scoringSystem = new InternationalScoringSystem(InternationalPatternList.DEFAULT);
-        GameRule expResult = new GameRuleImpl(boardRule, scoringSystem);
-        GameRuleFactory instance = new GameRuleFactory();
-        GameRule result = instance.create(boardRule, scoringSystem);
-        assertEquals(expResult.getBoardRule(), result.getBoardRule());
-        assertEquals(expResult.getScoringSystem(), result.getScoringSystem());
-
-    }
-
-    private static class TestBoardRule implements BoardRule {
-
-        public TestBoardRule() {
-        }
-
-        @Override
-        public Wind[] getPlayerOrder() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public StartingWall buildWall() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public MahjongBoard distributeTiles(StartingWall startingWall) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean isMoveValid(MahjongBoard board, Move lastMove, Move move) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean isGameFinished(MahjongBoard board, Move lastMove) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    }
+    
     
     
     
