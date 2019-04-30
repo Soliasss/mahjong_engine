@@ -94,6 +94,9 @@ public class MahjongTileZone implements TileZone, Persistable {
     @Override
     public ArrayList<GameTileInterface> getTiles() {
         LOGGER.info("Enter to getTiles() method");
+        if(this.tiles==null){
+            return new ArrayList<>();
+        }
         return (ArrayList<GameTileInterface>) this.tiles;
     }
 
