@@ -30,10 +30,6 @@ public class MahjongGame implements Game {
     private boolean ableToRegisterMoves;
 
     private int[] playerPoints;
-    /**
-     * Liste des mahjong possible par joueur
-     */
-    private HashMap<Wind,Collection<PlayerSet>> mahjongSet;
     
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
@@ -234,8 +230,12 @@ public class MahjongGame implements Game {
     private synchronized void applyMove(Move move) throws GameException {
         try {
             System.out.println();
-            this.board.applyMove(move);
-            this.lastPlayedMove = move;
+            if(!move.getPath().isEmpty()){
+                this.board.applyMove(move);
+                this.lastPlayedMove = move;
+            }else{
+                this.applyMahjong(move.getWind());
+            }                
             this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
         } catch (GameException ge) {
             throw new GameException(ge.getMessage());
@@ -481,19 +481,18 @@ public class MahjongGame implements Game {
             }
         } catch (GameException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RulesException ex) {
-            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     /**
-     * Mets a jour la liste de mahjong possible par joueur
-     * @throws GameException 
+     * Si le retour est une liste vide il n'y a pas mahjong
+     * @param wind
+     * @param set
+     * @return 
      */
-    private void getMahjong() throws GameException{
+    private void applyMahjong(Wind wind){
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
-            
-        for(Wind wind : Wind.values()){
+        try {
             //WINNINGTILE
             Integer idLastTile = 0;
             for(Integer inte : lastPlayedMove.getPath().keySet()) idLastTile = inte;
@@ -540,33 +539,26 @@ public class MahjongGame implements Game {
             }
             boolean drawnFromWall = false;
             boolean takenFromDiscard = false;
+
             PlayerSituation situation = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors,
                     drawnFromWall, takenFromDiscard, board.getCurrentWind(), wind);
-
-            InternationalScoringSystem scoring = InternationalScoringSystem.DEFAULT;
-            mahjongSet.put(wind, scoring.createSetsFromSituation(situation));
-        }   
-    }
-    
-    /**
-     * Si le retour est une liste vide il n'y a pas mahjong
-     * @param wind
-     * @param set
-     * @return 
-     */
-    private Collection<IdentifiedPattern> applyMahjong(Wind wind, PlayerSet set){
-        if(mahjongSet.get(wind).contains(set)){
-            Collection<IdentifiedPattern> patterns = this.rule.getScoringSystem().identifyPatterns(set);
-            Collection<IdentifiedPattern> bestPatterns = new ArrayList<IdentifiedPattern> ();
-            int maxScore = 0;
-            for(Collection<IdentifiedPattern> split : this.rule.getScoringSystem().splitIncompatiblePatterns(patterns)){
-                if(this.rule.getScoringSystem().computeScore(split)>maxScore){
-                    maxScore = this.rule.getScoringSystem().computeScore(split);
-                    bestPatterns.addAll(split);
+            
+            int max = 0;
+            ScoringSystem scoring = this.rule.getScoringSystem();
+            for(PlayerSet setPlayer :  scoring.createSetsFromSituation(situation) ){
+                
+                Collection<IdentifiedPattern> allPatterns = scoring.identifyPatterns(setPlayer);
+                
+                for ( Collection<IdentifiedPattern> split : scoring.splitIncompatiblePatterns(allPatterns)){
+                    int nb = scoring.computeScore(split);
+                    if(nb > max) max = nb;
                 }
+                
             }
-            return bestPatterns;
+            
+        } catch (GameException ex) {
+            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new ArrayList<IdentifiedPattern> ();
+
     } 
 }
