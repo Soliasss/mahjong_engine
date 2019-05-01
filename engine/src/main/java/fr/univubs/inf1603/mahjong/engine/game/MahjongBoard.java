@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import org.apache.log4j.Logger;
+
 
 /**
  * MahjongBoard represents the mahjong board during the game.
@@ -36,6 +38,9 @@ public class MahjongBoard implements Board, Cloneable {
      */
     private HashMap<GameTileInterface,TileZone> tileToZone;
 
+    private static final Logger LOGGER = Logger.getLogger(GameTile.class.getName());
+
+    
     /**
      * This constructor allows initialization of all fields and should only be
      * used by a persistence framework, factories, or other constructors of this
@@ -46,6 +51,7 @@ public class MahjongBoard implements Board, Cloneable {
      * @param zones La liste des zones
      */
     public MahjongBoard(Wind wind, UUID uuid, EnumMap<TileZoneIdentifier, TileZone> zones) {
+        LOGGER.info("MahjongBoard constructor/4 entry");
         this.currentWind = wind;
         this.uuid = uuid;
         this.zones = zones;
@@ -58,6 +64,7 @@ public class MahjongBoard implements Board, Cloneable {
      * @param wind Le vent courrant du board
      */
     public MahjongBoard(Wind wind) {
+        LOGGER.info("MahjongBoard constructor/1 entry");
         this.currentWind = wind;
         this.uuid = UUID.randomUUID();
         this.zones = new EnumMap<>(TileZoneIdentifier.class);
