@@ -545,6 +545,76 @@ public class InternationalPatternsTest {
     }
     
     @Test
+    public void allTypes(){
+        System.out.println("allTypes");
+        
+        GameTile winningTile = null;
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        
+        GameTile dot1 = new GameTile(1, InternationalTiles.DOT_1);
+        GameTile dot1b = new GameTile(2, InternationalTiles.DOT_1);
+        GameTile dot1t = new GameTile(3, InternationalTiles.DOT_1);
+        
+        GameTile bamboo4 = new GameTile(4, InternationalTiles.BAMBOO_4);
+        GameTile bamboo4b = new GameTile(5, InternationalTiles.BAMBOO_4);
+        GameTile bamboo4t = new GameTile(6, InternationalTiles.BAMBOO_4);
+        
+        GameTile car1 = new GameTile(10, InternationalTiles.CHARACTER_1);
+        GameTile car2 = new GameTile(11, InternationalTiles.CHARACTER_2);
+        GameTile car3 = new GameTile(12, InternationalTiles.CHARACTER_3);
+        
+        
+        GameTile wind = new GameTile(14, InternationalTiles.WIND_EAST);
+        GameTile windb = new GameTile(15, InternationalTiles.WIND_EAST);
+        GameTile windt = new GameTile(13, InternationalTiles.WIND_EAST);
+        
+        GameTile dragon = new GameTile(9, InternationalTiles.DRAGON_GREEN);
+        GameTile dragonb = new GameTile(8, InternationalTiles.DRAGON_GREEN);
+        
+        Combination combiDots = null;
+        Combination combiDotsB = null;
+        Combination combiDotsT = null;
+        Combination combiWind = null;
+        Combination combiDragon = null;
+        
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot1b, dot1t);
+            combiDotsB = newCombiFact.newCombination(bamboo4, bamboo4b, bamboo4t);
+            combiDotsT = newCombiFact.newCombination(car1, car2, car3);
+            combiWind = newCombiFact.newCombination(wind, windb, windt);
+            combiDragon = newCombiFact.newCombination(dragon, dragonb);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        hand.add(combiDots);
+        hand.add(combiDotsB);
+        hand.add(combiDotsT);
+        hand.add(combiWind);
+        hand.add(combiDragon);
+        
+        try {
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.ALL_TYPES;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+
+            for (IdentifiedPattern iP : pattern) {
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(14, tiles.size());
+                assertEquals(iP.getPattern(), InternationalPatterns.ALL_TYPES);
+                assertEquals(iP.getPattern().getValue(), 6);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
     public void pungOfTerminalsOrHonors() {
         System.out.println("pungOfTerminalsOrHonors");
         //Création de la winningTile

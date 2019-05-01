@@ -30,7 +30,7 @@ public class MahjongGame implements Game {
     private boolean ableToRegisterMoves;
 
     private int[] playerPoints;
-    
+  
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     /**
@@ -62,13 +62,25 @@ public class MahjongGame implements Game {
 
     /**
      * This is a constructor of MahjongGame
+     *  @param rule Rules of this game
+     * @param stealingTime The time players have to decide if they can steal a
+     * discarded tile
+ * @param playingTime This players have to decide what to discard
+     */
+    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime) {
+        this(UUID.randomUUID(), rule, stealingTime, playingTime);
+    }
+
+    /**
+     * This is a constructor of MahjongGame
      *
+     * @param uuid {@link UUID} of the game
      * @param rule Rules of this game
      * @param stealingTime The time players have to decide if they can steal a
      * discarded tile
      * @param playingTime This players have to decide what to discard
      */
-    public MahjongGame(GameRule rule, Duration stealingTime, Duration playingTime) {
+    public MahjongGame(UUID uuid, GameRule rule, Duration stealingTime, Duration playingTime) {
         this.rule = rule;
         this.stealingTime = stealingTime;
 
@@ -76,7 +88,7 @@ public class MahjongGame implements Game {
 
         this.lastPlayedMove = null;
         this.board = null;
-        this.uuid = UUID.randomUUID();
+        this.uuid = uuid;
         this.playerPoints = new int[4];
         this.playerWind = this.rule.getBoardRule().getPlayerOrder();
         
@@ -114,7 +126,7 @@ public class MahjongGame implements Game {
     }
 
     @Override
-    public ArrayList<Move> getPossibleMoves(Wind wind) throws GameException {
+    public ArrayList<Move> getPossibleMoves(Wind wind) {
         Map<Wind, Collection<Move>> moves = new HashMap<>(this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove));
         if (moves.containsKey(wind))
             return new ArrayList<>(moves.get(wind));
@@ -233,10 +245,10 @@ public class MahjongGame implements Game {
             if(!move.getPath().isEmpty()){
                 this.board.applyMove(move);
                 this.lastPlayedMove = move;
+                this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
             }else{
                 this.applyMahjong(move.getWind());
             }                
-            this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
         } catch (GameException ge) {
             throw new GameException(ge.getMessage());
         }
@@ -483,9 +495,9 @@ public class MahjongGame implements Game {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
-     * Si le retour est une liste vide il n'y a pas mahjong
+     * Si le dernier move n'est pas changer il n'y a pas mahjong
      * @param wind
      * @param set
      * @return 
@@ -542,7 +554,7 @@ public class MahjongGame implements Game {
 
             PlayerSituation situation = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors,
                     drawnFromWall, takenFromDiscard, board.getCurrentWind(), wind);
-            
+          
             int max = 0;
             ScoringSystem scoring = this.rule.getScoringSystem();
             for(PlayerSet setPlayer :  scoring.createSetsFromSituation(situation) ){
@@ -555,7 +567,9 @@ public class MahjongGame implements Game {
                 }
                 
             }
-            
+          if(max !=0){
+            this.lastPlayedMove = new Move(wind,-1,new HashMap<Integer,TileZoneIdentifier>(),new HashMap<Integer,Boolean>());               
+            this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
         } catch (GameException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
