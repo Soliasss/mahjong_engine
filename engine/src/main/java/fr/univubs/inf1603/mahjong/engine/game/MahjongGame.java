@@ -570,7 +570,7 @@ public class MahjongGame implements Game {
           if(max !=0){
             this.lastPlayedMove = new Move(wind,-1,new HashMap<Integer,TileZoneIdentifier>(),new HashMap<Integer,Boolean>());               
             this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
-        } catch (GameException ex) {
+        } }catch (GameException ex) {
             Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
