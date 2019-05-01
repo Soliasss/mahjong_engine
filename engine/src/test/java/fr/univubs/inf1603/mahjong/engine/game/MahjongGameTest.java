@@ -27,26 +27,6 @@ public class MahjongGameTest {
     }
 
     
-    /**
-     * Test of getBoard method, of class MahjongGame.
-     */
-    @Test
-    public void testGetBoard_Wind() {
-        try{
-            System.out.println("getBoard");
-            Wind wind = Wind.NORTH;
-            GameRule rule = new GameRuleFactory().create("SILLY");
-            MahjongBoard board = new MahjongBoard(Wind.WEST);
-            MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), new int[4], UUID.randomUUID(), Wind.values());
-            Board expResult = board.getViewFromWind(wind);
-            Board result = instance.getBoard(wind);
-            assertEquals(expResult.getCurrentWind(), result.getCurrentWind());
-       
-        }   
-        catch (GameException | RulesException ex) {
-            fail("MahjongGame threw an exception :"+ex);
-        }
-    }
 
     /**
      * Test of getBoard method, of class MahjongGame.
