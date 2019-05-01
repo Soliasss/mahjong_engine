@@ -113,6 +113,7 @@ public class InternationalPatternsTest {
             Combination combiBams = newCombiFact.newCombination(bam7, bam8, bam9);
             Combination combiBamsBis = newCombiFact.newCombination(bam1, bam1b, bam1t);
             melds.add(combiBamsBis);
+            melds.add(combiBams);
             
             Collection<Combination> concealed = new ArrayList<>();
             Collection<GameTile> supremeHonors = new ArrayList<>();
@@ -171,6 +172,7 @@ public class InternationalPatternsTest {
             Combination combiBams = newCombiFact.newCombination(bam6, bam6b, bam6t);
             Combination combiBamsBis = newCombiFact.newCombination(bam1, bam1b, bam1t);
             melds.add(combiBamsBis);
+            melds.add(combiBams);
             
             Collection<Combination> concealed = new ArrayList<>();
             Collection<GameTile> supremeHonors = new ArrayList<>();
