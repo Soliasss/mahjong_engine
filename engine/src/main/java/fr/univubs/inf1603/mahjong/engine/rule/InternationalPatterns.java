@@ -1690,7 +1690,7 @@ enum InternationalPatterns implements IdentifiablePattern {
             GameTile winningTile = set.getWinningTile();
             
             if( allMelds.isEmpty() && allMelds != null && winningTile != null && set.isDrawnForWall()){
-                for(Combination aCombi : set.getHand()){
+                for(Combination aCombi : set.getConcealed()){
                     combiFound.addAll(Arrays.asList(aCombi.getTiles()));
                 }
                 IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);

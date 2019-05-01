@@ -873,4 +873,290 @@ public class InternationalPatternsTest {
             Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Test
+    public void fullyConcealedHand(){
+        System.out.println("fullyConcealedHand");
+        //Création de la winningTile
+        GameTile winningTile = new GameTile(14, InternationalTiles.BAMBOO_1);
+        //Création de la factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        //Création de la main
+        Collection<Combination> hand = new ArrayList<>();
+        GameTile dot1 = new GameTile(0, InternationalTiles.DOT_1);
+        GameTile dot2 = new GameTile(1, InternationalTiles.DOT_2);
+        GameTile dot3 = new GameTile(2, InternationalTiles.DOT_3);
+        GameTile dot6 = new GameTile(3, InternationalTiles.DOT_6);
+        GameTile dot7 = new GameTile(4, InternationalTiles.DOT_7);
+        GameTile dot8 = new GameTile(5, InternationalTiles.DOT_8);
+        GameTile bamboo2 = new GameTile(6, InternationalTiles.BAMBOO_2);
+        GameTile bamboo2bis = new GameTile(7, InternationalTiles.BAMBOO_2);
+
+        Combination combiDots = null;
+        Combination combiDotsBis = null;
+        Combination combiBamboos = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot2, dot3);
+            combiDotsBis = newCombiFact.newCombination(dot6, dot7, dot8);
+            combiBamboos = newCombiFact.newCombination(bamboo2, bamboo2bis);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Collection<Combination> concealed = new ArrayList<>();
+        concealed.add(combiDots);
+        concealed.add(combiDotsBis);
+        concealed.add(combiBamboos);
+        //Création des melds
+        Collection<Combination> melds = new ArrayList<>();
+        GameTile carac1 = new GameTile(8, InternationalTiles.CHARACTER_1);
+        GameTile carac1bis = new GameTile(9, InternationalTiles.CHARACTER_1);
+        GameTile carac1ter = new GameTile(10, InternationalTiles.CHARACTER_1);
+        GameTile dragonG = new GameTile(11, InternationalTiles.DRAGON_RED);
+        GameTile dragonW = new GameTile(12, InternationalTiles.DRAGON_RED);
+        GameTile dragonR = new GameTile(13, InternationalTiles.DRAGON_RED);
+
+        try {
+            Combination combiCars = newCombiFact.newCombination(carac1, carac1bis, carac1ter);
+            Combination combiDragons = newCombiFact.newCombination(dragonG, dragonR, dragonW);
+
+            concealed.add(combiCars);
+            concealed.add(combiDragons);
+            //Création des cachés et des honneurs
+            
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            //Création d'un set
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, true, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.FULLY_CONCEALED_HAND;
+
+            //Appel de la méthode d'identification par rapport au set créé
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            //ArrayList de retour pour transformer un IdentifiedPattern en GameTile
+
+            for (IdentifiedPattern iP : pattern) {
+                //Le but est le suivant : chaque tuiles du patterns identifié doivent être comparées à la combinaison créée
+                //Soit : Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
+                //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
+                //Donc que le contenu de toTest soit égale à combiCars de notre test
+                //toTest.addAll(iP.getTiles());
+                System.out.println("fully_concealed pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.FULLY_CONCEALED_HAND);
+                assertEquals(14, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 4);
+            }
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void dragonPung(){
+        System.out.println("dragonPung");
+        //Création de la winningTile
+        GameTile winningTile = new GameTile(14, InternationalTiles.BAMBOO_1);
+        //Création de la factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        //Création de la main
+        Collection<Combination> hand = new ArrayList<>();
+        GameTile dot1 = new GameTile(0, InternationalTiles.DOT_1);
+        GameTile dot2 = new GameTile(1, InternationalTiles.DOT_2);
+        GameTile dot3 = new GameTile(2, InternationalTiles.DOT_3);
+        GameTile dot6 = new GameTile(3, InternationalTiles.DOT_6);
+        GameTile dot7 = new GameTile(4, InternationalTiles.DOT_7);
+        GameTile dot8 = new GameTile(5, InternationalTiles.DOT_8);
+        GameTile bamboo2 = new GameTile(6, InternationalTiles.BAMBOO_2);
+        GameTile bamboo2bis = new GameTile(7, InternationalTiles.BAMBOO_2);
+
+        Combination combiDots = null;
+        Combination combiDotsBis = null;
+        Combination combiBamboos = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot2, dot3);
+            combiDotsBis = newCombiFact.newCombination(dot6, dot7, dot8);
+            combiBamboos = newCombiFact.newCombination(bamboo2, bamboo2bis);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Collection<Combination> concealed = new ArrayList<>();
+        concealed.add(combiDots);
+        concealed.add(combiDotsBis);
+        concealed.add(combiBamboos);
+        //Création des melds
+        Collection<Combination> melds = new ArrayList<>();
+        GameTile carac1 = new GameTile(8, InternationalTiles.CHARACTER_1);
+        GameTile carac1bis = new GameTile(9, InternationalTiles.CHARACTER_1);
+        GameTile carac1ter = new GameTile(10, InternationalTiles.CHARACTER_1);
+        GameTile dragonG = new GameTile(11, InternationalTiles.DRAGON_RED);
+        GameTile dragonW = new GameTile(12, InternationalTiles.DRAGON_RED);
+        GameTile dragonR = new GameTile(13, InternationalTiles.DRAGON_RED);
+
+        try {
+            Combination combiCars = newCombiFact.newCombination(carac1, carac1bis, carac1ter);
+            Combination combiDragons = newCombiFact.newCombination(dragonG, dragonR, dragonW);
+
+            concealed.add(combiCars);
+            concealed.add(combiDragons);
+            //Création des cachés et des honneurs
+            
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            //Création d'un set
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, true, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.DRAGON_PUNG;
+
+            //Appel de la méthode d'identification par rapport au set créé
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            //ArrayList de retour pour transformer un IdentifiedPattern en GameTile
+
+            for (IdentifiedPattern iP : pattern) {
+                //Le but est le suivant : chaque tuiles du patterns identifié doivent être comparées à la combinaison créée
+                //Soit : Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
+                //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
+                //Donc que le contenu de toTest soit égale à combiCars de notre test
+                //toTest.addAll(iP.getTiles());
+                System.out.println("dragon_pung pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.DRAGON_PUNG);
+                assertEquals(3, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void prevalentWind(){
+        System.out.println("prevalentWind");
+        //Création de la winningTile
+        GameTile winningTile = new GameTile(14, InternationalTiles.BAMBOO_1);
+        //Création de la factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        //Création de la main
+        Collection<Combination> hand = new ArrayList<>();
+        GameTile dot1 = new GameTile(0, InternationalTiles.DOT_1);
+        GameTile dot2 = new GameTile(1, InternationalTiles.DOT_2);
+        GameTile dot3 = new GameTile(2, InternationalTiles.DOT_3);
+        
+
+        Combination combiDots = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot2, dot3);
+            
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Collection<Combination> concealed = new ArrayList<>();
+        concealed.add(combiDots);
+        //Création des melds
+        Collection<Combination> melds = new ArrayList<>();
+        GameTile carac1 = new GameTile(8, InternationalTiles.CHARACTER_1);
+        GameTile carac1bis = new GameTile(9, InternationalTiles.CHARACTER_1);
+        GameTile carac1ter = new GameTile(10, InternationalTiles.CHARACTER_1);
+        GameTile windD = new GameTile(11, InternationalTiles.WIND_SOUTH);
+        GameTile windDb = new GameTile(12, InternationalTiles.WIND_SOUTH);
+        GameTile windDt = new GameTile(13, InternationalTiles.WIND_SOUTH);
+
+        try {
+            Combination combiCars = newCombiFact.newCombination(carac1, carac1bis, carac1ter);
+            Combination combiDragons = newCombiFact.newCombination(windD, windDb, windDt);
+
+            concealed.add(combiCars);
+            hand.add(combiDragons);
+            //Création des cachés et des honneurs
+            
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            //Création d'un set
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, true, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.PREVALENT_WIND;
+
+            //Appel de la méthode d'identification par rapport au set créé
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            //ArrayList de retour pour transformer un IdentifiedPattern en GameTile
+
+            for (IdentifiedPattern iP : pattern) {
+                //Le but est le suivant : chaque tuiles du patterns identifié doivent être comparées à la combinaison créée
+                //Soit : Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
+                //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
+                //Donc que le contenu de toTest soit égale à combiCars de notre test
+                //toTest.addAll(iP.getTiles());
+                System.out.println("prevalent_wind pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.PREVALENT_WIND);
+                assertEquals(3, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void seatWind(){
+        System.out.println("seatWind");
+        //Création de la winningTile
+        GameTile winningTile = new GameTile(14, InternationalTiles.BAMBOO_1);
+        //Création de la factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        //Création de la main
+        Collection<Combination> hand = new ArrayList<>();
+        GameTile dot1 = new GameTile(0, InternationalTiles.DOT_1);
+        GameTile dot2 = new GameTile(1, InternationalTiles.DOT_2);
+        GameTile dot3 = new GameTile(2, InternationalTiles.DOT_3);
+        
+
+        Combination combiDots = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot2, dot3);
+            
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Collection<Combination> concealed = new ArrayList<>();
+        concealed.add(combiDots);
+        //Création des melds
+        Collection<Combination> melds = new ArrayList<>();
+        GameTile carac1 = new GameTile(8, InternationalTiles.CHARACTER_1);
+        GameTile carac1bis = new GameTile(9, InternationalTiles.CHARACTER_1);
+        GameTile carac1ter = new GameTile(10, InternationalTiles.CHARACTER_1);
+        GameTile windD = new GameTile(11, InternationalTiles.WIND_EAST);
+        GameTile windDb = new GameTile(12, InternationalTiles.WIND_EAST);
+        GameTile windDt = new GameTile(13, InternationalTiles.WIND_EAST);
+
+        try {
+            Combination combiCars = newCombiFact.newCombination(carac1, carac1bis, carac1ter);
+            Combination combiDragons = newCombiFact.newCombination(windD, windDb, windDt);
+
+            concealed.add(combiCars);
+            hand.add(combiDragons);
+            //Création des cachés et des honneurs
+            
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            //Création d'un set
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, true, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.SEAT_WIND;
+
+            //Appel de la méthode d'identification par rapport au set créé
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            //ArrayList de retour pour transformer un IdentifiedPattern en GameTile
+
+            for (IdentifiedPattern iP : pattern) {
+                //Le but est le suivant : chaque tuiles du patterns identifié doivent être comparées à la combinaison créée
+                //Soit : Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
+                //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
+                //Donc que le contenu de toTest soit égale à combiCars de notre test
+                //toTest.addAll(iP.getTiles());
+                System.out.println("seat_wind pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.SEAT_WIND);
+                assertEquals(3, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
