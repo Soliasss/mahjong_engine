@@ -81,12 +81,15 @@ public class MahjongBoard implements Board, Cloneable {
     }
     
     /**
-     * Retourne la vision du board du point de vue d un joueur
+     * Retourne la vision du board du point de vue d'un joueur
      * @param wind Le cote du joueur
-     * @return Un board du poiunt de vue du joueur
-     * @throws GameException Si le vent courrant est null
+     * @return Un board du point de vue du joueur
+     * @throws GameException
      */
     Board getViewFromWind(Wind wind) throws GameException{
+        if(wind==null){
+            return this;
+        }
         MahjongBoard  retBoard = new MahjongBoard(this.getCurrentWind());
         String nameHand = "Hand"+wind.getName();
         String meld0 = "Meld"+wind.getName()+"0";
