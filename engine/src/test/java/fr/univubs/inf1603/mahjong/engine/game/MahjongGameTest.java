@@ -36,7 +36,7 @@ public class MahjongGameTest {
         
         try {
             System.out.println("getBoard");
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard expResult = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, expResult, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), new int[4], UUID.randomUUID(), Wind.values());
             Board result = instance.getBoard();
@@ -78,7 +78,7 @@ public class MahjongGameTest {
     public void testGetStealingTime()  {
         try {
             System.out.println("getStealingTime");
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             Duration expResult = Duration.ofDays(5);
             MahjongGame instance = new MahjongGame(rule, expResult, Duration.ZERO);
             Duration result = instance.getStealingTime();
@@ -95,7 +95,7 @@ public class MahjongGameTest {
     public void testGetPlayingTime() {
         try {
             System.out.println("getPlayingTime");
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             Duration expResult = Duration.ofDays(5);
             MahjongGame instance = new MahjongGame(rule, Duration.ZERO, expResult);
             Duration result = instance.getPlayingTime();
@@ -112,7 +112,7 @@ public class MahjongGameTest {
     public void testGetLastPlayedMove(){
         try {
             System.out.println("getLastPlayedMove");
-            GameRule rule =  new GameRuleFactory().create("SILLY");
+            GameRule rule =  new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             HashMap path = new HashMap<>();
             path.put(0, TileZoneIdentifier.Wall);
@@ -135,7 +135,7 @@ public class MahjongGameTest {
     public void testGetUUID() {
         try {
             System.out.println("getUUID");
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             UUID expResult = UUID.randomUUID();
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), new int[4], expResult, Wind.values());
@@ -154,7 +154,7 @@ public class MahjongGameTest {
     public void testGetRule() {
         try {
             System.out.println("getRule");
-            GameRule expResult = new GameRuleFactory().create("SILLY");
+            GameRule expResult = new GameRuleFactory().create("INTERNATIONAL");
             MahjongGame instance = new MahjongGame(expResult, Duration.ZERO, Duration.ZERO);
             GameRule result = instance.getRule();
             assertEquals(expResult, result);
@@ -170,7 +170,7 @@ public class MahjongGameTest {
     public void testGetCurrentwind(){
         try {
             System.out.println("getCurrentwind");
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), new int[4], UUID.randomUUID(), Wind.values());
             Wind expResult = board.getCurrentWind();
@@ -193,7 +193,7 @@ public class MahjongGameTest {
             pointsPlayer[1]=20;
             pointsPlayer[2]=30;
             pointsPlayer[3]=40;
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), pointsPlayer, UUID.randomUUID(), Wind.values());
             int expResult = pointsPlayer[1];
@@ -221,7 +221,7 @@ public class MahjongGameTest {
             windPlayer[1]=Wind.EAST;
             windPlayer[2]=Wind.SOUTH;
             windPlayer[3]=Wind.WEST;
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), pointsPlayer, UUID.randomUUID(), windPlayer);
             int expResult = pointsPlayer[1];
@@ -244,7 +244,7 @@ public class MahjongGameTest {
             expResult[1]=20;
             expResult[2]=30;
             expResult[3]=40;
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), expResult, UUID.randomUUID(), Wind.values());
             int[] result = instance.getAllPlayerPoints();
@@ -272,7 +272,7 @@ public class MahjongGameTest {
             windPlayer[1]=Wind.EAST;
             windPlayer[2]=Wind.SOUTH;
             windPlayer[3]=Wind.WEST;
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), pointsPlayer, UUID.randomUUID(), windPlayer);
             Wind expResult = windPlayer[1];
@@ -301,7 +301,7 @@ public class MahjongGameTest {
             windPlayer[1]=Wind.EAST;
             windPlayer[2]=Wind.SOUTH;
             windPlayer[3]=Wind.WEST;
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), pointsPlayer, UUID.randomUUID(), windPlayer);
             int expResult = 1;
@@ -329,7 +329,7 @@ public class MahjongGameTest {
             windPlayer[1]=Wind.EAST;
             windPlayer[2]=Wind.SOUTH;
             windPlayer[3]=Wind.WEST;
-            GameRule rule = new GameRuleFactory().create("SILLY");
+            GameRule rule = new GameRuleFactory().create("INTERNATIONAL");
             MahjongBoard board = new MahjongBoard(Wind.WEST);
             MahjongGame instance = new MahjongGame(rule, board, (Move)null, Duration.ofSeconds(5), Duration.ofSeconds(5), pointsPlayer, UUID.randomUUID(), windPlayer);
             Wind[] expResult = windPlayer;

@@ -199,7 +199,11 @@ public class MahjongGame implements Game {
 
     @Override
     public int getPlayerPoints(Wind wind){
-        return this.playerPoints[wind.ordinal()];
+        int indexOfWind = 0;
+        while (this.playerWind[indexOfWind] != wind) {
+            indexOfWind++;
+        }
+        return this.playerPoints[indexOfWind];
     }
 
     @Override
