@@ -31,9 +31,8 @@ public class Move implements Persistable,Serializable, Cloneable {
      * tuile(s) concernés par le Move. Le numéro représente l'ID de la tuile, le boolean représente
      * la visibilité de la tuile : true = tuile visible
      * @param uuid
-     * @throws fr.univubs.inf1603.mahjong.engine.game.MoveException
      */
-    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publiclyVisible, UUID uuid) throws MoveException {
+    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publiclyVisible, UUID uuid){
         this.wind = wind;
 
         if (priority < 0) {
@@ -60,7 +59,7 @@ public class Move implements Persistable,Serializable, Cloneable {
         this.uuid = uuid;
     }
 
-    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publiclyVisible) throws MoveException {
+    public Move(Wind wind, int priority, HashMap<Integer, TileZoneIdentifier> path, HashMap<Integer, Boolean> publiclyVisible){
         this(wind, priority, path, publiclyVisible, UUID.randomUUID());
     }
 

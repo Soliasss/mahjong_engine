@@ -335,18 +335,14 @@ public class InternationalBoardRule implements BoardRule{
     public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
         EnumMap<Wind, Collection<Move>> moves = new EnumMap<>(Wind.class);
         Wind nextWindToPlay = null;
-        try{
-            if(lastMove == null){
-                HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
-                path.put(null, TileZoneIdentifier.HandEast);
-                HashMap<Integer, Boolean> visible = new HashMap<Integer, Boolean>();
-                for(Integer inte : path.keySet()){
-                    visible.put(inte, true);
-                }
-                lastMove = new Move(Wind.EAST, 0, path,visible);
+        if(lastMove == null){
+            HashMap<Integer,TileZoneIdentifier> path = new HashMap<>();
+            path.put(null, TileZoneIdentifier.HandEast);
+            HashMap<Integer, Boolean> visible = new HashMap<Integer, Boolean>();
+            for(Integer inte : path.keySet()){
+                visible.put(inte, true);
             }
-        } catch (MoveException ex) {
-            Logger.getLogger(InternationalBoardRule.class.getName()).log(Level.SEVERE, null, ex);
+            lastMove = new Move(Wind.EAST, 0, path,visible);
         }
         char lastMoveTZIFirstLetter='n';
         for(TileZoneIdentifier tziTest : lastMove.getPath().values()){
