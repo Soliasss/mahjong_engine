@@ -1484,15 +1484,26 @@ enum InternationalPatterns implements IdentifiablePattern {
             Collection<GameTile> combiFound = new ArrayList<>();
             Collection<Combination> allHand = set.getHand();
             GameTile winningTile = set.getWinningTile();
+            boolean winningPair = false;
             
             if( allHand.isEmpty() && winningTile != null && set.isTakenFromDiscard() && set.getConcealed().isEmpty()){
                 for(Combination aCombi : set.getMelds()){
-                    if( aCombi.isChow() || aCombi.isPung() || aCombi.isKong())
+                    if( aCombi.isChow() || aCombi.isPung() || aCombi.isKong() ){
                         combiFound.addAll(Arrays.asList(aCombi.getTiles()));
+                    }
+                    
+                    if( aCombi.isPair()){                        
+                        if( aCombi.getTiles()[1].getTile().equals(set.getWinningTile().getTile()) ) winningPair=true;
+                        combiFound.addAll(Arrays.asList(aCombi.getTiles()));
+                    }
                 }
+            }
+            
+            if(winningPair){
                 IdentifiedPattern pattern = new IdentifiedPattern(this, combiFound);
                 toReturn.add(pattern);
-            }
+            }    
+            
             return toReturn;
         }
     },
@@ -1516,9 +1527,11 @@ enum InternationalPatterns implements IdentifiablePattern {
             for (Combination currentCombi: allCombinations) {
                 if(currentCombi.isKong()){
                     meldedKong++;
-                    isFind = true;
                     kongFound.addAll(Arrays.asList(currentCombi.getTiles()));
-                    break;
+                    if(meldedKong == 2){
+                        isFind = true;
+                        break;
+                    }
                 }
             }
             if(isFind && meldedKong==2){

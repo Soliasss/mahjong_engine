@@ -64,6 +64,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("mixedTripleChows pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(9, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.MIXED_TRIPLE_CHOWS);
@@ -121,6 +122,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("mixedStraight pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(9, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.MIXED_STRAIGHT);
@@ -178,6 +180,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("mixedShiftedPungs pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(9, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.MIXED_SHIFTED_PUNGS);
@@ -236,6 +239,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("twoConcealedKongs pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(8, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.TWO_CONCEALED_KONGS);
@@ -247,7 +251,7 @@ public class InternationalPatternsTest {
     }
     
     @Test
-    public void reverisbleTiles(){
+    public void reversibleTiles(){
         System.out.println("reversibleTiles");
         GameTile winningTile = null;
         AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
@@ -293,6 +297,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("reversibleTiles pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(11, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.REVERSIBLE_TILES);
@@ -352,6 +357,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("twoDragonsPungs pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(7, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.TWO_DRAGON_PUNGS);
@@ -410,6 +416,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("mixedShiftedChows pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(9, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.MIXED_SHIFTED_CHOWS);
@@ -475,6 +482,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("allPungs pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(15, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.ALL_PUNGS);
@@ -534,6 +542,7 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("halfFlush pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(12, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.HALF_FLUSH);
@@ -604,10 +613,130 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
 
             for (IdentifiedPattern iP : pattern) {
+                System.out.println("allTypes pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(14, tiles.size());
                 assertEquals(iP.getPattern(), InternationalPatterns.ALL_TYPES);
                 assertEquals(iP.getPattern().getValue(), 6);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void meldedHand(){        
+        System.out.println("meldedHand");
+        
+        GameTile winningTile = new GameTile(1, InternationalTiles.WIND_SOUTH);
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        
+        GameTile dot1 = new GameTile(2, InternationalTiles.DOT_1);
+        GameTile dot1b = new GameTile(3, InternationalTiles.DOT_1);
+        GameTile dot1t = new GameTile(4, InternationalTiles.DOT_1);
+        GameTile car2 = new GameTile(5, InternationalTiles.CHARACTER_2);
+        GameTile car3 = new GameTile(6, InternationalTiles.CHARACTER_3);
+        GameTile car4 = new GameTile(7, InternationalTiles.CHARACTER_4);
+        GameTile bam5 = new GameTile(8, InternationalTiles.BAMBOO_5);
+        GameTile bam5b = new GameTile(9, InternationalTiles.BAMBOO_5);
+        GameTile bam5t = new GameTile(10, InternationalTiles.BAMBOO_5);
+        GameTile bam5q = new GameTile(11, InternationalTiles.BAMBOO_5);
+        GameTile wind = new GameTile(12, InternationalTiles.WIND_SOUTH);
+        GameTile drag = new GameTile(13, InternationalTiles.DRAGON_GREEN);
+        GameTile dragb = new GameTile(14, InternationalTiles.DRAGON_GREEN);
+        
+        Combination combiDots = null;
+        Combination combiCars = null;
+        Combination combiBams = null;
+        Combination combiWind = null;
+        Combination combiDrags = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot1b, dot1t);
+            combiCars = newCombiFact.newCombination(car2, car3, car4);
+            combiBams = newCombiFact.newCombination(bam5, bam5b, bam5t, bam5q);
+            combiWind = newCombiFact.newCombination(wind, winningTile);
+            combiDrags = newCombiFact.newCombination(drag, dragb);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        melds.add(combiDots);
+        melds.add(combiCars);
+        melds.add(combiBams);
+        melds.add(combiDrags);
+        melds.add(combiWind);
+                
+        try {
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, true, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.MELDED_HAND;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("meldedHand pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(14, tiles.size());
+                assertEquals(iP.getPattern(), InternationalPatterns.MELDED_HAND);
+                assertEquals(iP.getPattern().getValue(), 6);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void twoMeldedKongs(){        
+        System.out.println("twoMeldedKongs");
+        
+        GameTile winningTile = null;
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        
+        GameTile dot1 = new GameTile(1, InternationalTiles.DOT_1);
+        GameTile dot1b = new GameTile(2, InternationalTiles.DOT_1);
+        GameTile dot1t = new GameTile(3, InternationalTiles.DOT_1);
+        GameTile dot1q = new GameTile(4, InternationalTiles.DOT_1);
+        GameTile car5 = new GameTile(10, InternationalTiles.CHARACTER_5);
+        GameTile car5b = new GameTile(11, InternationalTiles.CHARACTER_5);
+        GameTile car5t = new GameTile(12, InternationalTiles.CHARACTER_5);
+        GameTile car5q = new GameTile(13, InternationalTiles.CHARACTER_5);
+        GameTile wind = new GameTile(5, InternationalTiles.WIND_EAST);
+        GameTile windb = new GameTile(6, InternationalTiles.WIND_EAST);
+        
+        Combination combiDots = null;
+        Combination combiCars = null;
+        Combination combiWinds = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot1, dot1b, dot1t, dot1q);
+            combiCars = newCombiFact.newCombination(car5, car5b, car5t, car5q);
+            combiWinds = newCombiFact.newCombination(wind, windb);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        melds.add(combiDots);
+        melds.add(combiCars);
+        melds.add(combiWinds);
+        
+        try {
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.TWO_MELDED_KONGS;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("twoMeldedKongs pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(8, tiles.size());
+                assertEquals(iP.getPattern(), InternationalPatterns.TWO_MELDED_KONGS);
+                assertEquals(iP.getPattern().getValue(), 4);
             }
         } catch (Exception ex) {
             Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
@@ -679,6 +808,7 @@ public class InternationalPatternsTest {
                 //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
                 //Donc que le contenu de toTest soit égale à combiCars de notre test
                 //toTest.addAll(iP.getTiles());
+                System.out.println("pungOfTerminalsOrHonors pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 Collection<GameTile> combiTiles = new HashSet<>(Arrays.asList(combiCars.getTiles()));
                 assertEquals(combiTiles, tiles);
