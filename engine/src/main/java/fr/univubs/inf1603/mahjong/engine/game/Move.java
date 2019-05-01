@@ -41,9 +41,6 @@ public class Move implements Persistable,Serializable, Cloneable {
         }
         this.priority = priority;
 
-        if (path.isEmpty()) {
-            throw new MoveException("The path can not be empty.");
-        }
         this.path = path;
         
         if (publiclyVisible==null){

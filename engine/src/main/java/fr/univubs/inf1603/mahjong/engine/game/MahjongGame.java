@@ -30,7 +30,7 @@ public class MahjongGame implements Game {
     private boolean ableToRegisterMoves;
 
     private int[] playerPoints;
-
+  
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     /**
@@ -242,9 +242,13 @@ public class MahjongGame implements Game {
     private synchronized void applyMove(Move move) throws GameException {
         try {
             System.out.println();
-            this.board.applyMove(move);
-            this.lastPlayedMove = move;
-            this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
+            if(!move.getPath().isEmpty()){
+                this.board.applyMove(move);
+                this.lastPlayedMove = move;
+                this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
+            }else{
+                this.applyMahjong(move.getWind());
+            }                
         } catch (GameException ge) {
             throw new GameException(ge.getMessage());
         }
@@ -493,13 +497,14 @@ public class MahjongGame implements Game {
     }
 
     /**
-     * Mets a jour la liste de mahjong possible par joueur
-     * @throws GameException
+     * Si le dernier move n'est pas changer il n'y a pas mahjong
+     * @param wind
+     * @param set
+     * @return 
      */
-    private void getMahjong() throws GameException{
-        /*AbstractCombinationFactory factory = new InternationalCombinationFactory();
-
-        for(Wind wind : Wind.values()){
+    private void applyMahjong(Wind wind){
+        AbstractCombinationFactory factory = new InternationalCombinationFactory();
+        try {
             //WINNINGTILE
             Integer idLastTile = 0;
             for(Integer inte : lastPlayedMove.getPath().keySet()) idLastTile = inte;
@@ -546,33 +551,28 @@ public class MahjongGame implements Game {
             }
             boolean drawnFromWall = false;
             boolean takenFromDiscard = false;
+
             PlayerSituation situation = new PlayerSituation(winningTile, hand, concealed, melds, supremeHonors,
                     drawnFromWall, takenFromDiscard, board.getCurrentWind(), wind);
-
-            InternationalScoringSystem scoring = InternationalScoringSystem.DEFAULT;
-            mahjongSet.put(wind, scoring.createSetsFromSituation(situation));
-        }*/
-    }
-
-    /**
-     * Si le retour est une liste vide il n'y a pas mahjong
-     * @param wind
-     * @param set
-     * @return
-     */
-    private Collection<IdentifiedPattern> applyMahjong(Wind wind, PlayerSet set){
-        /*if(set.get(wind).contains(set)){
-            Collection<IdentifiedPattern> patterns = this.rule.getScoringSystem().identifyPatterns(set);
-            Collection<IdentifiedPattern> bestPatterns = new ArrayList<IdentifiedPattern> ();
-            int maxScore = 0;
-            for(Collection<IdentifiedPattern> split : this.rule.getScoringSystem().splitIncompatiblePatterns(patterns)){
-                if(this.rule.getScoringSystem().computeScore(split)>maxScore){
-                    maxScore = this.rule.getScoringSystem().computeScore(split);
-                    bestPatterns.addAll(split);
+          
+            int max = 0;
+            ScoringSystem scoring = this.rule.getScoringSystem();
+            for(PlayerSet setPlayer :  scoring.createSetsFromSituation(situation) ){
+                
+                Collection<IdentifiedPattern> allPatterns = scoring.identifyPatterns(setPlayer);
+                
+                for ( Collection<IdentifiedPattern> split : scoring.splitIncompatiblePatterns(allPatterns)){
+                    int nb = scoring.computeScore(split);
+                    if(nb > max) max = nb;
                 }
+                
             }
-            return bestPatterns;
-        }*/
-        return new ArrayList<IdentifiedPattern> ();
-    }
+          if(max !=0){
+            this.lastPlayedMove = new Move(wind,-1,new HashMap<Integer,TileZoneIdentifier>(),new HashMap<Integer,Boolean>());               
+            this.propertyChangeSupport.firePropertyChange(LAST_PLAYED_MOVE_PROPERTY, null, this.lastPlayedMove);
+        } catch (GameException ex) {
+            Logger.getLogger(MahjongGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    } 
 }
