@@ -1,9 +1,11 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
 import fr.univubs.inf1603.mahjong.Wind;
+import fr.univubs.inf1603.mahjong.engine.rule.AbstractTile;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -87,32 +89,38 @@ public class MahjongBoard implements Board, Cloneable {
      * @throws GameException
      */
     Board getViewFromWind(Wind wind) throws GameException{
+        // If null is passed we just return this board, another option would be to clone this board.
         if(wind==null){
             return this;
         }
-        MahjongBoard  retBoard = new MahjongBoard(this.getCurrentWind());
-        String nameHand = "Hand"+wind.getName();
-        String meld0 = "Meld"+wind.getName()+"0";
-        String meld1 = "Meld"+wind.getName()+"1";
-        String meld2 = "Meld"+wind.getName()+"2";
-        String meld3 = "Meld"+wind.getName()+"3";
-        String supreme = "Supreme"+wind.getName();
-        String discard = "Discard"+wind.getName();
-        for(Entry<TileZoneIdentifier,TileZone> entry : this.zones.entrySet()){
-            String tziName = entry.getKey().getNormalizedName();
-            retBoard.zones.put(entry.getKey(), entry.getValue());
-            if(!(tziName.equals(nameHand) || tziName.equals(meld0) || tziName.equals(meld1) || tziName.equals(meld2) || 
-                    tziName.equals(meld3)|| tziName.equals(supreme) || tziName.equals(discard))){
-                for(GameTileInterface gti : retBoard.getTileZone(tziName).getTiles()){
-                    GameTile gt;
-                    if (gti instanceof GameTile){
-                        gt = (GameTile) gti;
-                        if(!gt.isPubliclyVisible()) gt.setTile(HiddenTile.HIDDENTILE);
-                    }else{
-                        throw new GameException("A GameTileInterface is not a GameTile");
-                    }
-                }
-            }
+        
+        // We create a new empty board
+        MahjongBoard retBoard = new MahjongBoard(this.getCurrentWind());
+        
+        // This computes what tzi correspond to the requested player's hand
+        TileZoneIdentifier windHand = TileZoneIdentifier.getIdentifierFromNormalizedName("Hand"+wind.getName());
+ 
+        
+        for(Map.Entry<GameTileInterface,TileZone> e : tileToZone.entrySet()){
+            GameTile key = (GameTile)e.getKey();
+            MahjongTileZone value = (MahjongTileZone)e.getValue();
+        
+            //Determines the destination in the new board
+            MahjongTileZone destination = (MahjongTileZone)retBoard.getTileZone(value.getIdentifier());
+
+            boolean publiclyVisible = key.isPubliclyVisible();
+
+            //If the tile is not publicly visible or in the player's hand we hide it 
+            AbstractTile visibleFace =  publiclyVisible ||
+                                        value.getIdentifier()==windHand ?
+                                        key.getTile() : HiddenTile.HIDDENTILE;
+            //Create the copy of the tile to be added into the new board
+            GameTile copy = new GameTile(key.getGameID(),
+                                        visibleFace,
+                                        key.getUUID(),
+                                        publiclyVisible, 
+                                        key.getOrientation());
+            destination.addTile(copy);
         }
         return retBoard;
     }
