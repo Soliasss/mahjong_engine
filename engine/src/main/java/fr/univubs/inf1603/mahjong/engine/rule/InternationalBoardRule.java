@@ -134,7 +134,7 @@ public class InternationalBoardRule implements BoardRule {
                 }
                 HashMap<Integer, Boolean> visible = new HashMap<Integer, Boolean>();
                 for (Integer inte : path.keySet()) {
-                    visible.put(inte, true);
+                    visible.put(inte, false);
                 }
                 board.applyMove(new Move(wind, 0, path, visible));
             } catch (GameException e) {
@@ -149,7 +149,7 @@ public class InternationalBoardRule implements BoardRule {
             path.put(idGameTile, TileZoneIdentifier.HandEast);
             HashMap<Integer, Boolean> visible = new HashMap<Integer, Boolean>();
             for (Integer inte : path.keySet()) {
-                visible.put(inte, true);
+                visible.put(inte, false);
             }
             board.applyMove(new Move(Wind.EAST, 0, path, visible));
         } catch (GameException ex) {
