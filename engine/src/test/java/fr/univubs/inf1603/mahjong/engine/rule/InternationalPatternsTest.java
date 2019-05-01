@@ -746,6 +746,60 @@ public class InternationalPatternsTest {
     }
     
     @Test
+    public void outsideHand(){        
+        System.out.println("outsideHand");
+        
+        GameTile winningTile = null;
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        
+        GameTile dot = new GameTile(7, InternationalTiles.DOT_7);
+        GameTile dotb = new GameTile(8, InternationalTiles.DOT_8);
+        GameTile dott = new GameTile(9, InternationalTiles.DOT_9);
+        GameTile drag = new GameTile(1, InternationalTiles.DRAGON_WHITE);
+        GameTile dragb = new GameTile(2, InternationalTiles.DRAGON_WHITE);
+        GameTile dragt = new GameTile(3, InternationalTiles.DRAGON_WHITE);
+        GameTile dragq = new GameTile(4, InternationalTiles.DRAGON_WHITE);
+        GameTile wind = new GameTile(5, InternationalTiles.WIND_EAST);
+        GameTile windb = new GameTile(6, InternationalTiles.WIND_EAST);
+        
+        Combination combiDots = null;
+        Combination combiDrags = null;
+        Combination combiWinds = null;
+        try {
+            combiDots = newCombiFact.newCombination(dot, dotb, dott);
+            combiDrags = newCombiFact.newCombination(drag, dragb, dragt, dragq);
+            combiWinds = newCombiFact.newCombination(wind, windb);
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        hand.add(combiDots);
+        concealed.add(combiDrags);
+        melds.add(combiWinds);
+        
+        try {
+            Collection<GameTile> supremeHonors = new ArrayList<>();
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+
+            IdentifiablePattern idP = InternationalPatterns.OUTSIDE_HAND;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("outsideHand pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(9, tiles.size());
+                assertEquals(iP.getPattern(), InternationalPatterns.OUTSIDE_HAND);
+                assertEquals(iP.getPattern().getValue(), 4);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
     public void pungOfTerminalsOrHonors() {
         System.out.println("pungOfTerminalsOrHonors");
         //Création de la winningTile
