@@ -22,8 +22,8 @@ public class Move implements Persistable,Serializable, Cloneable {
     /**
      *
      * @param wind
-     * @param priority La priorité du Move par rapport à d'autre Move (0 est la
-     * plus grosse priorité, n est la moins grosse priorité)
+     * @param priority La priorité du Move par rapport à d'autre Move (-1 est la
+     * plus grosse priorité (Mahjong), n est la moins grosse priorité)
      * @param path Une Map qui contient l'information de déplacement de la ou
  des tuile(s). Le numéro reprente l'ID de la tuile, la MahjongTileZone est la
  zone de jeu dans laquelle la tuile va être ajoutée
@@ -37,16 +37,25 @@ public class Move implements Persistable,Serializable, Cloneable {
         this.wind = wind;
 
         if (priority < 0) {
-            throw new MoveException("The priority has to be positive or O");
+            this.priority = -1;
         }
-        this.priority = priority;
+        else{
+            this.priority = priority;
+        }
 
-        this.path = path;
+        if (path==null){
+            this.path = new HashMap<>();
+        }
+        else{
+            this.path = path;
+        }
         
         if (publiclyVisible==null){
-            throw new MoveException("The publiclyVisible can not be null");
+            this.publiclyVisible = new HashMap<>();
         }
-        this.publiclyVisible = publiclyVisible;
+        else{
+            this.publiclyVisible = publiclyVisible;
+        }
 
         this.uuid = uuid;
     }
