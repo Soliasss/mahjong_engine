@@ -1350,37 +1350,32 @@ enum InternationalPatterns implements IdentifiablePattern {
                 if ( isDots && isCharacters && isBamboo ){
                     AbstractTile bam0 = lastCombiBamboo.getTiles()[0].getTile();
                     AbstractTile bam1 = lastCombiBamboo.getTiles()[1].getTile();
-                    AbstractTile bam2 = lastCombiBamboo.getTiles()[2].getTile();
                     
                     AbstractTile car0 = lastCombiCharac.getTiles()[0].getTile();
                     AbstractTile car1 = lastCombiCharac.getTiles()[1].getTile();
-                    AbstractTile car2 = lastCombiCharac.getTiles()[2].getTile();
                     
                     AbstractTile dot0 = lastCombiDots.getTiles()[0].getTile();
                     AbstractTile dot1 = lastCombiDots.getTiles()[1].getTile();
-                    AbstractTile dot2 = lastCombiDots.getTiles()[2].getTile();
-                    
+                                        
                     AbstractTile car0Prev = car0.getPrevious();
                     AbstractTile car1Prev = car1.getPrevious();
                     AbstractTile dot0Prev = dot0.getPrevious();
                     AbstractTile dot1Prev = dot1.getPrevious();
                     AbstractTile bam0Prev = bam0.getPrevious();
                     AbstractTile bam1Prev = bam1.getPrevious();
-                    
-                    if(dot0Prev !=null){
-                        if( ( (bam2.getNumber() == car1Prev.getNumber()) && 
-                              (car1.getNumber() == dot0Prev.getNumber()) )) {
+                                        
+                    if(bam0Prev == null){
+                        if( ( (bam1.getNumber() == car1Prev.getNumber()) && 
+                              (car1.getNumber() == dot1Prev.getNumber()) )) {
                                 combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
                                 isFind=true;
                                 break;
-                        }
-                    }
+                        }                    
                     
-                    if(car0Prev != null){
-                        if( ( (bam2.getNumber() == dot1Prev.getNumber()) && 
-                              (dot1.getNumber() == car0Prev.getNumber()) )) {
+                        if( ( (bam1.getNumber() == dot1Prev.getNumber()) && 
+                              (dot1.getNumber() == car1Prev.getNumber()) )) {
                                 combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
@@ -1389,9 +1384,18 @@ enum InternationalPatterns implements IdentifiablePattern {
                         }   
                     }
                     
-                    if(bam0Prev != null){
-                        if( ( (car2.getNumber() == dot1Prev.getNumber()) && 
-                              (dot1.getNumber() == bam0Prev.getNumber()) )) {
+                    if(car0Prev == null){
+                        if( ( (car1.getNumber() == dot1Prev.getNumber()) && 
+                              (dot1.getNumber() == bam1Prev.getNumber()) )) {
+                                combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
+                                combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
+                                combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
+                                isFind=true;
+                                break;
+                        }
+                                       
+                        if( ( (car1.getNumber() == bam1Prev.getNumber()) && 
+                              (bam1.getNumber() == dot1Prev.getNumber()) )) {
                                 combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
@@ -1400,30 +1404,18 @@ enum InternationalPatterns implements IdentifiablePattern {
                         }
                     }
                     
-                    if(dot0Prev !=null){
-                        if( ( (car2.getNumber() == bam1Prev.getNumber()) && 
-                              (bam1.getNumber() == dot0Prev.getNumber()) )) {
+                    if(dot0Prev == null){
+                        if( ( (dot1.getNumber() == car1Prev.getNumber()) && 
+                              (car1.getNumber() == bam1Prev.getNumber()) )) {
                                 combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
                                 isFind=true;
                                 break;
                         }
-                    }
                     
-                    if(bam0Prev != null){
-                        if( ( (dot2.getNumber() == car1Prev.getNumber()) && 
-                              (car1.getNumber() == bam0Prev.getNumber()) )) {
-                                combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
-                                combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
-                                combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
-                                isFind=true;
-                                break;
-                        }
-                    }
-                    if(car0Prev != null){
-                        if( ( (dot2.getNumber() == bam1Prev.getNumber()) && 
-                              (bam1.getNumber() == car0Prev.getNumber()) )) {
+                        if( ( (dot1.getNumber() == bam1Prev.getNumber()) && 
+                              (bam1.getNumber() == car1Prev.getNumber()) )) {
                                 combiFound.addAll(Arrays.asList(lastCombiBamboo.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiCharac.getTiles()));
                                 combiFound.addAll(Arrays.asList(lastCombiDots.getTiles()));
@@ -1643,31 +1635,41 @@ enum InternationalPatterns implements IdentifiablePattern {
 
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
-            Collection<IdentifiedPattern> result = new HashSet<>();
-            Collection<GameTile> tilesFound = new HashSet<>();
+            ArrayList<IdentifiedPattern> result = new ArrayList<>();
+            Collection<GameTile> tilesFound = new ArrayList<>();
             Pattern pattern = Pattern.compile("([bcd][2-8])");
-            boolean matched;
-            int matchedCombiCount = 0;
-
+            Pattern honorPattern = Pattern.compile("(D.|W.)");
+            boolean matched = false;
+            AbstractTile testTileSecondPos = null;
+            Matcher matcherFirst = null;
+            Matcher matcherSecond = null;
+            Matcher matcherHonor = null;
+            
             for (Combination currentCombi: set.getAllCombinations()) {
                     matched = false;
-                for (GameTile currentTile : currentCombi.getTiles()) {
-                    Matcher matcher = pattern.matcher(currentTile.getTile().toNormalizedName());
-                    if (!matcher.matches()) {
-                        matched = true;
-                        tilesFound.add(currentTile);
-                    }
+                    
+                    AbstractTile testTileFirstPos = currentCombi.getTiles()[0].getTile();
+                    if( currentCombi.isChow() || currentCombi.isKong() || currentCombi.isPung()) testTileSecondPos = currentCombi.getTiles()[2].getTile();
+                    if( currentCombi.isPair()) testTileSecondPos = currentCombi.getTiles()[1].getTile();                    
+                    if( testTileFirstPos != null ) 
+                        matcherFirst = pattern.matcher(testTileFirstPos.toNormalizedName());
+                    if( testTileSecondPos!= null) 
+                        matcherSecond = pattern.matcher(testTileSecondPos.toNormalizedName());
+                    matcherHonor = honorPattern.matcher(testTileFirstPos.toNormalizedName());
+                                        
+                    if (!matcherFirst.matches() || !matcherSecond.matches() || matcherHonor.matches()) {
+                        if( testTileFirstPos.isMajor() || testTileSecondPos.isMajor() || matcherHonor.matches()){
+                            matched = true;
+                            tilesFound.addAll(Arrays.asList(currentCombi.getTiles()));
+                        }
+                    } else {
+                            matched = false;
+                            break;
                 }
-
-                if(matched)
-                    matchedCombiCount++;
-                else
-                    break;
             }
-            if (matchedCombiCount >= set.getAllCombinations().size())
+            
+            if (matched)
                 result.add(new IdentifiedPattern(this, tilesFound));
-
-
             return result;
         }
     },
