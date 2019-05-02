@@ -7,6 +7,7 @@ import fr.univubs.inf1603.mahjong.engine.game.MahjongBoard;
 import fr.univubs.inf1603.mahjong.engine.game.MahjongGame;
 import fr.univubs.inf1603.mahjong.engine.game.Move;
 import fr.univubs.inf1603.mahjong.engine.game.TileZone;
+import fr.univubs.inf1603.mahjong.engine.game.TileZoneIdentifier;
 import fr.univubs.inf1603.mahjong.engine.rule.GameRule;
 import fr.univubs.inf1603.mahjong.engine.rule.GameRuleFactory;
 import fr.univubs.inf1603.mahjong.engine.rule.RulesException;
@@ -14,7 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +47,7 @@ public class maintest {
             throw new RuntimeException();
         }
         
-        game = new MahjongGame(rule, Duration.ofSeconds(1), Duration.ofSeconds(1));
+        game = new MahjongGame(rule, Duration.ofMillis(10), Duration.ofMillis(10));
         System.out.println("Passed construction");
 
         PropertyChangeListener prop;
@@ -52,13 +56,20 @@ public class maintest {
             public void propertyChange(PropertyChangeEvent arg0) {
                 System.out.println(arg0.getPropertyName());
                 if(arg0.getPropertyName().equals(Game.GAME_OVER_PROPERTY)){
-                    stop=(Boolean)arg0.getNewValue();
+                    stop=true;
                 }
                 if(arg0.getPropertyName().equals(Game.LAST_PLAYED_MOVE_PROPERTY)){
                     lastPlayedMove=(Move)arg0.getNewValue();
                 }
                 if(arg0.getPropertyName().equals(Game.POSSIBLE_MOVES_PROPERTY)){
-                    hasRegistered=false;
+                    try{
+                        game.registerMove(new Move(Wind.WEST, -1, new HashMap<>(), new HashMap<>()));
+                    }catch(GameException e){
+                        System.out.println(e);
+                    }
+
+                    
+                    /*hasRegistered=false;
 
                     possibleMoves = (ArrayList<Move>)arg0.getNewValue();
                     try {
@@ -72,7 +83,7 @@ public class maintest {
                         Logger.getLogger(maintest.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     hasRegistered=true;                    
-                    
+                    */
                     
                 }
             }
