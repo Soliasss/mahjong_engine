@@ -1,5 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
-import fr.univubs.inf1603.mahjong.wind.*;
+import fr.univubs.inf1603.mahjong.Wind;
 import org.apache.log4j.Logger;
 
 /**

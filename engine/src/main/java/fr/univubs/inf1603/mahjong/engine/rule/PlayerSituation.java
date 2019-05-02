@@ -4,13 +4,13 @@ package fr.univubs.inf1603.mahjong.engine.rule;
  * and from the player, conditions about a tile drawn or stolen. 
  * It could be a fictive situation.
  */
-import fr.univubs.inf1603.mahjong.Wind;
 
+import fr.univubs.inf1603.mahjong.Wind;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
+import org.apache.log4j.Logger;
 
 import java.util.Collection;
 import java.util.HashSet;
-import org.apache.log4j.Logger;
 
 public class PlayerSituation {
     private GameTile winningTile;
