@@ -62,6 +62,9 @@ public class maintest {
 
                     possibleMoves = (ArrayList<Move>)arg0.getNewValue();
                     try {
+                        System.out.println("last playermove :"+lastPlayedMove);
+                        
+                        System.out.println("possible moves :"+possibleMoves);
                         System.out.println("try to register move : "+possibleMoves.get(0).toString());
                         
                         game.registerMove(possibleMoves.get(0));

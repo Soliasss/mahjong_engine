@@ -350,7 +350,9 @@ public class InternationalBoardRule implements BoardRule {
     @Override
     public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
         EnumMap<Wind, Collection<Move>> windMoves = new EnumMap<Wind, Collection<Move>>(Wind.class);
-
+        for(Wind w : Wind.values()){
+            windMoves.put(w, new HashSet<>());
+        }
         HashMap<Integer, TileZoneIdentifier> currPath = new HashMap<>();
         HashMap<Integer, Boolean> currVisibility = new HashMap<>();
         Collection<Move> currMoves = new HashSet<>();
@@ -426,7 +428,7 @@ public class InternationalBoardRule implements BoardRule {
                             currVisibility.put(firstWallTileID, false);
 
                             currMoves.add(new Move(chowStealWind, 3, currPath, currVisibility));
-                            windMoves.put(chowStealWind, currMoves);
+                            windMoves.get(chowStealWind).addAll(currMoves);
 
                             for (Wind pungStealWind : Wind.values()) {
                                 if (pungStealWind != lastMove.getWind()) {
@@ -436,7 +438,7 @@ public class InternationalBoardRule implements BoardRule {
                                     currHand.addAll(board.getTileZone("Hand" + pungStealWind.getName()).getTiles());
 
                                     currMoves.addAll(possiblePungSteal(board, pungStealWind, board.getTile(gameID), currHand));
-                                    windMoves.put(pungStealWind, currMoves);
+                                    windMoves.get(pungStealWind).addAll(currMoves);
                                 }
                             }
                         } catch (GameException e) {
