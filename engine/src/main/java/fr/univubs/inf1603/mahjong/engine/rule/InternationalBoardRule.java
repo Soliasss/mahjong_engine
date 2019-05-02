@@ -160,7 +160,8 @@ public class InternationalBoardRule implements BoardRule {
 
     @Override
     public boolean isMoveValid(MahjongBoard board, Move lastMove, Move move) {
-        return findValidMoves(board, lastMove).get(move.getWind()).contains(move);
+        return findValidMoves(board, lastMove).get(move.getWind()).contains(move) ||
+                (move.getPriority() == -1 && move.getPath().isEmpty() && move.getPubliclyVisible().isEmpty());
     }
 
     /**
@@ -350,9 +351,9 @@ public class InternationalBoardRule implements BoardRule {
     @Override
     public EnumMap<Wind, Collection<Move>> findValidMoves(MahjongBoard board, Move lastMove) {
         EnumMap<Wind, Collection<Move>> windMoves = new EnumMap<Wind, Collection<Move>>(Wind.class);
-        for(Wind w : Wind.values()){
+        for(Wind w : Wind.values())
             windMoves.put(w, new HashSet<>());
-        }
+
         HashMap<Integer, TileZoneIdentifier> currPath = new HashMap<>();
         HashMap<Integer, Boolean> currVisibility = new HashMap<>();
         Collection<Move> currMoves = new HashSet<>();

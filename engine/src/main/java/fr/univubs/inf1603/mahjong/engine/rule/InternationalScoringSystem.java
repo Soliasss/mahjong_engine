@@ -7,17 +7,24 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class InternationalScoringSystem implements ScoringSystem {
-    public final static InternationalScoringSystem DEFAULT = new InternationalScoringSystem(InternationalPatternList.DEFAULT);
+    public final static InternationalScoringSystem DEFAULT = new InternationalScoringSystem(InternationalPatternList.DEFAULT, 8);
 
+    private final int minValueMahjong;
     private AbstractPatternList patternList;
 
-    public InternationalScoringSystem(InternationalPatternList patternList) {
+    public InternationalScoringSystem(InternationalPatternList patternList, int minValueMahjong) {
         this.patternList = patternList;
+        this.minValueMahjong = minValueMahjong;
     }
 
     @Override
     public AbstractPatternList getPatternList() {
         return this.patternList;
+    }
+
+    @Override
+    public int getMinValueMahjong() {
+        return minValueMahjong;
     }
 
     @Override

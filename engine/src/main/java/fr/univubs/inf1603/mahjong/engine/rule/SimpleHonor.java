@@ -1,5 +1,5 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
-import fr.univubs.inf1603.mahjong.Wind;
+import fr.univubs.inf1603.mahjong.wind.*;
 import org.apache.log4j.Logger;
 
 /**
@@ -14,7 +14,7 @@ public class SimpleHonor extends WindHonor{
     
     // Logger
     private static final Logger LOGGER = Logger.getLogger(SimpleHonor.class.getName());
-    
+
     public SimpleHonor(Wind windTile){
         super(windTile);
     }

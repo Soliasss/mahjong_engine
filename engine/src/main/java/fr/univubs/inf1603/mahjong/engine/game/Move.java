@@ -6,6 +6,7 @@ import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -158,5 +159,21 @@ public class Move implements Persistable, Serializable, Cloneable {
             description += " ";
         }
         return description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Move move = (Move) o;
+        return priority == move.priority &&
+                wind.equals(move.wind) &&
+                path.equals(move.path) &&
+                publiclyVisible.equals(move.publiclyVisible);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(wind, priority, path, publiclyVisible);
     }
 }

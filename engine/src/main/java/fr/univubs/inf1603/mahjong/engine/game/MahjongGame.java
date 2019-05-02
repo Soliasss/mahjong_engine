@@ -1,12 +1,12 @@
 package fr.univubs.inf1603.mahjong.engine.game;
 
-import fr.univubs.inf1603.mahjong.engine.rule.*;
 import fr.univubs.inf1603.mahjong.Wind;
+import fr.univubs.inf1603.mahjong.engine.rule.*;
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeSupport;
 import java.time.Duration;
 import java.util.*;
-import org.apache.log4j.Logger;
 
 
 /**
@@ -27,7 +27,6 @@ public class MahjongGame implements Game {
     private ArrayList<Move> registeredMoves;
     private ArrayList<Move> possiblesMoves;
     private UUID uuid;
-    private boolean ableToRegisterMoves;
 
     private int[] playerPoints;
   
@@ -49,7 +48,6 @@ public class MahjongGame implements Game {
      * @param playerPoints The points's number of the player
      * @param uuid This game's UUID
      * @param playerWind The wind according to the player
-     * @throws GameException
      */
     public MahjongGame(GameRule rule, MahjongBoard board, Move lastPlayedMove, Duration stealingTime, Duration playingTime, int[] playerPoints, UUID uuid, Wind[] playerWind) throws GameException {
         LOGGER.info("MahjongGame constructor/8 entry");
@@ -102,14 +100,6 @@ public class MahjongGame implements Game {
         
     }
 
-    @Deprecated
-    public MahjongGame(GameRule rule) throws GameException {
-        this.rule = rule;
-        this.board = null;
-        this.uuid = UUID.randomUUID();
-        this.playingTime = Duration.ofSeconds(5);
-    }
-
     @Override
     public Board getBoard(Wind wind) throws GameException {
         if (wind == null) {
@@ -145,12 +135,6 @@ public class MahjongGame implements Game {
     @Override
     public ArrayList<Move> getPossibleMoves(int player) throws GameException {
         return getPossibleMoves(playerWind[player]);
-    }
-
-    @Override
-    public MahjongGame clone() {
-        throw new UnsupportedOperationException("not implemented yet");
-//        return new MahjongGameGame();
     }
 
     @Override
@@ -343,9 +327,7 @@ public class MahjongGame implements Game {
         this.registeredMoves = new ArrayList<>();
         EnumMap<Wind, Collection<Move>> validMoves = this.rule.getBoardRule().findValidMoves(this.board, this.lastPlayedMove);
         for (Wind w : validMoves.keySet()) {
-            for (Move m : validMoves.get(w)) {
-                this.possiblesMoves.add(m);
-            }
+            this.possiblesMoves.addAll(validMoves.get(w));
         }
         if (this.rule.getBoardRule().isGameFinished(this.board, this.lastPlayedMove)) {
             this.exitGame(0, "Fin de la partie.");
@@ -421,8 +403,6 @@ public class MahjongGame implements Game {
     /**
      * Si le dernier move n'est pas changer il n'y a pas mahjong
      * @param wind
-     * @param set
-     * @return 
      */
     private void applyMahjong(Wind wind){
         AbstractCombinationFactory factory = new InternationalCombinationFactory();
@@ -458,7 +438,7 @@ public class MahjongGame implements Game {
                 }
                 try{
                     melds.add(factory.newCombination(tab));
-                }catch(RulesException ex){
+                }catch(RulesException ignored){
 
                 }
             }
@@ -471,6 +451,7 @@ public class MahjongGame implements Game {
                 if(gti instanceof GameTile) gt = (GameTile) gti;
                 if(gt != null) supremeHonors.add(gt);
             }
+
             boolean drawnFromWall = false;
             boolean takenFromDiscard = false;
 

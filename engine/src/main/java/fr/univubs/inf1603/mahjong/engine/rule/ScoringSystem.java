@@ -10,11 +10,14 @@ import java.util.HashSet;
 public interface ScoringSystem {
     /**
      * Each {@link ScoringSystem} has its own list of patterns, witch is an implementation of {@link AbstractPatternList}.
-     * Since {@link AbstractPatternList} implementations have to be singletons,
-     * we return the instance of the singleton.
-     * @return a reference to the instance of the {@link AbstractPatternList}
+     * @return a reference to an instance of {@link AbstractPatternList}
      */
     AbstractPatternList getPatternList();
+
+    /**
+     * @return the minimum value of a {@link PlayerSet} to be considered a mahjong
+     */
+    int getMinValueMahjong();
 
     /**
      * In order to compute scores, we need to know how the player wants their tile to be arranged.
