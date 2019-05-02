@@ -1220,24 +1220,299 @@ public class InternationalPatternsTest {
             Collection<IdentifiedPattern> pattern = idP.identify(setTest);
             
             for (IdentifiedPattern iP : pattern) {
-                //Le but est le suivant : chaque tuiles du patterns identifié doivent être comparées à la combinaison créée
-                //Soit : Combination combiCars = newCombiFact.newCombination(carac1,carac1bis,carac1ter);
-                //Doit être retrouvé dans l'IdentifiedPattern pour le assertEquals
-                //Donc que le contenu de toTest soit égale à combiCars de notre test
-                //toTest.addAll(iP.getTiles());
                 System.out.println("all_chows pattern : "+iP.getTiles());
                 Collection<GameTile> tiles = iP.getTiles();
                 assertEquals(iP.getPattern(), InternationalPatterns.ALL_CHOWS);
                 assertEquals(14, tiles.size());
                 assertEquals(iP.getPattern().getValue(), 2);
-            }
-                    
-            
+            }     
         } catch (RulesException ex) {
             Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Test
+    public void doublePung(){
         
+        System.out.println("doublePung");
+        //Pung 1
+        GameTile dot1 = new GameTile(0, InternationalTiles.DOT_1);
+        GameTile dot1b = new GameTile(1, InternationalTiles.DOT_1);
+        GameTile dot1t = new GameTile(2, InternationalTiles.DOT_1);
+        //Pung 2
+        GameTile char1 = new GameTile(0, InternationalTiles.CHARACTER_1);
+        GameTile char1b = new GameTile(1, InternationalTiles.CHARACTER_1);
+        GameTile char1t =new GameTile(2, InternationalTiles.CHARACTER_1);
+        //Chow 1
+        GameTile char5 = new GameTile(0, InternationalTiles.CHARACTER_5);
+        GameTile char6 = new GameTile(1, InternationalTiles.CHARACTER_6);
+        GameTile char7 = new GameTile(2, InternationalTiles.CHARACTER_7);
+        //Chow 2
+        GameTile dot7 = new GameTile(0, InternationalTiles.DOT_7);
+        GameTile dot8 = new GameTile(1, InternationalTiles.DOT_8);
+        GameTile dot9 = new GameTile(2, InternationalTiles.DOT_9);
+        //Pair
+        GameTile bamb1 = new GameTile(0, InternationalTiles.BAMBOO_1);
+        GameTile bamb1b = new GameTile(1, InternationalTiles.BAMBOO_1);
         
+        //Initialisation des combinaisons
+        Combination combiPung1 = null;
+        Combination combiPung2 = null;
+        Combination combiChow1 = null;
+        Combination combiChow2 = null;
+        Combination combiPair = null;
         
+        //Factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        
+        //Creation de la main
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        Collection<GameTile> supremeHonors = new ArrayList<>();
+        
+        //Création de la winningTile
+        GameTile winningTile = dot1;
+        try {
+            combiPung1 = newCombiFact.newCombination(dot1, dot1b, dot1t);
+            combiPung2 = newCombiFact.newCombination(char1, char1b, char1t);
+            combiChow1 = newCombiFact.newCombination(char5, char6, char7);
+            combiChow2 = newCombiFact.newCombination(dot7, dot8, dot9);
+            combiPair = newCombiFact.newCombination(bamb1, bamb1b);
+            
+            hand.add(combiChow1);
+            hand.add(combiPung1);
+            melds.add(combiChow2);
+            melds.add(combiPung2);
+            melds.add(combiPair);
+            
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+            IdentifiablePattern idP = InternationalPatterns.DOUBLE_PUNG;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("doublePung pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.DOUBLE_PUNG);
+                assertEquals(6, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }     
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void twoConcealedPungs(){
+        
+        System.out.println("twoConcealedPungs");
+        //Pung 1
+        GameTile dot6 = new GameTile(0, InternationalTiles.DOT_6);
+        GameTile dot6b = new GameTile(1, InternationalTiles.DOT_6);
+        GameTile dot6t = new GameTile(2, InternationalTiles.DOT_6);
+        //Pung 2
+        GameTile char1 = new GameTile(0, InternationalTiles.CHARACTER_1);
+        GameTile char1b = new GameTile(1, InternationalTiles.CHARACTER_1);
+        GameTile char1t =new GameTile(2, InternationalTiles.CHARACTER_1);
+        //Chow 1
+        GameTile char5 = new GameTile(0, InternationalTiles.CHARACTER_5);
+        GameTile char6 = new GameTile(1, InternationalTiles.CHARACTER_6);
+        GameTile char7 = new GameTile(2, InternationalTiles.CHARACTER_7);
+        //Chow 2
+        GameTile dot7 = new GameTile(0, InternationalTiles.DOT_7);
+        GameTile dot8 = new GameTile(1, InternationalTiles.DOT_8);
+        GameTile dot9 = new GameTile(2, InternationalTiles.DOT_9);
+        //Pair
+        GameTile bamb1 = new GameTile(0, InternationalTiles.BAMBOO_1);
+        GameTile bamb1b = new GameTile(1, InternationalTiles.BAMBOO_1);
+        
+        //Initialisation des combinaisons
+        Combination combiPung1 = null;
+        Combination combiPung2 = null;
+        Combination combiChow1 = null;
+        Combination combiChow2 = null;
+        Combination combiPair = null;
+        
+        //Factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        
+        //Creation de la main
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        Collection<GameTile> supremeHonors = new ArrayList<>();
+        
+        //Création de la winningTile
+        GameTile winningTile = dot6;
+        try {
+            combiPung1 = newCombiFact.newCombination(dot6, dot6b, dot6t);
+            combiPung2 = newCombiFact.newCombination(char1, char1b, char1t);
+            combiChow1 = newCombiFact.newCombination(char5, char6, char7);
+            combiChow2 = newCombiFact.newCombination(dot7, dot8, dot9);
+            combiPair = newCombiFact.newCombination(bamb1, bamb1b);
+            
+            hand.add(combiChow1);
+            concealed.add(combiPung1);
+            melds.add(combiChow2);
+            concealed.add(combiPung2);
+            melds.add(combiPair);
+            
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+            IdentifiablePattern idP = InternationalPatterns.TWO_CONCEALED_PUNGS;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("twoConcealedPungs pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.TWO_CONCEALED_PUNGS);
+                assertEquals(6, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }     
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void concealedKong(){
+        
+        System.out.println("concealedKong");
+        //Pung 1
+        GameTile dot6 = new GameTile(0, InternationalTiles.DOT_6);
+        GameTile dot6b = new GameTile(1, InternationalTiles.DOT_6);
+        GameTile dot6t = new GameTile(2, InternationalTiles.DOT_6);
+        //Pung 2
+        GameTile char1 = new GameTile(0, InternationalTiles.CHARACTER_1);
+        GameTile char1b = new GameTile(1, InternationalTiles.CHARACTER_1);
+        GameTile char1t =new GameTile(2, InternationalTiles.CHARACTER_1);
+        GameTile char1q =new GameTile(3, InternationalTiles.CHARACTER_1);
+        //Chow 1
+        GameTile char5 = new GameTile(0, InternationalTiles.CHARACTER_5);
+        GameTile char6 = new GameTile(1, InternationalTiles.CHARACTER_6);
+        GameTile char7 = new GameTile(2, InternationalTiles.CHARACTER_7);
+        //Chow 2
+        GameTile dot7 = new GameTile(0, InternationalTiles.DOT_7);
+        GameTile dot8 = new GameTile(1, InternationalTiles.DOT_8);
+        GameTile dot9 = new GameTile(2, InternationalTiles.DOT_9);
+        //Pair
+        GameTile bamb1 = new GameTile(0, InternationalTiles.BAMBOO_1);
+        GameTile bamb1b = new GameTile(1, InternationalTiles.BAMBOO_1);
+        
+        //Initialisation des combinaisons
+        Combination combiPung1 = null;
+        Combination combiPung2 = null;
+        Combination combiChow1 = null;
+        Combination combiChow2 = null;
+        Combination combiPair = null;
+        
+        //Factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        
+        //Creation de la main
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        Collection<GameTile> supremeHonors = new ArrayList<>();
+        
+        //Création de la winningTile
+        GameTile winningTile = dot6;
+        try {
+            combiPung1 = newCombiFact.newCombination(dot6, dot6b, dot6t);
+            combiPung2 = newCombiFact.newCombination(char1, char1b, char1t, char1q);
+            combiChow1 = newCombiFact.newCombination(char5, char6, char7);
+            combiChow2 = newCombiFact.newCombination(dot7, dot8, dot9);
+            combiPair = newCombiFact.newCombination(bamb1, bamb1b);
+            
+            hand.add(combiChow1);
+            concealed.add(combiPung1);
+            melds.add(combiChow2);
+            concealed.add(combiPung2);
+            melds.add(combiPair);
+            
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+            IdentifiablePattern idP = InternationalPatterns.CONCEALED_KONG;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("concealedKong pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.CONCEALED_KONG);
+                assertEquals(4, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }     
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void allSimples(){
+        
+        System.out.println("allSimples");
+        //Pung 1
+        GameTile dot6 = new GameTile(0, InternationalTiles.DOT_6);
+        GameTile dot6b = new GameTile(1, InternationalTiles.DOT_6);
+        GameTile dot6t = new GameTile(2, InternationalTiles.DOT_6);
+        //Chow 1
+        GameTile char2 = new GameTile(0, InternationalTiles.CHARACTER_2);
+        GameTile char3 = new GameTile(1, InternationalTiles.CHARACTER_3);
+        GameTile char4 =new GameTile(2, InternationalTiles.CHARACTER_4);
+        //Chow 2
+        GameTile char5 = new GameTile(0, InternationalTiles.CHARACTER_5);
+        GameTile char6 = new GameTile(1, InternationalTiles.CHARACTER_6);
+        GameTile char7 = new GameTile(2, InternationalTiles.CHARACTER_7);
+        //Chow 3
+        GameTile dot3 = new GameTile(0, InternationalTiles.DOT_3);
+        GameTile dot4 = new GameTile(1, InternationalTiles.DOT_4);
+        GameTile dot5 = new GameTile(2, InternationalTiles.DOT_5);
+        //Pair
+        GameTile bamb4 = new GameTile(0, InternationalTiles.BAMBOO_4);
+        GameTile bamb4b = new GameTile(1, InternationalTiles.BAMBOO_4);
+        
+        //Initialisation des combinaisons
+        Combination combiChow1 = null;
+        Combination combiChow2 = null;
+        Combination combiChow3 = null;
+        Combination combiPung1 = null;
+        Combination combiPair = null;
+        
+        //Factory
+        AbstractCombinationFactory newCombiFact = new InternationalCombinationFactory();
+        
+        //Creation de la main
+        Collection<Combination> hand = new ArrayList<>();
+        Collection<Combination> melds = new ArrayList<>();
+        Collection<Combination> concealed = new ArrayList<>();
+        Collection<GameTile> supremeHonors = new ArrayList<>();
+        
+        //Création de la winningTile
+        GameTile winningTile = bamb4b;
+        try {
+            combiPung1 = newCombiFact.newCombination(dot6, dot6b, dot6t);
+            combiChow1 = newCombiFact.newCombination(char2, char3, char4);
+            combiChow2 = newCombiFact.newCombination(char5, char6, char7);
+            combiChow3 = newCombiFact.newCombination(dot3, dot4, dot5);
+            combiPair = newCombiFact.newCombination(bamb4, bamb4b);
+            
+            hand.add(combiChow1);
+            hand.add(combiPung1);
+            hand.add(combiChow2);
+            hand.add(combiChow3);
+            hand.add(combiPair);
+            
+            PlayerSet setTest = new PlayerSet(winningTile, hand, concealed, melds, supremeHonors, false, false, Wind.SOUTH, Wind.EAST);
+            IdentifiablePattern idP = InternationalPatterns.ALL_SIMPLES;
+            Collection<IdentifiedPattern> pattern = idP.identify(setTest);
+            
+            for (IdentifiedPattern iP : pattern) {
+                System.out.println("allSimples pattern : "+iP.getTiles());
+                Collection<GameTile> tiles = iP.getTiles();
+                assertEquals(iP.getPattern(), InternationalPatterns.ALL_SIMPLES);
+                assertEquals(14, tiles.size());
+                assertEquals(iP.getPattern().getValue(), 2);
+            }     
+        } catch (RulesException ex) {
+            Logger.getLogger(InternationalPatterns.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

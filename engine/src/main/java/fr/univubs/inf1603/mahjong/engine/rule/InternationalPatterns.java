@@ -1970,8 +1970,8 @@ enum InternationalPatterns implements IdentifiablePattern {
         @Override
         public Collection<IdentifiedPattern> identify(PlayerSet set) {
             ArrayList<IdentifiedPattern> result = new ArrayList<>();
-            Collection<Combination> allCombinations = set.getAllCombinations();
-            int nbOfCombination = 0;
+            Collection<Combination> allCombinations = set.getHand();
+            
             Collection<GameTile> tilesFound = new ArrayList<>();
             boolean isAllSimple = true;
             Pattern pattern = Pattern.compile("(b|c|d)[2-8]");
