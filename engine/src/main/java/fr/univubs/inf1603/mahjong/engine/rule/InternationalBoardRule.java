@@ -2,8 +2,14 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.Wind;
 import fr.univubs.inf1603.mahjong.engine.game.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
 
-import java.util.*;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

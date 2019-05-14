@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package fr.univubs.inf1603.mahjong.engine.rule;
-
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *

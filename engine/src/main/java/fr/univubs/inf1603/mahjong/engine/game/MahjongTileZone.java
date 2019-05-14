@@ -3,7 +3,7 @@ package fr.univubs.inf1603.mahjong.engine.game;
 import fr.univubs.inf1603.mahjong.engine.persistence.Persistable;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.ListIterator;
+//import java.util.ListIterator;
 import java.util.UUID;
 import org.apache.log4j.Logger;
 

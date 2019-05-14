@@ -4,7 +4,11 @@ import fr.univubs.inf1603.mahjong.Wind;
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import fr.univubs.inf1603.mahjong.engine.rule.CommonTile.Family;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

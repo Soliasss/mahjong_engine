@@ -6,8 +6,9 @@
 package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.rule.GameRuleList.Rule;
+import static junit.framework.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
