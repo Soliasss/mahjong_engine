@@ -2,7 +2,7 @@ package fr.univubs.inf1603.mahjong.engine.rule;
 
 import fr.univubs.inf1603.mahjong.engine.game.GameTile;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
